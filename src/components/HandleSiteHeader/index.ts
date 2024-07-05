@@ -1,21 +1,28 @@
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import { LitElement, css, html } from 'lit';
+import { global as globalThis } from '@storybook/global';
 
-@customElement('handle-site-header')
 export class HandleSiteHeader extends LitElement {
-  // Define scoped styles right with your component, in plain CSS
-  static styles = css`
-    :host {
-      color: blue;
+    declare name: string;
+
+    static properties = {
+        name: { type: String }
+    };
+
+    static styles = css`
+        :host {
+            color: blue;
+        }
+    `;
+
+    constructor() {
+        super();
+        this.name = 'World';
     }
-  `;
 
-  // Declare reactive properties
-  @property()
-  name?: string = 'World';
-
-  // Render the UI as a function of component state
-  render() {
-    return html`<p>Hello, ${this.name}!</p>`;
-  }
+    // Render the UI as a function of component state
+    render() {
+        return html`<p>Hello, ${this.name}</p>`;
+    }
 }
+
+customElements.define('handle-site-header', HandleSiteHeader);
