@@ -1,12 +1,20 @@
 {
-  "name": "@koralabd/handles-shared-lit-components",
-  "version": "1.0.0",
-  "description": "Shared library for LitElement components",
+  "name": "@koralabs/handles-shared-lit-components",
+  "version": "0.1.0",
+  "description": "Shared library for web-components",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "homepage": "https://github.com/koralabs/handles-shared-lit-components",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koralabs/handles-shared-lit-components.git"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Error: no lint specified\"",
+    "test": "echo \"Error: no test specified\"",
     "build": "tsc",
+    "build:local": "yarn build && cp package.json ./lib/package.json && cd lib && npm i --production",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -25,6 +33,7 @@
     "@storybook/test": "^8.1.11",
     "@storybook/web-components": "^8.1.11",
     "@storybook/web-components-webpack5": "^8.1.11",
+    "eslint": "^9.6.0",
     "storybook": "^8.1.11",
     "typescript": "^5.5.3"
   }
