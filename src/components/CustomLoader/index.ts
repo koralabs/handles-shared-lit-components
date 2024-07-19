@@ -49,8 +49,13 @@ export class CustomLoader extends LitElement {
     }
   `;
 
+
+
   render() {
     return html`
+      <lit-button-small> Small Button </lit-button-small>
+  <lit-button-medium> Medium Button </lit-button-medium>
+    <lit-button-large> Large Button </lit-button-large>
       <div class="loader">
         <svg class="green-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49 49">
           <path

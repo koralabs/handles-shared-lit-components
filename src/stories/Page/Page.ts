@@ -1,9 +1,9 @@
 import { html } from 'lit';
-import { Header } from './Header';
 import './page.css';
 
 import '../../components/HandleSiteHeader/index';
 import '../../components/StateExample/index';
+import { Header } from '../Header/Header';
 
 type User = {
     name: string;
