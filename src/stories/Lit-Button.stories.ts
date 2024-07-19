@@ -1,20 +1,44 @@
-import type { Meta, StoryObj } from '@storybook/web-components';
+// src/stories/LitButton.stories.ts
+import { Meta, StoryFn } from '@storybook/web-components';
+import { html } from 'lit-html';
+import '../components/Button';  // Ensure this path points to your button components file
 
-import type { PageProps } from './Page/Page';
-import * as HeaderStories from './Header/Header.stories';
-import { LitButtonBase } from '../components/Button';
-
-const meta = {
-    title: 'Lit-Button',
-    render: (args: PageProps) => LitButtonBase.renderTag(),
-} satisfies Meta<PageProps>;
+const meta: Meta = {
+    title: 'Components/LitButton',
+    argTypes: {
+        label: { control: 'text' },
+    },
+};
 
 export default meta;
-type Story = StoryObj<PageProps>;
 
-export const LoggedIn: Story = {
-    args: {
-        // More on composing args: https://storybook.js.org/docs/writing-stories/args#args-composition
-        ...HeaderStories.LoggedIn.args,
-    },
+const Template: StoryFn = ({ label, size }) => {
+    switch (size) {
+        case 'small':
+            return html`<lit-button-small>${label}</lit-button-small>`;
+        case 'medium':
+            return html`<lit-button-medium>${label}</lit-button-medium>`;
+        case 'large':
+            return html`<lit-button-large>${label}</lit-button-large>`;
+        default:
+            return html`<lit-button-medium>${label}</lit-button-medium>`;
+    }
+};
+
+export const Small = Template.bind({});
+Small.args = {
+    label: 'Small Button',
+    size: 'small',
+};
+
+export const Medium = Template.bind({});
+Medium.args = {
+    label: 'Medium Button',
+    size: 'medium',
+};
+
+export const Large = Template.bind({});
+Large.args = {
+    label: 'Large Button',
+    size: 'large',
 };
