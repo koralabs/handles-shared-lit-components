@@ -1,5 +1,4 @@
 import { LitElement, css, html } from 'lit';
-import { global as globalThis } from '@storybook/global';
 
 export class StateExample extends LitElement {
     declare name: string;

@@ -1,9 +1,9 @@
 import { html } from 'lit';
-import { Header } from './Header';
 import './page.css';
 
-import '../components/HandleSiteHeader/index';
-import '../components/StateExample/index';
+import '../../components/HandleSiteHeader/index';
+import '../../components/StateExample/index';
+import { Header } from '../Header/Header';
 
 type User = {
     name: string;
@@ -19,11 +19,11 @@ export interface PageProps {
 export const Page = ({ user, onLogin, onLogout, onCreateAccount }: PageProps) => html`
     <article>
         ${Header({
-            user,
-            onLogin,
-            onLogout,
-            onCreateAccount
-        })}
+    user,
+    onLogin,
+    onLogout,
+    onCreateAccount
+})}
 
         <section class="storybook-page">
             <h2>Pages in Storybook</h2>

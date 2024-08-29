@@ -1,6 +1,6 @@
 import { html } from 'lit';
 
-import { Button } from './Button';
+import { Button } from '../button/Button';
 import './header.css';
 
 type User = {
@@ -38,18 +38,18 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
       </div>
       <div>
         ${user
-          ? Button({ size: 'small', onClick: onLogout, label: 'Log out' })
-          : html`${Button({
-              size: 'small',
-              onClick: onLogin,
-              label: 'Log in',
-            })}
+    ? Button({ size: 'small', onClick: onLogout, label: 'Log out' })
+    : html`${Button({
+      size: 'small',
+      onClick: onLogin,
+      label: 'Log in',
+    })}
             ${Button({
-              primary: true,
-              size: 'small',
-              onClick: onCreateAccount,
-              label: 'Sign up',
-            })}`}
+      primary: true,
+      size: 'small',
+      onClick: onCreateAccount,
+      label: 'Sign up',
+    })}`}
       </div>
     </div>
   </header>
