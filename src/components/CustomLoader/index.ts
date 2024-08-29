@@ -53,6 +53,7 @@ export class CustomLoader extends LitElement {
 
   render() {
     return html`
+    <custom-header><slot>Kora Labs</slot></custom-header>
       <div class="loader">
         <svg class="green-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49 49">
           <path
