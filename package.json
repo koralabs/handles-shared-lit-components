@@ -1,41 +1,37 @@
 {
-    "name": "@koralabs/handles-shared-lit-components",
-    "version": "0.2.2",
-    "description": "Shared library for web-components",
-    "type": "module",
-    "main": "index.js",
-    "types": "index.d.ts",
-    "homepage": "https://github.com/koralabs/handles-shared-lit-components",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/koralabs/handles-shared-lit-components.git"
-    },
-    "scripts": {
-        "lint": "echo \"Error: no lint specified\"",
-        "test": "echo \"Error: no test specified\"",
-        "build": "tsc",
-        "build:local": "yarn build && cp package.json ./lib/package.json && cd lib && npm i --production",
-        "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "lit": "^3.1.4",
-        "lit-html": "^3.1.4"
-    },
-    "devDependencies": {
-        "@chromatic-com/storybook": "^1.6.1",
-        "@storybook/addon-essentials": "^8.1.11",
-        "@storybook/addon-links": "^8.1.11",
-        "@storybook/addon-webpack5-compiler-swc": "^1.0.4",
-        "@storybook/blocks": "^8.1.11",
-        "@storybook/test": "^8.1.11",
-        "@storybook/web-components": "^8.2.5",
-        "@storybook/web-components-webpack5": "^8.1.11",
-        "eslint": "^9.6.0",
-        "storybook": "^8.1.11",
-        "typescript": "^5.5.3"
-    }
+  "name": "@koralabs/handles-shared-lit-components",
+  "version": "0.3.0",
+  "description": "Shared library for web-components",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "homepage": "https://github.com/koralabs/handles-shared-lit-components",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koralabs/handles-shared-lit-components.git"
+  },
+  "scripts": {
+    "lint": "echo \"Error: no lint specified\"",
+    "test": "echo \"Error: no test specified\"",
+    "build": "tsc",
+    "build:local": "yarn build && cp package.json ./lib/package.json && cd lib && npm i --production",
+    "storybook": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds --watch -c .storybook/server.mjs --hmr\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lit": "^3.2.0",
+    "lit-html": "^3.2.0"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.10.3",
+    "@storybook/addon-essentials": "^8.1.11",
+    "@web/dev-server": "^0.4.6",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/dev-server-storybook": "^2.0.3",
+    "concurrently": "^9.0.1",
+    "eslint": "^9.6.0",
+    "typescript": "^5.5.3"
+  }
 }

@@ -3,6 +3,7 @@
         "target": "es2021",
         "module": "es2015",
         "moduleResolution": "node",
+        "noEmitOnError": true,
         "outDir": "./lib",
         "lib": ["es2021", "dom"],
         "declaration": true,

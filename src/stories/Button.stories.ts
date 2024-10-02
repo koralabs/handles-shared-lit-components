@@ -1,18 +1,17 @@
 // src/stories/LitButton.stories.ts
-import { Meta, StoryFn } from '@storybook/web-components';
-import { html } from 'lit-html';
-import '../components/Button';  // Ensure this path points to your button components file
+import { html } from 'lit';
+import '../web-components/Button'; // Ensure this path points to your button components file
 
-const meta: Meta = {
+const meta = {
     title: 'Components/LitButton',
     argTypes: {
-        label: { control: 'text' },
-    },
+        label: { control: 'text' }
+    }
 };
 
 export default meta;
 
-const Template: StoryFn = ({ label, size }) => {
+const Template = ({ label, size }) => {
     switch (size) {
         case 'small':
             return html`<lit-button-small>${label}</lit-button-small>`;
@@ -28,17 +27,17 @@ const Template: StoryFn = ({ label, size }) => {
 export const Small = Template.bind({});
 Small.args = {
     label: 'Small Button',
-    size: 'small',
+    size: 'small'
 };
 
 export const Medium = Template.bind({});
 Medium.args = {
     label: 'Medium Button',
-    size: 'medium',
+    size: 'medium'
 };
 
 export const Large = Template.bind({});
 Large.args = {
     label: 'Large Button',
-    size: 'large',
+    size: 'large'
 };

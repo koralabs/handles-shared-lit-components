@@ -1,72 +1,67 @@
-import { html, css, LitElement } from 'lit';
+import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 
-export class LitButtonBase extends LitElement {
-  static renderTag = () => html`<lit-button></lit-button>`;
-  static commonStyles = css`
-    .storybook-button {
-      font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-weight: 700;
-      border: 0;
-      border-radius: 3em;
-      cursor: pointer;
-      display: inline-block;
-      line-height: 1;
-      text-align: center;
-    }
-  `;
-  buttonClass: unknown;
+export interface ButtonProps {
+    /**
+     * Is this the principal call to action on the page?
+     */
+    primary?: boolean;
+    /**
+     * What background color to use
+     */
+    backgroundColor?: string;
+    /**
+     * How large should the button be?
+     */
+    size?: 'small' | 'medium' | 'large';
+    /**
+     * Button contents
+     */
+    label: string;
+    /**
+     * Optional click handler
+     */
+    onClick?: () => void;
+}
+/**
+ * Primary UI component for user interaction
+ */
+export const Button = ({ primary, backgroundColor, size, label, onClick }: ButtonProps) => {
+    const mode = primary ? 'shared-button--primary' : 'shared-button--secondary';
 
-  render() {
     return html`
-      <button class="storybook-button ${this.buttonClass}">
-        <slot></slot>
-      </button>
+        <style>
+            .shared-button {
+                font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-weight: 700;
+                border: 0;
+                border-radius: 3em;
+                cursor: pointer;
+                display: inline-block;
+                line-height: 1;
+            }
+            .shared-button--primary {
+                color: white;
+                background-color: #1ea7fd;
+            }
+            .shared-button--secondary {
+                color: #333;
+                background-color: transparent;
+                box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+            }
+            .shared-button--small {
+                font-size: 12px;
+                padding: 10px 16px;
+            }
+            .shared-button--medium {
+                font-size: 14px;
+                padding: 11px 20px;
+            }
+            .shared-button--large {
+                font-size: 16px;
+                padding: 12px 24px;
+            }
+        </style>
+        <button type="button" class=${['shared-button', `shared-button--${size || 'medium'}`, mode].join(' ')} style=${styleMap({ backgroundColor })} @click=${onClick}>${label}</button>
     `;
-  }
-}
-
-export class LitButtonSmall extends LitButtonBase {
-  static renderTag = () => html`<lit-button-small></lit-button-small>`;
-
-  static styles = [
-    LitButtonBase.commonStyles,
-    css`
-      .storybook-button {
-        font-size: 12px;
-        padding: 10px 16px;
-      }
-    `,
-  ];
-}
-
-export class LitButtonMedium extends LitButtonBase {
-  static renderTag = () => html`<lit-button-medium></lit-button>`;
-
-  static styles = [
-    LitButtonBase.commonStyles,
-    css`
-      .storybook-button {
-        font-size: 14px;
-        padding: 11px 20px;
-      }
-    `,
-  ];
-}
-
-export class LitButtonLarge extends LitButtonBase {
-  static renderTag = () => html`<lit-button-large></lit-button-large>`;
-
-  static styles = [
-    LitButtonBase.commonStyles,
-    css`
-      .storybook-button {
-        font-size: 16px;
-        padding: 12px 24px;
-      }
-    `,
-  ];
-}
-
-customElements.define('lit-button-small', LitButtonSmall);
-customElements.define('lit-button-medium', LitButtonMedium);
-customElements.define('lit-button-large', LitButtonLarge);
+};
