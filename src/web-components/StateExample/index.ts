@@ -12,8 +12,7 @@ export class StateExample extends LitElement {
     render() {
         return html`
             <h2>${this.title}</h2>
-            <div>
-                The count is 34434:
+            <div> The count is ${this.count}.:
                 <button @click=${() => this.count++}>${this.count}</button>
             </div>
             <slot></slot>
