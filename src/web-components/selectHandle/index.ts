@@ -33,9 +33,12 @@ export class SelectHandle extends LitElement {
     @property({ type: Boolean }) loadingImg = false;
     @property({ type: Boolean }) isLoading = false;
     @property({ type: String }) route = '';
-
+    @property({ type: Object })
+    litElement!: LitElement;
+    help: string;
     firstUpdated() {
         this.handle = this.getCookie('selectedHandle');
+        this.helpLogger();
     }
 
     async selectHandle(handle) {
@@ -97,7 +100,8 @@ export class SelectHandle extends LitElement {
                 <div class="logout-and-handles">
                     <div class="handles-select-dropdown ${this.dropdownOpen ? 'open' : ''}">
                         <div class="wallet-handles-content">
-                            <div class="select-wrapper">
+                            <div class="select-wrapper">                        
+                                <slot name="slottedSearch"></slot>
                                 ${this.handle?.name
                 ? html`
                                           <div class="current-handle">
@@ -162,6 +166,7 @@ export class SelectHandle extends LitElement {
                                 </div>
                             </div>
                         </div>
+                        <slot name="slottedButtons"></slot>
                     </div>
                 </div>
             </div>
@@ -366,4 +371,32 @@ export class SelectHandle extends LitElement {
             }
         }
     `;
+
+    helpLogger() {
+        if (this.help === 'help') {
+            console.info(`
+                To use this component, you can pass in the following:
+                
+                1. **Slotted elements**:
+                    - Use a \`div\` with \`slot="slottedSearch"\` for the search input.
+                    - Use a \`div\` with \`slot="slottedButtons"\` for the action buttons.
+                
+                2. **Handle data**:
+                    - You can pass in \`handleData\` formatted as \`GetHandleResponse\` (as per Kora Labs API).
+                    - You can pass a \`handle\` object, where **name** and **image** properties are expected.
+                    - Access the selected handle from cookies using \`getCookie('selectedHandle')\`.
+
+                3. **Properties**:
+                    - \`handleData\`: The data for the handle (expected in \`GetHandleResponse\` format).
+                    - \`route\`: The URL route to navigate when a handle is clicked.
+                
+                Example usage:
+                    <my-component 
+                    .handleData=\${handleData}
+                    .route=\${route}>
+                    </my-component>
+            `);
+
+        }
+    }
 }

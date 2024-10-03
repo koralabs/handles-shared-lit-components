@@ -21,10 +21,13 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@koralabs/kora-labs-common": "^4.4.9",
+        "@koralabs/kora-labs-databases": "^0.4.5",
+        "@types/winston": "^2.4.4",
         "lit": "^3.2.0",
         "lit-html": "^3.2.0",
-        "@koralabs/kora-labs-common": "^4.4.9",
-        "@koralabs/kora-labs-databases": "^0.4.5"
+        "loglevel": "^1.9.2",
+        "winston": "^3.14.2"
     },
     "devDependencies": {
         "@custom-elements-manifest/analyzer": "^0.10.3",
