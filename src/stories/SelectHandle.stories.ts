@@ -42,7 +42,7 @@ interface ArgTypes {
 }
 
 const Template: Story<ArgTypes> = ({ help = 'help' }: ArgTypes) => html`
-    <select-handle .handleData=${handleData} .route=${route} .help=${help}> 
+    <select-handle .handleData=${handleData} .route=${route} > 
         <div slot="slottedSearch">
             <p>Test</p>
         </div>
