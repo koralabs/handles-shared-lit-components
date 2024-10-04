@@ -26,7 +26,7 @@ interface BasicAsset {
     hex: string;
 }
 
-export function getCookie(name: string): Record<string, any> | null {
+export function getCookie(name: string): object | null {
     const cookieArr = document.cookie.split(';');
     for (let i = 0; i < cookieArr.length; i++) {
         const cookiePair = cookieArr[i].trim().split('=');
@@ -45,6 +45,8 @@ export class SelectHandle extends LitElement {
     @property({ type: Boolean }) loadingImg = false;
     @property({ type: Boolean }) isLoading = false;
     @property({ type: String }) route = '';
+    @property({ type: Function }) addFunction = () => { };
+    @property({ type: Function }) infiniteScroll = () => { };
     @property({ type: Object })
     litElement!: LitElement;
     help: string;
@@ -54,6 +56,7 @@ export class SelectHandle extends LitElement {
     firstUpdated() {
         this.handle = getCookie('selectedHandle');
         this.helpLogger();
+        this.addFunction();
     }
 
     helpLogger() {
@@ -73,6 +76,8 @@ export class SelectHandle extends LitElement {
                 3. **Properties**:
                     - \`handleData\`: The data for the handle (expected in \`GetHandleResponse\` format).
                     - \`route\`: The URL route to navigate when a handle is clicked.
+                    - \`addFunction\`: A function/property called in firstUpdate.
+                    - \`infiniteScroll\`: A function/property for infinite scrolling passed to the scroll-wrapper-outer.
                 
                 Example usage:
                     <my-component 
@@ -153,7 +158,7 @@ export class SelectHandle extends LitElement {
                 : ''}
                             </div>
                             <hr class="line-brake" />
-                            <div class="scroll-wrapper-outer">
+                            <div class="scroll-wrapper-outer" @scroll="${this.infiniteScroll}">
                                 <div class="scroll-wrapper">
                                     <div class="handles-container">
                                         ${(handles ?? []).map(
@@ -198,6 +203,7 @@ export class SelectHandle extends LitElement {
                     </div>
                 </div>
             </div>
+            <infinite-scroll></infinite-scroll>
         `;
     }
 }

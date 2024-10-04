@@ -27,11 +27,15 @@ export class SelectWallet extends LitElement {
     @property({ type: Boolean }) walletKeyChosen: boolean = false;
     @property({ type: String }) route = '';
     @property({ type: String }) help: string;
+    @property({ type: Function }) addFunction = () => { };
+    @property({ type: Function }) infiniteScroll = () => { };
 
     static styles = SelectWalletStyles;
 
     firstUpdated() {
         this.wallets = this.getUserWallets();
+        this.addFunction();
+
     }
 
     helpLogger() {
@@ -50,6 +54,8 @@ export class SelectWallet extends LitElement {
                 3. **Properties**:
                     - \`route\`: The URL route to navigate to when a wallet is selected.
                     - \`walletKeyChosen\`: A boolean that indicates whether a wallet has been chosen.
+                    - \`addFunction\`: A function/property called in firstUpdate.
+                    - \`infiniteScroll\`: A function/property for infinite scrolling passed to the scroll-wrapper-outer.
                 
                 Example usage:
                     <select-wallet 
@@ -129,7 +135,7 @@ export class SelectWallet extends LitElement {
                         </div>
                         <div class="w-full relative">
                             <div style="width:100%; height:100%; pointer-events:none; position: absolute; z-index: 10; background-image: linear-gradient(to top, rgb(10, 14, 59), rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgb(10, 14, 59) 100%);"></div>
-                            <div class="wallets-container">
+                            <div class="wallets-container" @scroll="${this.infiniteScroll}">
                                 ${userHasWallets
                 ? this.wallets.map(wallet => html`
                                         <div class="wallet-item ${this.selectedWallet === wallet.key ? 'selected' : ''}" 
