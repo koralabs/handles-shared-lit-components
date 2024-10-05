@@ -2,6 +2,20 @@ import { css } from "lit";
 
 export const SelectWalletStyles = css`
     * {
+        font-family:
+        Syne,
+        Noto Sans,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        Segoe UI,
+        Roboto,
+        Ubuntu,
+        Cantarell,
+        sans-serif,
+        BlinkMacSystemFont,
+        Helvetica Neue,
+        Arial;
         color: rgba(255, 255, 255, 1);
     }
 

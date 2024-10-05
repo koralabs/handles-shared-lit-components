@@ -1,9 +1,9 @@
 import { html, TemplateResult } from 'lit';
-import '../web-components/SelectImages/index.js';
+import '../web-components/HandleSmallSearch/index.js';
 
 export default {
-    title: 'Components/SelectImages',
-    component: 'select-images',
+    title: 'Components/HandleSmallSearch',
+    component: 'select-handle',
     argTypes: {
     }
 };
@@ -21,15 +21,13 @@ interface ArgTypes {
     route?: string;
     shouldRenderButtons?: boolean;
     help?: string;
-    addFunction?: Function;
 }
 
 const Template: Story<ArgTypes> = ({ help = 'help' }: ArgTypes) => html`
-    <select-images>
-    </select-images>
+    <handle-small-search ></handle-small-search>
+
  `;
 
 export const Regular = Template.bind({});
-
 
 

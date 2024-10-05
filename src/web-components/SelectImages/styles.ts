@@ -1,7 +1,7 @@
 import { css } from "lit";
 
-export const SelectImagesStyles = css` 
-.login-container {
+export const SelectImagesStyles = css`
+    .login-container {
         max-width: 45rem;
         width: 100%;
         margin: auto;
@@ -116,6 +116,7 @@ export const SelectImagesStyles = css`
         fill: rgba(74, 222, 128, 1);
         margin-right: 1px;
     }
+
     .svg-styling {
         height: 25px;
         width: 25px;
@@ -176,7 +177,6 @@ export const SelectImagesStyles = css`
         position: relative;
     }
 
-
     .handle-and-icon {
         display: flex;
         flex-direction: row;
@@ -212,7 +212,7 @@ export const SelectImagesStyles = css`
     }
 
     .scroll-wrapper::-webkit-scrollbar-thumb {
-        background: var(--scrollbar-thumb); 
+        background: var(--scrollbar-thumb);
         border-radius: var(--scrollbar-thumb-radius);
     }
 
@@ -236,20 +236,21 @@ export const SelectImagesStyles = css`
     .handle-img {
         display: flex;
     }
+
     .handle-item {
         padding: 12px;
         border-radius: 12px;
         background-color: rgba(255, 255, 255, 0.05);
     }
+
     .handle-item.active {
         background: rgba(8, 11, 47, 1);
         border: 1px solid rgba(13, 221, 96, 1);
         backdrop-filter: blur(19.04205322265625px);
         // box-shadow: 0px 19.04px 95.21px 0px rgba(22, 7, 47, 0.5);
         // box-shadow: 0px 10px 62px 0px rgba(13, 229, 100, 0.35);
-
     }
-    
+
     .route-btns-container {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
@@ -324,86 +325,6 @@ export const SelectImagesStyles = css`
         margin-bottom: 0.25rem;
     }
 
-    .permissions-field {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 5px;
-        margin-bottom: 0.5rem;
-        position: relative;
-        border-radius: 7px;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
-
-    .input-form {
-        font-family: Ubuntu Mono, monospace;
-        overflow-y: auto;
-        padding: 0.5rem 0.75rem 0.5rem 2rem;
-        width: -webkit-fill-available;
-        border: 1px solid rgba(86, 119, 159, 1);
-        border-radius: 9999px;
-        background-color: hsla(0, 0%, 100%, 0.05);
-        transition-property: all;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 0.15s;
-        color: rgba(255, 255, 255, 1);
-        font-size: 1rem;
-        line-height: 1.5rem;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        --tw-shadow: 0 0 transparent;
-    }
-
-    .input-form:focus {
-        outline: none;
-        border-width: 1px;
-        border-color: #2462E9;
-    }
-
-    .search-svg {
-        opacity: 1;
-        color: rgba(209, 213, 219, 1);
-        width: 1rem;
-        height: 1rem;
-        z-index: 20;
-        fill: currentColor;
-        stroke: currentColor;
-        stroke-width: 0;
-    }
-
-    .search-icon-wrapper {
-        top: 18px;
-        left: 19px;
-        position: absolute;
-    }
-
-    .clear-search {
-        opacity: 1;
-        color: rgba(209, 213, 219, 1);
-        width: 1.25rem;
-        height: 1.25rem;
-        z-index: 20;
-        fill: currentColor;
-        stroke: currentColor;
-        stroke-width: 0;
-    }
-
-    .clear-search-wrapper {
-        visibility: hidden;
-        display: none;
-        top: 16px;
-        right: 19px;
-        position: absolute;
-    }
-
-    .clear-search-wrapper.searching {
-        visibility: visible;
-        display: flex;
-    }
-
     .current-handle {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -438,19 +359,22 @@ export const SelectImagesStyles = css`
         font-family: Ubuntu Mono, monospace;
         color: rgba(74, 222, 128, 1);
     }
+
     .loading-text {
         font-size: 1rem;
         color: currentColor;
-        width:5rem;
+        width: 5rem;
         height: 5rem;
     }
-    .loader{
+
+    .loader {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 5rem;
         height: 5rem;
     }
+
     @media screen and (max-width: 350px) {
         .handles-select-dropdown {
             padding-left: 0.25rem;
@@ -460,14 +384,6 @@ export const SelectImagesStyles = css`
         .route-btn {
             margin-left: 0.25rem;
             margin-right: 0.25rem;
-        }
-
-        .search-icon-wrapper {
-            left: 20px;
-        }
-
-        .clear-search-wrapper {
-            right: 20px;
         }
     }
 

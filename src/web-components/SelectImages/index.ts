@@ -63,6 +63,7 @@ export class SelectImages extends LitElement {
         this.helpLogger();
         this.addFunction();
     }
+
     helpLogger() {
         if (this.help === 'help') {
             console.info(`

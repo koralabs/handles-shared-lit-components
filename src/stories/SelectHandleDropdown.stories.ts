@@ -1,9 +1,9 @@
 import { html, TemplateResult } from 'lit';
-import '../web-components/SelectImages/index.js';
+import '../web-components/SelectHandleDropdown/index.js';
 
 export default {
-    title: 'Components/SelectImages',
-    component: 'select-images',
+    title: 'Components/SelectHandleDropdown',
+    component: 'select-handle-dropdown',
     argTypes: {
     }
 };
@@ -17,19 +17,20 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-    handleData?: Array<any>;
-    route?: string;
-    shouldRenderButtons?: boolean;
+    handle: string;
     help?: string;
     addFunction?: Function;
 }
 
 const Template: Story<ArgTypes> = ({ help = 'help' }: ArgTypes) => html`
-    <select-images>
-    </select-images>
+    <select-handle-dropdown>
+        <div slot="slottedDropdown">
+            <select-handle></select-handle>
+        </div>
+    </select-handle-dropdown>
+
  `;
 
 export const Regular = Template.bind({});
-
 
 

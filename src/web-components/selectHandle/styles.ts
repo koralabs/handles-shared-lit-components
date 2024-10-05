@@ -3,6 +3,20 @@ import { css } from "lit";
 export const SelectHandleStyles = css`
         * {
             color: rgba(255, 255, 255, 1);
+            font-family:
+            Syne,
+            Noto Sans,
+            ui-sans-serif,
+            system-ui,
+            -apple-system,
+            Segoe UI,
+            Roboto,
+            Ubuntu,
+            Cantarell,
+            sans-serif,
+            BlinkMacSystemFont,
+            Helvetica Neue,
+            Arial;
         }
         .logout-and-handles {
             display: flex;

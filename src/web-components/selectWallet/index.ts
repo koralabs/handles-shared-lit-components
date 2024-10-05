@@ -35,6 +35,7 @@ export class SelectWallet extends LitElement {
     firstUpdated() {
         this.wallets = this.getUserWallets();
         this.addFunction();
+        this.helpLogger();
 
     }
 

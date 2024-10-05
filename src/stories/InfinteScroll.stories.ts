@@ -24,7 +24,9 @@ interface ArgTypes {
 }
 
 const Template: Story<ArgTypes> = ({ help = 'help' }: ArgTypes) => html`
-    <infinite-scroll></infinite-scroll>
+    <infinite-scroll .input>
+    </infinite-scroll>
+    
  `;
 
 export const Regular = Template.bind({});

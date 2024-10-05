@@ -53,8 +53,16 @@ interface ArgTypes {
     addFunction?: Function;
 }
 
+const handleInputChange = (event: CustomEvent<{ inputValue: string }>) => {
+    const inputValue = event.detail.inputValue;
+    console.log("Input value from handle-small-search:", inputValue);
+};
+
 const Template: Story<ArgTypes> = ({ help = 'help' }: ArgTypes) => html`
     <select-handle .handleData=${handleData}  .infiniteScroll=${InfiniteScroll}>
+        <div slot="slottedSearch">
+            <handle-small-search @input-change="${handleInputChange}"></handle-small-search>
+        </div>
     </select-handle>
  `;
 
