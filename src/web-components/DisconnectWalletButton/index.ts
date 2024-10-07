@@ -58,7 +58,7 @@ export class DisconnectWalletButton extends LitElement {
         <div class="icon-wrapper">
             <div 
                 class="anchor-btn-disconnect"
-                @click="${this.addFunction()}"
+                @click="${this.addFunction}"
                 @mouseenter="${() => this.showHoverIcon = true}"
                 @mouseleave="${() => this.showHoverIcon = false}">
                 ${this.showHoverIcon
@@ -67,8 +67,8 @@ export class DisconnectWalletButton extends LitElement {
                         <img width="35px" height="35px" src="${icon}" alt="Wallet Icon" />
                     `
             }
-            </div>
             <span class="tooltip-text">Disconnect Wallet</span>
+            </div>
         </div>
     `;
     }

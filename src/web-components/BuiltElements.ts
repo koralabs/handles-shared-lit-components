@@ -1,5 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+
+import './DisconnectWalletButton/index.js';
 interface Handle {
     policyId: string;
     name: string;
@@ -58,29 +60,36 @@ export class BuiltElements extends LitElement {
         }
     };
     getHandle() {
-        const handle = localStorage.getItem('selectedHandle');
+        const handle = localStorage.getItem('selectedHandleKey');
         const parsedHandle = JSON.parse(handle ?? '{}') as Handle;
         this.handle = parsedHandle.name;
     }
     handleInputChange = (event: CustomEvent<{ inputValue: string }>) => {
         const inputValue = event.detail.inputValue;
     };
+    handleDisconnect = () => {
+        console.log('Disconnecting wallet');
+    }
     render() {
+        const walletKey = localStorage.getItem('selectedWalletKey');
         return html`
         <div style=" flex-direction:column;">
             <select-wallet></select-wallet>
-            <select-handle-dropdown .dropdownHandle=${this.handle}>
-                <div slot="slottedDropdown">
-                    <select-handle .handleData=${this.handleData}  .infiniteScroll=${this.InfiniteScroll}>
-                        <div slot="slottedSearch" style="width:-webkit-fill-available">
-                            <handle-small-search @input-change="${this.handleInputChange}"></handle-small-search>
-                        </div>
-                        <div slot="slottedButtons" style="width:-webkit-fill-available">
-                        </div>
-                    </select-handle>
-                </div>
-            </select-handle-dropdown>
-            <select-images .help=${'help'} .handleData=${this.handleData} .infiniteScroll=${this.InfiniteScroll}>
+            <div style="display:flex; flex-direction:row;"> 
+                <disconnect-wallet-button .walletKey=${walletKey} .addFunction=${this.handleDisconnect} style="display: flex; align-items: center; justify-content: center;"></disconnect-wallet-button>
+                <select-handle-dropdown .dropdownPositioning=${'display:flex; position: absolute; top: 80%; '} .dropdownHandle=${this.handle}>
+                    <div slot="slottedDropdown">
+                        <select-handle .handleData=${this.handleData}  .infiniteScroll=${this.InfiniteScroll}>
+                            <div slot="slottedSearch" style="width:-webkit-fill-available">
+                                <handle-small-search @input-change="${this.handleInputChange}"></handle-small-search>
+                            </div>
+                            <div slot="slottedButtons" style="width:-webkit-fill-available">
+                            </div>
+                        </select-handle>
+                    </div>
+                </select-handle-dropdown>
+            </div>
+            <select-images .handleData=${this.handleData} .infiniteScroll=${this.InfiniteScroll}>
                     <div slot="slottedSearch" style="width:-webkit-fill-available">
                         <handle-small-search @input-change="${this.handleInputChange}"></handle-small-search>
                     </div>

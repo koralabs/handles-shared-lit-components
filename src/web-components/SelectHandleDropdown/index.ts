@@ -9,6 +9,7 @@ export class SelectHandleDropdown extends LitElement {
     @property({ type: String }) selected: string = '';
     @property({ type: String }) help: string = '';
     @property({ type: String }) dropdownHandle: string = '';
+    @property({ type: String }) dropdownPositioning: string = '';
     @property({ type: Function }) addFunction = () => { };
 
     static styles = css`
@@ -63,10 +64,7 @@ export class SelectHandleDropdown extends LitElement {
         .select-handle {
             display: none;
         }
-        .select-handle.open {
-            display: flex;
-            position: relative;
-        }
+            
         .handle-and-icon {
             display: flex;
             flex-direction: row;
@@ -92,10 +90,11 @@ export class SelectHandleDropdown extends LitElement {
         if (this.help === 'help') {
             console.info(`
                 you can slot the dropdown content in the slottedDropdown slot using <div slot="slottedDropdown"></div>
+                you can position the dropdown using the dropdownPositioning property.
                 you can display the handle selected by adding the dropdownHandle property to the component.
 
                 Example:
-                <select-handle-dropdown .dropdownHandle=\${this.handle}>
+                <select-handle-dropdown .dropdownPositioning=\${'display: flex; position: relative;'} .dropdownHandle=\${this.handle}>
                     <div slot="slottedDropdown"></div>
                 </select-handle-dropdown>
         `);
@@ -121,7 +120,7 @@ export class SelectHandleDropdown extends LitElement {
                         </svg>
                     </div>
                 </div>
-                <div class="select-handle ${this.dropdownOpen ? 'open' : ''}">
+                <div style="${this.dropdownOpen ? this.dropdownPositioning : 'display: none;'}">
                     <slot name="slottedDropdown"></slot>
                 </div>
             </button>
