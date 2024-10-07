@@ -118,7 +118,7 @@ export class HandleSmallSearch extends LitElement {
     }
     render() {
         return html`
-        <div style="position: relative;">
+        <div style="position: relative; width: -webkit-fill-available">
             ${this.renderSearch()}
         </div>
         `

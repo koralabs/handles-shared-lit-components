@@ -13,7 +13,7 @@ interface Handle {
 @customElement('built-elements')
 export class BuiltElements extends LitElement {
     @property({ type: String }) handle: string | undefined;
-
+    @property({ type: Boolean }) isActive = false;
 
     static styles = css`
         :host {
@@ -70,11 +70,24 @@ export class BuiltElements extends LitElement {
     handleDisconnect = () => {
         console.log('Disconnecting wallet');
     }
+
+    handleEvent() {
+        if (this.isActive) {
+            this.isActive = false;
+        } else {
+            this.isActive = true;
+        }
+    }
+
     render() {
         const walletKey = localStorage.getItem('selectedWalletKey');
         return html`
         <div style=" flex-direction:column;">
-            <select-wallet></select-wallet>
+            <select-wallet .slottedButtonsStyling=${'display: flex; margin-top: 1rem;'}>
+                <div slot="slottedButtons" >
+                    <custom-select .isActive=${this.isActive} @click=${this.handleEvent}></custom-select>
+                </div>
+            </select-wallet> -->
             <div style="display:flex; flex-direction:row;"> 
                 <disconnect-wallet-button .walletKey=${walletKey} .addFunction=${this.handleDisconnect} style="display: flex; align-items: center; justify-content: center;"></disconnect-wallet-button>
                 <select-handle-dropdown .dropdownPositioning=${'display:flex; position: absolute; top: 80%; '} .dropdownHandle=${this.handle}>
@@ -89,7 +102,7 @@ export class BuiltElements extends LitElement {
                     </div>
                 </select-handle-dropdown>
             </div>
-            <select-images .handleData=${this.handleData} .infiniteScroll=${this.InfiniteScroll}>
+            <select-images .handleData=${this.handleData} .infiniteScroll=${this.InfiniteScroll} .slottedSearchStyling=${'width: -webkit-fill-available'}>
                     <div slot="slottedSearch" style="width:-webkit-fill-available">
                         <handle-small-search @input-change="${this.handleInputChange}"></handle-small-search>
                     </div>

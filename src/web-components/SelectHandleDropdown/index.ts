@@ -75,11 +75,7 @@ export class SelectHandleDropdown extends LitElement {
             height: 25px;
             width: 25px;
         }
-        @media (max-width: 500px) {
-            .handles-select-btn {
-                display: none;
-            }
-        }
+        
     `;
 
     firstUpdated() {

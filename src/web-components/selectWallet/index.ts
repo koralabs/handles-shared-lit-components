@@ -16,6 +16,7 @@ export class SelectWallet extends LitElement {
     @property({ type: Boolean }) walletKeyChosen: boolean = false;
     @property({ type: String }) route = '';
     @property({ type: String }) help: string;
+    @property({ type: String }) slottedButtonsStyling: string;
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
 
@@ -45,11 +46,12 @@ export class SelectWallet extends LitElement {
                     - \`route\`: The URL route to navigate to when a wallet is selected.
                     - \`walletKeyChosen\`: A boolean that indicates whether a wallet has been chosen.
                     - \`addFunction\`: A function/property called in firstUpdate.
-                    - \`infiniteScroll\`: A function/property for infinite scrolling passed to the scroll-wrapper-outer.
+                    - \`slottedButtonsStyling\`: A string to style the slotted buttons.
                 
                 Example usage:
                     <select-wallet 
-                    .route=\${route}>
+                    .route=\${route}
+                    .slottedButtonsStyling=\${'display: flex;'}>
                     </select-wallet>
             `);
         }
@@ -133,7 +135,9 @@ export class SelectWallet extends LitElement {
             }
                             </div>
                         </div>
-                        <slot name="slottedButtons"></slot>
+                        <div style=${this.slottedButtonsStyling}>
+                            <slot name="slottedButtons"></slot>
+                        </div>
                     </div>
                 </div>
             </div>

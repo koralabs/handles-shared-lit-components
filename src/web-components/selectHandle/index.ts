@@ -34,6 +34,8 @@ export class SelectHandle extends LitElement {
     @property({ type: Boolean }) loadingImg = false;
     @property({ type: Boolean }) isLoading = false;
     @property({ type: String }) route = '';
+    @property({ type: String }) slottedButtonsStyling: string;
+    @property({ type: String }) slottedSearchStyling: string;
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
     @property({ type: Object })
@@ -68,11 +70,14 @@ export class SelectHandle extends LitElement {
                     - \`route\`: The URL route to navigate when a handle is clicked.
                     - \`addFunction\`: A function/property called in firstUpdate.
                     - \`infiniteScroll\`: A function/property for infinite scrolling passed to the scroll-wrapper-outer.
+                    - \`slottedButtonsStyling\`: A string to style the slotted buttons.
+                    - \`slottedSearchStyling\`: A string to style the slotted search input.
                 
                 Example usage:
                     <my-component 
                     .handleData=\${handleData}
-                    .route=\${route}>
+                    .route=\${route}
+                    .slottedButtonsStyling=\${'display: flex;'}>
                     </my-component>
             `);
 
@@ -108,8 +113,10 @@ export class SelectHandle extends LitElement {
                 <div class="logout-and-handles">
                     <div class="handles-select-dropdown ${this.dropdownOpen ? 'open' : ''}">
                         <div class="wallet-handles-content">
-                            <div class="select-wrapper">                        
-                                <slot name="slottedSearch"></slot>
+                            <div class="select-wrapper">   
+                                <div style=${this.slottedSearchStyling}  >                   
+                                    <slot name="slottedSearch" ></slot>
+                                </div>
                                 ${this.handle?.name
                 ? html`
                                           <div class="current-handle">
@@ -174,7 +181,9 @@ export class SelectHandle extends LitElement {
                                 </div>
                             </div>
                         </div>
-                        <slot name="slottedButtons"></slot>
+                        <div style=${this.slottedButtonsStyling}>
+                            <slot name="slottedButtons"></slot>
+                        </div>
                     </div>
                 </div>
             </div>

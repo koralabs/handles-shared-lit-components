@@ -36,6 +36,7 @@ export class SelectImages extends LitElement {
     @property({ type: String }) imgWidth: string = '';
     @property({ type: String }) imgHeight: string = '';
     @property({ type: String }) route = '';
+    @property({ type: String }) slottedSearchStyling: string = '';
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
     @property({ type: Object })
@@ -71,12 +72,14 @@ export class SelectImages extends LitElement {
                 - \`route\`: The URL route to navigate when a handle is selected.
                 - \`addFunction\`: A function/property that is called during \`firstUpdated\`.
                 - \`infiniteScroll\`: A function/property for handling infinite scrolling in the component.
+                - \`slottedSearchStyling\`: A string to style the slotted search input.
 
             Example usage:
                 <select-images 
                     .handleData=\${handleData}
                     .route=\${route}
-                    .addFunction=\${myFunction}>
+                    .addFunction=\${myFunction}
+                    .slottedButtonsStyling=\${'display: flex;'}>
                 </select-images>
         `);
         }
@@ -134,37 +137,37 @@ export class SelectImages extends LitElement {
     renderHandlesSelect() {
         return html`
             <div class="login-container">
-            <div class="login-body">
-                <div class="login-content">
-                <div class="login-content-header">
-                    <div class="login-content-header-title">
-                    Choose your handle
-                    </div>
-                </div>
-                <div class="wallet-handles-content">
-                    <div class="select-wrapper">
-                    <slot name="slottedSearch" ></slot>
-                    <div class="scroll-wrapper-outer">                            
-                        <div style="width:100%; height:100%; pointer-events:none; position: absolute; z-index: 10; background-image: linear-gradient(to top, rgb(10, 14, 59), rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgb(10, 14, 59) 100%);"></div>
-                        <div class="scroll-wrapper" @scroll="${this.infiniteScroll}">
-                            <div class="handles-container">
-                                ${this.renderImages()}
+                <div class="login-body">
+                    <div class="login-content">
+                        <div class="login-content-header">
+                            <div class="login-content-header-title">
+                            Choose your handle
                             </div>
-                        </div>            
-                    </div>               
+                        </div>
+                        <div class="wallet-handles-content">
+                            <div class="select-wrapper">
+                                <div style=${this.slottedSearchStyling}>
+                                    <slot name="slottedSearch" ></slot>
+                                </div>
+                                <div class="scroll-wrapper-outer">                            
+                                    <div style="width:100%; height:100%; pointer-events:none; position: absolute; z-index: 9; background-image: linear-gradient(to top, rgb(10, 14, 59), rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgb(10, 14, 59) 100%);"></div>
+                                    <div class="scroll-wrapper" @scroll="${this.infiniteScroll}">
+                                        <div class="handles-container">
+                                            ${this.renderImages()}
+                                        </div>
+                                    </div>            
+                                </div>               
+                            </div>
+                        </div>
                     </div>
                 </div>
-                </div>
-            </div>
             </div>
         `;
     }
     render() {
-        return html` 
-            <div>
-                <div class="logout-and-handles">
-                    ${this.renderHandlesSelect()}
-                </div>
+        return html`
+            <div class="logout-and-handles">
+                ${this.renderHandlesSelect()}
             </div>
         `;
     }
