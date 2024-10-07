@@ -64,7 +64,7 @@ export class SelectImages extends LitElement {
             2. **Handle data**:
                 - Pass in \`handleData\` formatted as an array of \`WalletHandle\` objects.
                 - Each \`WalletHandle\` should include **name**, **image**, and optionally **active** and **default** properties.
-                - Access the selected handle from cookies using \`getCookie('selectedHandle')\`.
+                - Access the selected handle from localStorage using \`localStorage.getItem('selectedHandle')\`.
 
             3. **Properties**:
                 - \`handleData\`: Array of handle data to be displayed in the component.

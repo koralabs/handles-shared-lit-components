@@ -61,7 +61,7 @@ export class SelectHandle extends LitElement {
                 2. **Handle data**:
                     - You can pass in \`handleData\` formatted as \`GetHandleResponse\` (as per Kora Labs API).
                     - You can pass a \`handle\` object, where **name** and **image** properties are expected.
-                    - Access the selected handle from cookies using \`getCookie('selectedHandle')\`.
+                    - Access the selected handle from localStorage using \`localStorage.getItem('selectedHandle')\`.
 
                 3. **Properties**:
                     - \`handleData\`: The data for the handle (expected in \`GetHandleResponse\` format).

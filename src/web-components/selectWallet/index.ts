@@ -39,7 +39,7 @@ export class SelectWallet extends LitElement {
                 2. **Handle data**:
                     - This component automatically detects wallets available through the \`window.cardano\` API.
                     - The selected wallet is stored in cookies using the key \`selectedWalletKey\`.
-                    - You can retrieve the selected wallet using \`getCookie('selectedWalletKey')\`.
+                    - You can retrieve the selected wallet using \`localStorage.getItem('selectedWalletKey')\`.
                     
                 3. **Properties**:
                     - \`route\`: The URL route to navigate to when a wallet is selected.
