@@ -8,17 +8,6 @@ declare global {
     }
 }
 
-export function getCookie(name: string): object | null {
-    const cookieArr = document.cookie.split(';');
-    for (let i = 0; i < cookieArr.length; i++) {
-        const cookiePair = cookieArr[i].trim().split('=');
-        if (cookiePair[0] === encodeURIComponent(name)) {
-            // Decode and parse the JSON string back into an object
-            return JSON.parse(decodeURIComponent(cookiePair[1]));
-        }
-    }
-    return null;
-}
 @customElement('select-wallet')
 export class SelectWallet extends LitElement {
     @state() wallets: { key: string; name: string; icon: string }[] = [];
@@ -79,22 +68,6 @@ export class SelectWallet extends LitElement {
         return wallets;
     }
 
-    setCookie(name: string, value: string, options: { path: string; maxAge?: number }) {
-        const stringValue = JSON.stringify(value);
-        let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(stringValue)}`;
-
-        if (options.path) {
-            cookieString += `; path=${options.path}`;
-        }
-
-        if (options.maxAge) {
-            cookieString += `; max-age=${options.maxAge}`;
-        }
-
-        document.cookie = cookieString;
-
-    }
-
     async onSelectWallet(walletKey: { key: string; name: string; icon: string }) {
         this.walletKeyChosen = true;
         this.selectedWallet = walletKey.name;
@@ -103,7 +76,7 @@ export class SelectWallet extends LitElement {
         }
 
         try {
-            this.setCookie('selectedWalletKey', walletKey.name, { path: '/', maxAge: 60 * 60 * 24 * 30 }); // Expires in 30 days
+            localStorage.setItem('selectedWalletKey', walletKey.key);
         } catch (error) {
             console.error('Error setting cookie:', error);
         }

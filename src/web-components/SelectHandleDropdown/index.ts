@@ -7,6 +7,7 @@ export class SelectHandleDropdown extends LitElement {
 
     @property({ type: Array }) options: string[] = [];
     @property({ type: String }) selected: string = '';
+    @property({ type: String }) help: string = '';
     @property({ type: String }) dropdownHandle: string = '';
     @property({ type: Function }) addFunction = () => { };
 
@@ -82,6 +83,25 @@ export class SelectHandleDropdown extends LitElement {
             }
         }
     `;
+
+    firstUpdated() {
+        this.helpLogger();
+    }
+
+    helpLogger() {
+        if (this.help === 'help') {
+            console.info(`
+                you can slot the dropdown content in the slottedDropdown slot using <div slot="slottedDropdown"></div>
+                you can display the handle selected by adding the dropdownHandle property to the component.
+
+                Example:
+                <select-handle-dropdown .dropdownHandle=\${this.handle}>
+                    <div slot="slottedDropdown"></div>
+                </select-handle-dropdown>
+        `);
+        }
+    }
+
 
     toggleDropdown() {
         this.dropdownOpen = !this.dropdownOpen;

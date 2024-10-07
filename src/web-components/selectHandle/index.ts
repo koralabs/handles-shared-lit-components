@@ -26,17 +26,6 @@ interface BasicAsset {
     hex: string;
 }
 
-export function getCookie(name: string): object | null {
-    const cookieArr = document.cookie.split(';');
-    for (let i = 0; i < cookieArr.length; i++) {
-        const cookiePair = cookieArr[i].trim().split('=');
-        if (cookiePair[0] === encodeURIComponent(name)) {
-            return JSON.parse(decodeURIComponent(cookiePair[1]));
-        }
-    }
-    return null;
-}
-
 @customElement('select-handle')
 export class SelectHandle extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
@@ -54,7 +43,8 @@ export class SelectHandle extends LitElement {
     static styles = SelectHandleStyles
 
     firstUpdated() {
-        this.handle = getCookie('selectedHandle');
+        const handle = localStorage.getItem('selectedHandle');
+        this.handle = JSON.parse(handle ?? '{}');
         this.helpLogger();
         this.addFunction();
     }
@@ -92,25 +82,10 @@ export class SelectHandle extends LitElement {
     async selectHandle(handle) {
         this.loadingImg = true;
         this.handle = handle;
-        this.setCookie('selectedHandle', handle, { path: '/', maxAge: 60 * 60 * 24 * 30 }); // Expires in 30 days
+        localStorage.setItem('selectedHandle', JSON.stringify(handle));
         this.loadingImg = false;
         this.routeTo(this.route);
         this.requestUpdate();
-    }
-
-    setCookie(name: string, value: object, options: { path: string; maxAge?: number }) {
-        const stringValue = JSON.stringify(value);
-        let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(stringValue)}`;
-
-        if (options.path) {
-            cookieString += `; path=${options.path}`;
-        }
-
-        if (options.maxAge) {
-            cookieString += `; max-age=${options.maxAge}`;
-        }
-
-        document.cookie = cookieString;
     }
 
     routeTo(route: string) {

@@ -241,6 +241,7 @@ export const SelectImagesStyles = css`
         padding: 12px;
         border-radius: 12px;
         background-color: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
     }
 
     .handle-item.active {

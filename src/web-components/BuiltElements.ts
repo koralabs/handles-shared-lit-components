@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { getCookie } from './selectHandle';
 interface Handle {
     policyId: string;
     name: string;
@@ -16,7 +15,7 @@ export class BuiltElements extends LitElement {
 
     static styles = css`
         :host {
-            display: block;
+            display: flex;
             padding: 16px;
             background-color: #070f25;
             border: 1px solid #ccc;
@@ -59,31 +58,30 @@ export class BuiltElements extends LitElement {
         }
     };
     getHandle() {
-        const handle = getCookie('selectedHandle') as Handle;
-        this.handle = handle.name
+        const handle = localStorage.getItem('selectedHandle');
+        const parsedHandle = JSON.parse(handle ?? '{}') as Handle;
+        this.handle = parsedHandle.name;
     }
     handleInputChange = (event: CustomEvent<{ inputValue: string }>) => {
         const inputValue = event.detail.inputValue;
-        console.log("Input value from handle-small-search:", inputValue);
     };
     render() {
         return html`
-        <h1> Built Elements </h1>
-        <div style="display: flex; justify-content: center; align-items: center; flex-direction:column;">
+        <div style=" flex-direction:column;">
             <select-wallet></select-wallet>
-            <select-handle-dropdown .dropdownHandle=${this.handle} style="display: flex; align-items: center; justify-content: center;">
+            <select-handle-dropdown .dropdownHandle=${this.handle}>
                 <div slot="slottedDropdown">
                     <select-handle .handleData=${this.handleData}  .infiniteScroll=${this.InfiniteScroll}>
-                        <div slot="slottedSearch">
+                        <div slot="slottedSearch" style="width:-webkit-fill-available">
                             <handle-small-search @input-change="${this.handleInputChange}"></handle-small-search>
                         </div>
-                        <div slot="slottedButtons">
+                        <div slot="slottedButtons" style="width:-webkit-fill-available">
                         </div>
                     </select-handle>
                 </div>
             </select-handle-dropdown>
             <select-images .help=${'help'} .handleData=${this.handleData} .infiniteScroll=${this.InfiniteScroll}>
-                    <div slot="slottedSearch">
+                    <div slot="slottedSearch" style="width:-webkit-fill-available">
                         <handle-small-search @input-change="${this.handleInputChange}"></handle-small-search>
                     </div>
             </select-images>

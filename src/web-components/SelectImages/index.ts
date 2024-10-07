@@ -26,17 +26,6 @@ interface BasicAsset {
     hex: string;
 }
 
-export function getCookie(name: string): object | null {
-    const cookieArr = document.cookie.split(';');
-    for (let i = 0; i < cookieArr.length; i++) {
-        const cookiePair = cookieArr[i].trim().split('=');
-        if (cookiePair[0] === encodeURIComponent(name)) {
-            return JSON.parse(decodeURIComponent(cookiePair[1]));
-        }
-    }
-    return null;
-}
-
 @customElement('select-images')
 export class SelectImages extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
@@ -44,7 +33,6 @@ export class SelectImages extends LitElement {
     @property({ type: Boolean }) dropdownOpen = false;
     @property({ type: Boolean }) loadingImg = false;
     @property({ type: Boolean }) isLoading = false;
-
     @property({ type: String }) imgWidth: string = '';
     @property({ type: String }) imgHeight: string = '';
     @property({ type: String }) route = '';
@@ -59,7 +47,8 @@ export class SelectImages extends LitElement {
     static styles = SelectImagesStyles
 
     firstUpdated() {
-        this.handle = getCookie('selectedHandle');
+        const handle = localStorage.getItem('selectedHandle');
+        this.handle = JSON.parse(handle ?? '{}');
         this.helpLogger();
         this.addFunction();
     }
@@ -97,25 +86,10 @@ export class SelectImages extends LitElement {
     async selectHandle(handle) {
         this.loadingImg = true;
         this.handle = handle;
-        this.setCookie('selectedHandle', handle, { path: '/', maxAge: 60 * 60 * 24 * 30 }); // Expires in 30 days
+        localStorage.setItem('selectedHandle', JSON.stringify(handle));
         this.loadingImg = false;
         this.routeTo(this.route);
         this.requestUpdate();
-    }
-
-    setCookie(name: string, value: object, options: { path: string; maxAge?: number }) {
-        const stringValue = JSON.stringify(value);
-        let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(stringValue)}`;
-
-        if (options.path) {
-            cookieString += `; path=${options.path}`;
-        }
-
-        if (options.maxAge) {
-            cookieString += `; max-age=${options.maxAge}`;
-        }
-
-        document.cookie = cookieString;
     }
 
     routeTo(route: string) {
@@ -169,10 +143,10 @@ export class SelectImages extends LitElement {
                 </div>
                 <div class="wallet-handles-content">
                     <div class="select-wrapper">
-                    <slot name="slottedSearch"></slot>
+                    <slot name="slottedSearch" ></slot>
                     <div class="scroll-wrapper-outer">                            
                         <div style="width:100%; height:100%; pointer-events:none; position: absolute; z-index: 10; background-image: linear-gradient(to top, rgb(10, 14, 59), rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgb(10, 14, 59) 100%);"></div>
-                        <div class="scroll-wrapper">
+                        <div class="scroll-wrapper" @scroll="${this.infiniteScroll}">
                             <div class="handles-container">
                                 ${this.renderImages()}
                             </div>
