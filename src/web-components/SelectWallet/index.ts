@@ -8,6 +8,39 @@ declare global {
     }
 }
 
+/**
+ * `SelectWallet` is a custom LitElement component for selecting a wallet from available options detected through the `window.cardano` API.
+ * 
+ * ### Usage
+ * 
+ * You can customize the component using the following:
+ * 
+ * 1. **Slotted elements**:
+ *    - Use a `div` with `slot="slottedButtons"` for any action buttons related to wallet selection.
+ * 
+ * 2. **Handle data**:
+ *    - This component automatically detects wallets available through the `window.cardano` API.
+ *    - The selected wallet is stored in cookies using the key `selectedWalletKey`.
+ *    - You can retrieve the selected wallet using:
+ *      ```javascript
+ *      localStorage.getItem('selectedWalletKey');
+ *      ```
+ * 
+ * 3. **Properties**:
+ *    - `route`: The URL route to navigate to when a wallet is selected.
+ *    - `walletKeyChosen`: A boolean that indicates whether a wallet has been chosen.
+ *    - `addFunction`: A function/property called during `firstUpdated`.
+ *    - `slottedButtonsStyling`: A string to style the slotted buttons.
+ * 
+ * ### Example usage:
+ * ```html
+ * <select-wallet 
+ *   .route=${route} 
+ *   .slottedButtonsStyling=${'display: flex;'}>
+ * </select-wallet>
+ * ```
+ */
+
 @customElement('select-wallet')
 export class SelectWallet extends LitElement {
     @state() wallets: { key: string; name: string; icon: string }[] = [];
@@ -25,36 +58,6 @@ export class SelectWallet extends LitElement {
     firstUpdated() {
         this.wallets = this.getUserWallets();
         this.addFunction();
-        this.helpLogger();
-
-    }
-
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-                To use this component, you can pass in the following:
-                
-                1. **Slotted elements**:
-                    - Use a \`div\` with \`slot="slottedButtons"\` for any action buttons related to wallet selection.
-                
-                2. **Handle data**:
-                    - This component automatically detects wallets available through the \`window.cardano\` API.
-                    - The selected wallet is stored in cookies using the key \`selectedWalletKey\`.
-                    - You can retrieve the selected wallet using \`localStorage.getItem('selectedWalletKey')\`.
-                    
-                3. **Properties**:
-                    - \`route\`: The URL route to navigate to when a wallet is selected.
-                    - \`walletKeyChosen\`: A boolean that indicates whether a wallet has been chosen.
-                    - \`addFunction\`: A function/property called in firstUpdate.
-                    - \`slottedButtonsStyling\`: A string to style the slotted buttons.
-                
-                Example usage:
-                    <select-wallet 
-                    .route=\${route}
-                    .slottedButtonsStyling=\${'display: flex;'}>
-                    </select-wallet>
-            `);
-        }
     }
 
     getUserWallets(): { key: string; name: string; icon: string }[] {
