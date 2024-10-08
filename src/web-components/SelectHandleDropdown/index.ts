@@ -1,6 +1,33 @@
 import { LitElement, html, css } from 'lit-element';
 import { customElement, property, state } from 'lit/decorators.js';
 
+/**
+ * `SelectHandleDropdown` is a custom LitElement component that provides a dropdown for selecting wallet handles.
+ * 
+ * ### Usage
+ * 
+ * You can customize the dropdown behavior and appearance using the following properties:
+ * 
+ * 1. **Slotted elements**:
+ *    - Slot the dropdown content using:
+ *      ```html
+ *      <div slot="slottedDropdown"></div>
+ *      ```
+ * 
+ * 2. **Properties**:
+ *    - `dropdownPositioning`: A string to set the CSS positioning for the dropdown (e.g., `'display: flex; position: relative;'`).
+ *    - `dropdownHandle`: The handle selected, which is passed to the component for display.
+ * 
+ * ### Example usage:
+ * ```html
+ * <select-handle-dropdown 
+ *   .dropdownPositioning=${'display: flex; position: relative;'} 
+ *   .dropdownHandle=${this.handle}>
+ *   <div slot="slottedDropdown"></div>
+ * </select-handle-dropdown>
+ * ```
+ */
+
 @customElement('select-handle-dropdown')
 export class SelectHandleDropdown extends LitElement {
     @state() dropdownOpen = false;
@@ -77,25 +104,6 @@ export class SelectHandleDropdown extends LitElement {
         }
         
     `;
-
-    firstUpdated() {
-        this.helpLogger();
-    }
-
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-                you can slot the dropdown content in the slottedDropdown slot using <div slot="slottedDropdown"></div>
-                you can position the dropdown using the dropdownPositioning property.
-                you can display the handle selected by adding the dropdownHandle property to the component.
-
-                Example:
-                <select-handle-dropdown .dropdownPositioning=\${'display: flex; position: relative;'} .dropdownHandle=\${this.handle}>
-                    <div slot="slottedDropdown"></div>
-                </select-handle-dropdown>
-        `);
-        }
-    }
 
 
     toggleDropdown() {
