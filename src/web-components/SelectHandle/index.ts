@@ -26,6 +26,30 @@ interface BasicAsset {
     hex: string;
 }
 
+/**
+ * `select-handle` is a custom LitElement component for selecting wallet handles.
+ * 
+ * ### Slots:
+ * - **slottedSearch**: Slot for search input.
+ * - **slottedButtons**: Slot for action buttons.
+ * 
+ * ### Properties:
+ * - `handleData`: The data for the handle, expected to be in `GetHandleResponse` format.
+ * - `route`: The URL route to navigate when a handle is clicked.
+ * - `addFunction`: A function called in `firstUpdated()`.
+ * - `infiniteScroll`: A function/property to handle infinite scrolling.
+ * - `slottedButtonsStyling`: A string to style the slotted buttons.
+ * - `slottedSearchStyling`: A string to style the slotted search input.
+ * 
+ * ### Example usage:
+ * ```html
+ * <select-handle
+ *   .handleData=${handleData}
+ *   .route=${route}
+ *   .slottedButtonsStyling=${'display: flex;'}></select-handle>
+ * ```
+ */
+
 @customElement('select-handle')
 export class SelectHandle extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
@@ -47,41 +71,7 @@ export class SelectHandle extends LitElement {
     firstUpdated() {
         const handle = localStorage.getItem('selectedHandle');
         this.handle = JSON.parse(handle ?? '{}');
-        this.helpLogger();
         this.addFunction();
-    }
-
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-                To use this component, you can pass in the following:
-                
-                1. **Slotted elements**:
-                    - Use a \`div\` with \`slot="slottedSearch"\` for the search input.
-                    - Use a \`div\` with \`slot="slottedButtons"\` for the action buttons.
-                
-                2. **Handle data**:
-                    - You can pass in \`handleData\` formatted as \`GetHandleResponse\` (as per Kora Labs API).
-                    - You can pass a \`handle\` object, where **name** and **image** properties are expected.
-                    - Access the selected handle from localStorage using \`localStorage.getItem('selectedHandle')\`.
-
-                3. **Properties**:
-                    - \`handleData\`: The data for the handle (expected in \`GetHandleResponse\` format).
-                    - \`route\`: The URL route to navigate when a handle is clicked.
-                    - \`addFunction\`: A function/property called in firstUpdate.
-                    - \`infiniteScroll\`: A function/property for infinite scrolling passed to the scroll-wrapper-outer.
-                    - \`slottedButtonsStyling\`: A string to style the slotted buttons.
-                    - \`slottedSearchStyling\`: A string to style the slotted search input.
-                
-                Example usage:
-                    <my-component 
-                    .handleData=\${handleData}
-                    .route=\${route}
-                    .slottedButtonsStyling=\${'display: flex;'}>
-                    </my-component>
-            `);
-
-        }
     }
 
     async selectHandle(handle) {
