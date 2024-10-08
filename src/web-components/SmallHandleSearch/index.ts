@@ -2,6 +2,54 @@ import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { HandleSmallSearchStyles } from './styles';
 
+/**
+ * `HandleSmallSearch` Component Usage Guide
+ * 
+ * This component provides a small search bar for searching handles. 
+ * It supports live search input and can dispatch events when the input changes.
+ * 
+ * ### Properties:
+ * - **inputValue**: (String) The current value of the search input.
+ * - **open**: (Boolean) A flag to determine if the search bar is open.
+ * - **search**: (String) A string to store the search term (if needed externally).
+ * - **searching**: (Boolean) Indicates whether a search is in progress (true when there is input).
+ * 
+ * ### Methods:
+ * - **handleInput(event)**: Handles input changes in the search bar and dispatches a `input-change` event.
+ * - **clearSearch()**: Clears the search input and resets the component state.
+ * 
+ * ### Events:
+ * - **input-change**: Dispatched when the input value changes, providing the new input value.
+ * 
+ * ### Example Usage:
+ * 
+ * 1) Basic usage of the component:
+ *    ```html
+ *    <handle-small-search></handle-small-search>
+ *    ```
+ *    Listening for input changes:
+ *    ```javascript
+ *    const searchComponent = document.querySelector('handle-small-search');
+ *    searchComponent.addEventListener('input-change', (event) => {
+ *        console.log('Search input changed:', event.detail.inputValue);
+ *    });
+ *    ```
+ * 
+ * 2) Integrating the component with an event handler:
+ *    ```javascript
+ *    const handleInputChange = (event: CustomEvent<{ inputValue: string }>) => {
+ *        const inputValue = event.detail.inputValue;
+ *        console.log("Input value from handle-small-search:", inputValue);
+ *    };
+ * 
+ *    <select-handle .handleData=${handleData} .infiniteScroll="${InfiniteScroll}">
+ *        <div slot="slottedSearch">
+ *            <handle-small-search @input-change="${handleInputChange}"></handle-small-search>
+ *        </div>
+ *    </select-handle>
+ *    ```
+ */
+
 @customElement('handle-small-search')
 export class HandleSmallSearch extends LitElement {
     @property({ type: String }) inputValue: string | undefined;
@@ -11,55 +59,6 @@ export class HandleSmallSearch extends LitElement {
     @state() help: string = '';
 
     static styles = HandleSmallSearchStyles;
-
-    firstUpdated() {
-        this.helpLogger();
-    }
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-        HandleSmallSearch Component Usage Guide:
-
-        This component provides a small search bar for searching handles. It supports live search input and can dispatch events when the input changes.
-
-        Properties:
-        - inputValue: (String) The current value of the search input.
-        - open: (Boolean) A flag to determine if the search bar is open.
-        - search: (String) A string to store the search term (if needed externally).
-        - searching: (Boolean) Indicates whether a search is in progress (true when there is input).
-
-        Methods:
-        - handleInput(event): Handles input changes in the search bar and dispatches a 'input-change' event.
-        - clearSearch(): Clears the search input and resets the component state.
-
-        Events:
-        - input-change: Dispatched when the input value changes, providing the new input value.
-        
-        Example Usage:
-            1)
-                <handle-small-search></handle-small-search>
-            
-                Listening for input changes:
-                const searchComponent = document.querySelector('handle-small-search');
-                searchComponent.addEventListener('input-change', (event) => {
-                    console.log('Search input changed:', event.detail.inputValue);
-                });
-            2)
-
-                const handleInputChange = (event: CustomEvent<{ inputValue: string }>) => {
-                    const inputValue = event.detail.inputValue;
-                    console.log("Input value from handle-small-search:", inputValue);
-                };
-
-                <select-handle .handleData=\${handleData}  .infiniteScroll="\${InfiniteScroll}">
-                    <div slot="slottedSearch">
-                        <handle-small-search @input-change="\${handleInputChange}"></handle-small-search>
-                    </div>
-                </select-handle>
-
-        `);
-        }
-    }
 
     handleInput(event: { target: { value: string; }; }) {
         const inputValue = event.target?.value?.trim();
