@@ -26,6 +26,59 @@ interface BasicAsset {
     hex: string;
 }
 
+/**
+ * `SelectImages` is a custom LitElement component for selecting wallet handles with optional search and infinite scroll functionality.
+ * 
+ * ### Usage
+ * 
+ * To use this component, you can pass in the following:
+ * 
+ * 1. **Slotted elements**:
+ *    - Use a `div` with `slot="slottedSearch"` for the search input to filter images.
+ * 
+ * 2. **Handle data**:
+ *    - Pass in `handleData` formatted as an array of `WalletHandle` objects.
+ *    - Each `WalletHandle` should include the following properties:
+ *      - **name**: The name of the wallet handle (string).
+ *      - **image**: The image associated with the wallet handle (string URL).
+ *      - **active**: (Optional) Whether the handle is active (boolean).
+ *      - **default**: (Optional) Whether the handle is the default (boolean).
+ *    - You can access the selected handle from `localStorage` using:
+ *      `localStorage.getItem('selectedHandle')`.
+ * 
+ * 3. **Properties**:
+ *    - `handleData`: An array of `WalletHandle` objects to be displayed in the component.
+ *    - `route`: The URL route to navigate when a handle is selected (string).
+ *    - `addFunction`: A function or property that is called during the `firstUpdated()` lifecycle hook (Function).
+ *    - `infiniteScroll`: A function or property for handling infinite scrolling in the component (Function).
+ *    - `slottedSearchStyling`: A string to style the slotted search input (string).
+ *    - `infiniteScroll`: The `<infinite-scroll>` element from Kora-labs can be attached for infinite scrolling behavior.
+ * 
+ * ### Example usage:
+ * ```html
+ * <select-images 
+ *   .handleData=${handleData}
+ *   .route=${route}
+ *   .addFunction=${myFunction}
+ *   .slottedButtonsStyling=${'display: flex;'}>
+ * </select-images>
+ * ```
+ * ```javascript
+ * InfiniteScroll = (event: Event) => {
+ *   const mainSection = event.currentTarget as HTMLElement;
+ *   const scrollPosition = mainSection.scrollTop + mainSection.clientHeight;
+ *   const scrollHeight = mainSection.scrollHeight;
+ * 
+ *   // Check if scrolled to bottom (or near bottom)
+ *   if (scrollPosition >= scrollHeight - 50) {
+ *     const infiniteScroll = mainSection.shadowRoot?.querySelector('infinite-scroll');
+ *     infiniteScroll?.dispatchEvent(new CustomEvent('scroll-bottom', { bubbles: true, composed: true }));
+ *     console.log('Scrolled to bottom');
+ *   }
+ * };
+ * ```
+ */
+
 @customElement('select-images')
 export class SelectImages extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
@@ -50,42 +103,8 @@ export class SelectImages extends LitElement {
     firstUpdated() {
         const handle = localStorage.getItem('selectedHandle');
         this.handle = JSON.parse(handle ?? '{}');
-        this.helpLogger();
         this.addFunction();
     }
-
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-            To use this SelectImages component, you can pass in the following:
-
-            1. **Slotted elements**:
-                - Use a \`div\` with \`slot="slottedSearch"\` for the search input to filter images.
-                
-            2. **Handle data**:
-                - Pass in \`handleData\` formatted as an array of \`WalletHandle\` objects.
-                - Each \`WalletHandle\` should include **name**, **image**, and optionally **active** and **default** properties.
-                - Access the selected handle from localStorage using \`localStorage.getItem('selectedHandle')\`.
-
-            3. **Properties**:
-                - \`handleData\`: Array of handle data to be displayed in the component.
-                - \`route\`: The URL route to navigate when a handle is selected.
-                - \`addFunction\`: A function/property that is called during \`firstUpdated\`.
-                - \`infiniteScroll\`: A function/property for handling infinite scrolling in the component.
-                - \`slottedSearchStyling\`: A string to style the slotted search input.
-                - \`infiniteScroll\`: <infinite-scroll> from Kora-labs can be attached.
-
-            Example usage:
-                <select-images 
-                    .handleData=\${handleData}
-                    .route=\${route}
-                    .addFunction=\${myFunction}
-                    .slottedButtonsStyling=\${'display: flex;'}>
-                </select-images>
-        `);
-        }
-    }
-
 
     async selectHandle(handle) {
         this.loadingImg = true;
