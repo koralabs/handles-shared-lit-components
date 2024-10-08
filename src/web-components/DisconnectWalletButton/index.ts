@@ -8,6 +8,31 @@ declare global {
 import { customElement, property, state } from 'lit/decorators.js';
 import { DisconnectWalletButtonStyles } from './styles';
 
+/**
+ * `disconnect-wallet-button` is a custom component for disconnecting a specified wallet.
+ * 
+ * ### Help: How to Use the `<disconnect-wallet-button>` Component
+ * 
+ * 1. **walletKey (required)**:
+ *    - Pass the wallet's key (string) to identify the wallet to be disconnected.
+ *    - **Example**:
+ *      ```html
+ *      <disconnect-wallet-button walletKey="nami"></disconnect-wallet-button>
+ *      ```
+ * 
+ * 2. **addFunction (optional)**:
+ *    - Pass a function that will execute when the button is clicked. This can be used to handle disconnection logic.
+ *    - **Example**:
+ *      ```html
+ *      <disconnect-wallet-button 
+ *          walletKey="nami" 
+ *          .addFunction=${() => console.log('Wallet disconnected!')}>
+ *      </disconnect-wallet-button>
+ *      ```
+ * 
+ * **Note**: The `walletKey` needs to match the key in `window.cardano` for the wallet you're targeting.
+ */
+
 
 @customElement('disconnect-wallet-button')
 export class DisconnectWalletButton extends LitElement {
@@ -17,34 +42,6 @@ export class DisconnectWalletButton extends LitElement {
     @property({ type: Function }) addFunction = () => { };
 
     static styles = DisconnectWalletButtonStyles;
-
-    firstUpdated() {
-        this.helpLogger();
-    }
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-                **Help: How to Use the <disconnect-wallet-button> Component**
-
-                1. **walletKey (required)**:
-                   - Pass the wallet's key (string) to identify the wallet to be disconnected.
-                   - Example: 
-                     <disconnect-wallet-button walletKey="nami"></disconnect-wallet-button>
-
-                2. **addFunction (optional)**:
-                   - Pass a function that will execute when the button is clicked. This can be used to handle disconnection logic.
-                   - Example:
-                     <disconnect-wallet-button 
-                         walletKey="nami" 
-                         .addFunction=\${() => console.log('Wallet disconnected!')}>
-                     </disconnect-wallet-button>
-
-                *Note: The walletKey needs to match the key in 'window.cardano' for the wallet you're targeting.*
-            `);
-
-        }
-    }
-
 
     renderDisconnectWalletSwitch() {
         this.walletKey = this.walletKey ?? '';
