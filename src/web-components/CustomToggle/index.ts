@@ -1,25 +1,25 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from 'lit/decorators.js';
 
+/**
+ * `custom-select` Component Usage Guide
+ * 
+ * This component allows you to toggle the active state by passing the `isActive` property.
+ * 
+ * ### Properties:
+ * - **isActive**: (Boolean) A flag to toggle the active state of the component.
+ * 
+ * ### Example Usage:
+ * 
+ * ```html
+ * <custom-select isActive="${true}"></custom-select>
+ * ```
+ */
+
 @customElement('custom-toggle')
 export class CustomToggle extends LitElement {
     @state() isActive = Boolean;
     @property({ type: String }) help = '';
-
-    firstUpdated() {
-        this.helpLogger();
-    }
-
-    helpLogger() {
-        if (this.help === 'help') {
-            console.info(`
-                can pass the isActive property to the component to toggle the active state.
-
-                Example usage:
-                    <custom-select isActive=\${'true'}></custom-select>
-        `);
-        }
-    }
 
     render() {
         const fillColor = this.isActive ? 'rgba(77, 166, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)';
