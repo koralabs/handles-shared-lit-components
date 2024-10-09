@@ -1,8 +1,9 @@
 import { html, TemplateResult } from 'lit';
 import '../web-components/CustomToggle/index.js';
+import { CustomToggle } from '../web-components/CustomToggle/index.js';
 export default {
     title: 'Components/CustomToggle',
-    component: 'custom-select',
+    component: 'custom-toggle',
     argTypes: {
     }
 };
@@ -17,10 +18,18 @@ interface Story<T> {
 
 interface ArgTypes {
 }
+const Template: Story<ArgTypes> = ({ }: ArgTypes) => {
+    let isActive = false;
 
-const Template: Story<ArgTypes> = ({ }: ArgTypes) => html`
-    <custom-toggle></custom-toggle>
+    const handleEvent = (event: Event) => {
+        const toggleElement = event.currentTarget as CustomToggle;
+        isActive = !isActive;
+        toggleElement.isActive = isActive; // Set the reactive property on the custom element
+    };
 
- `;
+    return html`
+        <custom-toggle .isActive=${isActive} @click=${handleEvent}></custom-toggle>
+    `;
+};
 
 export const Regular = Template.bind({});

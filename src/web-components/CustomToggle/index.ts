@@ -18,10 +18,10 @@ import { customElement, property, state } from 'lit/decorators.js';
 
 @customElement('custom-toggle')
 export class CustomToggle extends LitElement {
-    @state() isActive = Boolean;
-    @property({ type: String }) help = '';
+    @property({ type: Boolean }) isActive = false;
 
     render() {
+
         const fillColor = this.isActive ? 'rgba(77, 166, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)';
         const pathData = this.isActive
             ? 'M9 15h60a10 10 0 0 1 10 10v10a10 10 0 0 1-10 10H9a10 10 0 0 1-10-10V25a10 10 0 0 1 10-10z'
