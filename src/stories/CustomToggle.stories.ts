@@ -1,10 +1,12 @@
 import { html, TemplateResult } from 'lit';
 import '../web-components/CustomToggle/index.js';
 import { CustomToggle } from '../web-components/CustomToggle/index.js';
+
 export default {
     title: 'Components/CustomToggle',
     component: 'custom-toggle',
     argTypes: {
+        isActive: { control: 'boolean' }
     }
 };
 
@@ -13,14 +15,13 @@ interface Story<T> {
     args?: Partial<T>;
     argTypes?: Record<string, unknown>;
     slot?: TemplateResult;
-
 }
 
 interface ArgTypes {
+    isActive: boolean;
 }
-const Template: Story<ArgTypes> = ({ }: ArgTypes) => {
-    let isActive = false;
 
+const Template: Story<ArgTypes> = ({ isActive }: ArgTypes) => {
     const handleEvent = (event: Event) => {
         const toggleElement = event.currentTarget as CustomToggle;
         isActive = !isActive;
@@ -33,3 +34,6 @@ const Template: Story<ArgTypes> = ({ }: ArgTypes) => {
 };
 
 export const Regular = Template.bind({});
+Regular.args = {
+    isActive: false
+};
