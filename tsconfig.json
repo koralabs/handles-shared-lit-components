@@ -1,14 +1,21 @@
 {
     "compilerOptions": {
-        "target": "es2021",
-        "module": "es2015",
+        "target": "ESNext",
+        "module": "ESNext",
         "moduleResolution": "node",
         "noEmitOnError": true,
         "outDir": "./lib",
-        "lib": ["es2021", "dom"],
+        "lib": ["ESNext", "dom"],
         "declaration": true,
+        "checkJs": true,
         "declarationMap": true,
         "experimentalDecorators": true,
-        "useDefineForClassFields": false
+        "useDefineForClassFields": false,
+        "plugins": [
+            {
+                "name": "ts-lit-plugin",
+                "strict": true
+            }
+        ]
     }
 }
