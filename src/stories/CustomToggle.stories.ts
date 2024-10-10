@@ -6,7 +6,10 @@ export default {
     title: 'Components/CustomToggle',
     component: 'custom-toggle',
     argTypes: {
-        isActive: { control: 'boolean' }
+        isActive: {
+            control: 'boolean',
+            description: 'Toggle active state of the component'
+        }
     }
 };
 
@@ -14,7 +17,6 @@ interface Story<T> {
     (args: T): TemplateResult;
     args?: Partial<T>;
     argTypes?: Record<string, unknown>;
-    slot?: TemplateResult;
 }
 
 interface ArgTypes {
