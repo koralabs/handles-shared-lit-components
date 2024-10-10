@@ -3,6 +3,6 @@
 // };
 
 const config = {
-    stories: ['../lib/stories/**/*.stories.{js,md,mdx}']
+    stories: ['../lib/src/stories/**/*.stories.{js,md,mdx}']
 };
 export default config;
