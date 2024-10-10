@@ -40,7 +40,6 @@ export class MainPopup extends LitElement {
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(10px);
-        border-radius: 15px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -69,6 +68,7 @@ export class MainPopup extends LitElement {
         align-items: center;
         flex-direction: column;
         font-size: 16px;
+        max-width: 350px;
     }
 
     .popup-actions {
@@ -106,7 +106,7 @@ export class MainPopup extends LitElement {
     @property({ type: String }) secondMessage = '';
     @property({ type: String }) buttonConfirm = '';
     @property({ type: String }) buttonCancel = '';
-    @property({ type: Function }) confirmCallback: (() => void) | null = null; // New property for callback
+    @property({ type: Function }) confirmCallback: (() => void) | null = null;
 
     closePopup() {
         this.open = false;
@@ -117,7 +117,7 @@ export class MainPopup extends LitElement {
         this.secondMessage = secondMessage;
         this.buttonConfirm = buttonConfirm;
         this.buttonCancel = buttonCancel;
-        this.confirmCallback = confirmCallback || null; // Set the confirm callback
+        this.confirmCallback = confirmCallback || null;
         this.open = true;
     }
 
@@ -131,12 +131,12 @@ export class MainPopup extends LitElement {
                             <div class="popup-text">${this.secondMessage}</div>
                         </div>
                         <div class="popup-actions">
-                            <lit-button .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.closePopup} class="lit-button">
+                            <lit-button-small .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.closePopup} class="lit-button">
                                 <div slot="button">${this.buttonCancel}</div>
-                            </lit-button>
-                            <lit-button .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
+                            </lit-button-small>
+                            <lit-button-small .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
                                 <div slot="button">${this.buttonConfirm}</div>
-                            </lit-button>
+                            </lit-button-small>
                         </div>
                     </div>
                 </div>
@@ -146,56 +146,12 @@ export class MainPopup extends LitElement {
 
     private handleConfirm() {
         if (this.confirmCallback) {
-            this.confirmCallback(); // Call the confirm callback function
+            this.confirmCallback();
         }
-        this.closePopup(); // Close the popup after confirming
+        this.closePopup();
     }
 }
 
-
-// export class MainPopupHandler {
-//     private static instance: MainPopupHandler | null = null;
-//     private mainPopup: MainPopup | null = null;
-
-//     private constructor() {
-//         if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-//             try {
-//                 if (!document.querySelector('main-popup')) {
-//                     const popupElement = document.createElement('main-popup');
-//                     document.body.appendChild(popupElement);
-//                     this.mainPopup = popupElement as MainPopup;
-//                 } else {
-//                     this.mainPopup = document.querySelector('main-popup') as MainPopup;
-//                 }
-//             } catch (main) {
-//                 console.error('Error initializing MainPopupHandler');
-//             }
-//         } else {
-//             console.warn('DOM operations are not supported in this environment.');
-//         }
-//     }
-
-//     public static getInstance(): MainPopupHandler {
-//         if (this.instance === null) {
-//             this.instance = new MainPopupHandler();
-//         }
-//         return this.instance;
-//     }
-
-//     public showMainPopup(
-//         message: string,
-//         secondMessage: string,
-//         buttonConfirm: string = 'Confirm',
-//         buttonCancel: string = 'Cancel',
-//         confirmCallback?: () => void // Add confirmCallback parameter
-//     ) {
-//         if (this.mainPopup) {
-//             this.mainPopup.openPopup(message, secondMessage, buttonConfirm, buttonCancel, confirmCallback); // Pass confirmCallback
-//         } else {
-//             console.warn('MainPopup element is not available.');
-//         }
-//     }
-// }
 
 
 
