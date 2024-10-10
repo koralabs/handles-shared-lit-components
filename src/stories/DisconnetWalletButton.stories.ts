@@ -5,12 +5,12 @@ export default {
     title: 'Components/DisconnectWalletButton',
     component: 'disconnect-wallet-button',
     argTypes: {
-        walletKey: {
+        walletIconUrl: {
             control: 'text',
             description: 'The key of the wallet to disconnect (required)',
-            defaultValue: 'nami',
+            defaultValue: 'https://via.placeholder.com/150',
         },
-        addFunction: {
+        onClick: {
             action: 'clicked',
             description: 'Function executed when the button is clicked',
         },
@@ -25,19 +25,19 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-    walletKey?: string;
-    addFunction?: () => void;
+    walletIconUrl?: string;
+    onClick?: () => void;
 }
 
-const Template: Story<ArgTypes> = ({ walletKey, addFunction }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ walletIconUrl, onClick }: ArgTypes) => html`
     <disconnect-wallet-button 
-        walletKey="${walletKey}" 
-        .addFunction=${addFunction}>
+        walletIconUrl="${walletIconUrl}" 
+        .onClick =${onClick}>
     </disconnect-wallet-button>
 `;
 
 export const Regular = Template.bind({});
 Regular.args = {
-    walletKey: 'eternl',
-    addFunction: () => console.log('Wallet disconnected!'),
+    walletIconUrl: 'https://via.placeholder.com/150',
+    onClick: () => console.log('Wallet disconnected!'),
 };
