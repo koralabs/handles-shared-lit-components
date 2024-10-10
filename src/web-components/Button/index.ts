@@ -1,9 +1,12 @@
 import { html, css, LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 
-export class SharedButtonBase extends LitElement {
-    static renderTag = () => html`<shared-button></shared-button>`;
+export class LitButtonBase extends LitElement {
+    @property({ type: String }) buttonColor: string | '#3d85cc' | undefined;
+    @property({ type: String }) textColor: string | '#3d85cc' | undefined;
+
     static commonStyles = css`
-        .shared-button {
+        .lit-button {
             font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 700;
             border: 0;
@@ -17,21 +20,23 @@ export class SharedButtonBase extends LitElement {
     buttonClass: unknown;
 
     render() {
+        console.log(this.buttonColor);
+        console.log(this.textColor);
         return html`
-            <button class="shared-button ${this.buttonClass}">
+            <button class="lit-button ${this.buttonClass}" style="background-color: ${this.buttonColor}; color:${this.textColor};">
                 <slot></slot>
             </button>
         `;
     }
 }
 
-export class SharedButtonSmall extends SharedButtonBase {
-    static renderTag = () => html`<shared-button-small></shared-button-small>`;
+export class LitButtonSmall extends LitButtonBase {
+    static renderTag = () => html`<lit-button-small></lit-button-small>`;
 
     static styles = [
-        SharedButtonBase.commonStyles,
+        LitButtonBase.commonStyles,
         css`
-            .shared-button {
+            .lit-button {
                 font-size: 12px;
                 padding: 10px 16px;
             }
@@ -39,13 +44,13 @@ export class SharedButtonSmall extends SharedButtonBase {
     ];
 }
 
-export class SharedButtonMedium extends SharedButtonBase {
-    static renderTag = () => html`<shared-button-medium></shared-button-medium>`;
+export class LitButtonMedium extends LitButtonBase {
+    static renderTag = () => html`<lit-button-medium></lit-button-medium>`;
 
     static styles = [
-        SharedButtonBase.commonStyles,
+        LitButtonBase.commonStyles,
         css`
-            .shared-button {
+            .lit-button {
                 font-size: 14px;
                 padding: 11px 20px;
             }
@@ -53,13 +58,13 @@ export class SharedButtonMedium extends SharedButtonBase {
     ];
 }
 
-export class SharedButtonLarge extends SharedButtonBase {
-    static renderTag = () => html`<shared-button-large></shared-button-large>`;
+export class LitButtonLarge extends LitButtonBase {
+    static renderTag = () => html`<lit-button-large></lit-button-large>`;
 
     static styles = [
-        SharedButtonBase.commonStyles,
+        LitButtonBase.commonStyles,
         css`
-            .shared-button {
+            .lit-button {
                 font-size: 16px;
                 padding: 12px 24px;
             }
@@ -67,6 +72,6 @@ export class SharedButtonLarge extends SharedButtonBase {
     ];
 }
 
-customElements.define('shared-button-small', SharedButtonSmall);
-customElements.define('shared-button-medium', SharedButtonMedium);
-customElements.define('shared-button-large', SharedButtonLarge);
+customElements.define('lit-button-small', LitButtonSmall);
+customElements.define('lit-button-medium', LitButtonMedium);
+customElements.define('lit-button-large', LitButtonLarge);
