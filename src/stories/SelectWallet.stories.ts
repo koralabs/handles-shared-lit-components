@@ -3,8 +3,18 @@ import '../web-components/SelectWallet/index.js';
 
 export default {
     title: 'Components/SelectWallet',
-    component: 'select-handle',
+    component: 'select-wallet',
     argTypes: {
+        getUserWallets: {
+            control: { type: 'array' },
+            description: 'A function that returns an array of wallet objects.',
+            defaultValue: () => [],
+        },
+        route: {
+            control: { type: 'text' },
+            description: 'The route to navigate to when a wallet is selected.',
+            defaultValue: '',
+        }
     }
 };
 
@@ -13,20 +23,34 @@ interface Story<T> {
     args?: Partial<T>;
     argTypes?: Record<string, unknown>;
     slot?: TemplateResult;
-
 }
+
 interface ArgTypes {
-    handleData?: Array<any>;
+    getUserWallets?: () => [];
     route?: string;
-    shouldRenderButtons?: boolean;
-    help?: string;
 }
 
-
-const Template: Story<ArgTypes> = ({ help = 'help' }: ArgTypes) => html`
-    <select-wallet > 
+const Template: Story<ArgTypes> = ({
+    getUserWallets = () => [],
+    route = '',
+}: ArgTypes) => html`
+    <select-wallet
+        .route="${route}"
+        .getUserWallets="${getUserWallets}">
     </select-wallet>
- `;
+`;
 
 export const Regular = Template.bind({});
-
+Regular.args = {
+    getUserWallets: () => {
+        return [
+            { key: '1', name: 'Wallet', icon: 'icon' },
+            { key: '2', name: 'Wallet', icon: 'icon' },
+            { key: '3', name: 'Wallet', icon: 'icon' },
+            { key: '1', name: 'Wallet', icon: 'icon' },
+            { key: '2', name: 'Wallet', icon: 'icon' },
+            { key: '3', name: 'Wallet', icon: 'icon' }
+        ];
+    },
+    route: '/route'
+};
