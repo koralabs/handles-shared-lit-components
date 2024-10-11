@@ -26,13 +26,13 @@ export default meta;
 const Template = ({ label, size, buttonColor, textColor }) => {
     switch (size) {
         case 'small':
-            return html`<lit-button-small .buttonColor=${buttonColor} .textColor=${textColor}>${label}</lit-button-small>`;
+            return html`<shared-button-small .buttonColor=${buttonColor} .textColor=${textColor}>${label}</shared-button-small>`;
         case 'medium':
-            return html`<lit-button-medium .buttonColor=${buttonColor} .textColor=${textColor}>${label}</lit-button-medium>`;
+            return html`<shared-button-medium .buttonColor=${buttonColor} .textColor=${textColor}>${label}</shared-button-medium>`;
         case 'large':
-            return html`<lit-button-large .buttonColor=${buttonColor} .textColor=${textColor}>${label}</lit-button-large>`;
+            return html`<shared-button-large .buttonColor=${buttonColor} .textColor=${textColor}>${label}</shared-button-large>`;
         default:
-            return html`<lit-button-medium .buttonColor=${buttonColor} .textColor=${textColor}>${label}</lit-button-medium>`;
+            return html`<shared-button-medium .buttonColor=${buttonColor} .textColor=${textColor}>${label}</shared-button-medium>`;
     }
 };
 
