@@ -7,6 +7,7 @@ export default {
     argTypes: {
         checked: { control: 'boolean' },
         smallCheckbox: { control: 'boolean' },
+        disabled: { control: 'boolean' },
     }
 };
 
@@ -19,15 +20,17 @@ interface Story<T> {
 interface ArgTypes {
     checked?: boolean;
     smallCheckbox?: boolean;
+    disabled?: boolean;
 }
 
-const Template: Story<ArgTypes> = ({ checked = false, smallCheckbox = false }: ArgTypes) =>
-    html`<custom-checkbox .checked=${checked} .smallCheckbox=${smallCheckbox}></custom-checkbox>`;
+const Template: Story<ArgTypes> = ({ checked = false, smallCheckbox = false, disabled = false, }: ArgTypes) =>
+    html`<custom-checkbox .checked=${checked} .smallCheckbox=${smallCheckbox} .disabled=${disabled} ></custom-checkbox>`;
 
 export const Regular = Template.bind({});
 Regular.args = {
     checked: false,
     smallCheckbox: false,
+    disabled: false,
 };
 
 export const Checked = Template.bind({});
