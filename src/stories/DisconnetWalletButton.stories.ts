@@ -7,7 +7,7 @@ export default {
     argTypes: {
         walletIconUrl: {
             control: 'text',
-            description: 'The key of the wallet to disconnect (required)',
+            description: 'the URL of the wallet icon',
             defaultValue: 'https://via.placeholder.com/150',
         },
         onClick: {
@@ -31,7 +31,7 @@ interface ArgTypes {
 
 const Template: Story<ArgTypes> = ({ walletIconUrl, onClick }: ArgTypes) => html`
     <disconnect-wallet-button 
-        walletIconUrl="${walletIconUrl}" 
+        .walletIconUrl="${walletIconUrl}" 
         .onClick =${onClick}>
     </disconnect-wallet-button>
 `;
