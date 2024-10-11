@@ -1,52 +1,54 @@
-
 import { LitElement, html, css } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { SelectWalletStyles } from './styles';
+
 /**
- * `select-handle` is a custom LitElement component for selecting wallet handles.
+ * `select-wallet` is a custom LitElement component for selecting a cryptocurrency wallet.
  * 
  * ### Slots:
- * - **slottedSearch**: Slot for search input.
- * - **slottedButtons**: Slot for action buttons.
+ * - **slottedButtons**: Slot for action buttons (e.g., confirm or cancel buttons).
+ * 
+ * ### State:
+ * - `selectedWallet` (string): Tracks the selected wallet key.(set to currently selected wallet for active state)
  * 
  * ### Properties:
- * - `route`: The URL route to navigate when a handle is clicked.
- * - `addFunction`: A function called in `firstUpdated()`.
- * - `infiniteScroll`: A function/property to handle infinite scrolling.
- * - `slottedButtonsStyling`: A string to style the slotted buttons.
- * - `slottedSearchStyling`: A string to style the slotted search input.
- * - `getUserWallets`: A function that returns an array of wallet objects.
+ * - `walletKeyChosen` (boolean): Tracks whether a wallet key has been chosen.
+ * - `route` (string): Holds the current route, which can be used for navigation.
+ * - `help` (string): A string for help text or tooltips.
+ * - `slottedButtonsStyling` (string): Styles the slotted buttons container.
+ * - `addFunction` (Function): Function that runs when the component is first updated (`firstUpdated()`).
+ * - `infiniteScroll` (Function): Function to handle infinite scrolling within the wallet list.
+ * - `selectWallet` (Function): Function to handle wallet selection. Receives the wallet object.
+ * - `wallets` (Array): An array of wallet objects, each with `key`, `name`, and `icon` properties.
  * 
- *   ```javascript
- *   getUserWallets(): { key: string; name: string; icon: string }[] {
- *       const cardano = window.cardano ?? {};
- *       const wallets = Object.keys(cardano).reduce((wallets: { key: string; name: string; icon: string }[], walletKey) => {
- *           const wallet = cardano[walletKey];
- *           if (wallet?.name && wallet?.icon && typeof wallet?.enable === 'function') {
- *               wallets.push({ key: walletKey, name: wallet.name, icon: wallet.icon });
- *           }
- *           return wallets;
- *       }, []);
- * 
- *       return wallets;
- *   }
- *   ```
+ * ### Methods:
+ * - `renderSelectIcon(walletKey: string)`: Renders a selection icon for the wallet.
  * 
  * ### Example usage:
+ * 
  * ```html
- * <select-handle
- *   .getUserWallets=${wallets}
- *   .route=${route}>
- * </select-handle>
+ * <select-wallet
+ *   .wallets="${wallets}"
+ *   .selectWallet="${onSelectWallet}">
+ * </select-wallet>
+ * ```
+ * 
+ * ```javascript
+ * const wallets = [
+ *   { key: 'lace', name: 'Lace', icon: 'path/to/lace-icon.svg' },
+ *   { key: 'nami', name: 'Nami', icon: 'path/to/nami-icon.svg' },
+ * ];
+ * 
+ * function onSelectWallet(wallet) {
+ *   console.log('Selected wallet:', wallet);
+ * }
  * ```
  */
-
 
 @customElement('select-wallet')
 export class SelectWallet extends LitElement {
     @state() selectedWallet: string = '';
     @state() walletApi: any = null;
-    @state() wallets: { key: string; name: string; icon: string }[] = [];
 
     @property({ type: Boolean }) walletKeyChosen: boolean = false;
     @property({ type: String }) route = '';
@@ -54,37 +56,13 @@ export class SelectWallet extends LitElement {
     @property({ type: String }) slottedButtonsStyling = '';
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
-    @property({ type: Function }) getUserWallets: () => [];
+    @property({ type: Function }) selectWallet = (wallet: { key: string; name: string; icon: string }) => { };
+    @property({ type: Array }) wallets: { key: string; name: string; icon: string }[] = [];
 
     static styles = SelectWalletStyles;
 
     firstUpdated() {
-        this.wallets = this.getUserWallets();
-        console.log('wallets:', this.wallets);
         this.addFunction();
-    }
-
-    async onSelectWallet(wallet: { key: string; name: string; icon: string }) {
-        this.walletKeyChosen = true;
-        this.selectedWallet = wallet.name;
-
-        if (!wallet) {
-            return;
-        }
-
-        try {
-            localStorage.setItem('selectedWalletKey', wallet.key);
-        } catch (error) {
-            console.error('Error setting wallet key:', error);
-        }
-
-        this.requestUpdate();
-    }
-
-    routeTo(route: string) {
-        if (this.route) {
-            window.location.href = route;
-        }
     }
 
     renderSelectIcon(walletKey: string) {
@@ -111,7 +89,7 @@ export class SelectWallet extends LitElement {
                                 ${userHasWallets
                 ? this.wallets.map(wallet => html`
                                         <div class="wallet-item ${this.selectedWallet === wallet.key ? 'selected' : ''}" 
-                                            @click="${() => this.onSelectWallet(wallet)}">
+                                            @click="${() => this.selectWallet(wallet)}">
                                             <div class="relative">
                                                 <div class="wallets-active-border ${this.selectedWallet === wallet.key ? 'active' : 'inactive'}">
                                                     <div class="wallet-name-wrapper">
@@ -132,7 +110,7 @@ export class SelectWallet extends LitElement {
                                 `}
                             </div>
                         </div>
-                        <div style=${this.slottedButtonsStyling}>
+                        <div style="${this.slottedButtonsStyling}">
                             <slot name="slottedButtons"></slot>
                         </div>
                     </div>

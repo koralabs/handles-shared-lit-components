@@ -5,15 +5,15 @@ export default {
     title: 'Components/SelectWallet',
     component: 'select-wallet',
     argTypes: {
-        getUserWallets: {
+        wallets: {
             control: { type: 'array' },
-            description: 'A function that returns an array of wallet objects.',
-            defaultValue: () => [],
+            description: 'An array of wallet objects.',
+            defaultValue: [],
         },
-        route: {
-            control: { type: 'text' },
-            description: 'The route to navigate to when a wallet is selected.',
-            defaultValue: '',
+        selectWallet: {
+            control: { type: 'function' },
+            description: 'A function to handle the wallet selection.',
+            defaultValue: () => { },
         }
     }
 };
@@ -26,31 +26,29 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-    getUserWallets?: () => [];
-    route?: string;
+    wallets?: { key: string; name: string; icon: string }[];
+    selectWallet?: (wallet: { key: string; name: string; icon: string }) => void;
 }
 
 const Template: Story<ArgTypes> = ({
-    getUserWallets = () => [],
-    route = '',
+    wallets = [],
+    selectWallet = (wallet: { key: string; name: string; icon: string }) => { },
 }: ArgTypes) => html`
     <select-wallet
-        .route="${route}"
-        .getUserWallets="${getUserWallets}">
+        .selectWallet="${selectWallet}"
+        .wallets="${wallets}">
     </select-wallet>
 `;
 
 export const Regular = Template.bind({});
 Regular.args = {
-    getUserWallets: () => {
-        return [
-            { key: '1', name: 'Wallet', icon: 'icon' },
-            { key: '2', name: 'Wallet', icon: 'icon' },
-            { key: '3', name: 'Wallet', icon: 'icon' },
-            { key: '1', name: 'Wallet', icon: 'icon' },
-            { key: '2', name: 'Wallet', icon: 'icon' },
-            { key: '3', name: 'Wallet', icon: 'icon' }
-        ];
+    wallets: [
+        { key: 'lace', name: 'Lace', icon: 'data:image/svg+xml,%3Csvg width="45" height="45" v…/%3E%3C/radialGradient%3E%3C/defs%3E%3C/svg%3E%0A' },
+        { key: 'begin', name: 'Begin Wallet', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' },
+        { key: 'eternl', name: 'Eternl', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' },
+        { key: 'nami', name: 'Nami', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' }
+    ],
+    selectWallet: (wallet: { key: string; name: string; icon: string }) => {
+        console.log('Selected wallet:', wallet);
     },
-    route: '/route'
 };
