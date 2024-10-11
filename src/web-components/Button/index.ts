@@ -20,8 +20,6 @@ export class SharedButtonBase extends LitElement {
     buttonClass: unknown;
 
     render() {
-        console.log(this.buttonColor);
-        console.log(this.textColor);
         return html`
             <button class="shared-button ${this.buttonClass}" style="background-color: ${this.buttonColor}; color:${this.textColor};">
                 <slot></slot>
