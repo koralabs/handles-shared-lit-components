@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
+import { CustomToggleStyles } from "./styles";
 
 /**
  * `custom-select` Component Usage Guide
@@ -27,17 +28,17 @@ import { customElement, property, state } from 'lit/decorators.js';
 @customElement('custom-toggle')
 export class CustomToggle extends LitElement {
     @property({ type: Boolean }) isActive = false;
+    @property({ type: Boolean }) smallToggle = false;
+    static styles = CustomToggleStyles;
 
     render() {
-
         const fillColor = this.isActive ? 'rgba(77, 166, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)';
         const circleCX = this.isActive ? '60' : '35';
 
         return html`
-            <svg style="width:5.5rem; height: 2.5rem; display: flex; align-items: center;" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-                <rect x="30" y="17" width="2.25rem" height=".75rem" rx="5" ry="10" fill="${fillColor}" cursor="pointer"/>
-                <circle cx="${circleCX}" cy="23" r=".75rem" fill="white" cursor="pointer"/>
-            </svg>
+            <div class="line ${this.isActive ? 'toggled' : ''} ${this.smallToggle ? 'small' : ''}">
+                <div class="circle ${this.isActive ? 'toggled' : ''} ${this.smallToggle ? 'small' : ''}"></div>
+            </div>
         `;
     }
 }

@@ -9,7 +9,12 @@ export default {
         isActive: {
             control: 'boolean',
             description: 'Toggle active state of the component'
+        },
+        smallToggle: {
+            control: 'boolean',
+            description: 'Toggle small state of the component'
         }
+
     }
 };
 
@@ -21,9 +26,10 @@ interface Story<T> {
 
 interface ArgTypes {
     isActive: boolean;
+    smallToggle: boolean;
 }
 
-const Template: Story<ArgTypes> = ({ isActive }: ArgTypes) => {
+const Template: Story<ArgTypes> = ({ isActive, smallToggle }: ArgTypes) => {
     const handleEvent = (event: Event) => {
         const toggleElement = event.currentTarget as CustomToggle;
         isActive = !isActive;
@@ -31,11 +37,12 @@ const Template: Story<ArgTypes> = ({ isActive }: ArgTypes) => {
     };
 
     return html`
-        <custom-toggle .isActive=${isActive} @click=${handleEvent}></custom-toggle>
+        <custom-toggle .isActive=${isActive} .smallToggle=${smallToggle} @click=${handleEvent}></custom-toggle>
     `;
 };
 
 export const Regular = Template.bind({});
 Regular.args = {
-    isActive: false
+    isActive: false,
+    smallToggle: false
 };
