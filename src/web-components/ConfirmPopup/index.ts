@@ -10,17 +10,19 @@ import { ConfirmPopupStyles } from './styles';
  * - **secondMessage**: (string) The secondary message to display in the popup.
  * - **buttonConfirm**: (string) The label for the confirm button.
  * - **buttonCancel**: (string) The label for the cancel button.
- * - **confirmCallback**: (Function|null) A callback function to be called when the confirm button is clicked.
+ * - **onConfirm**: (Function|null) A callback function to be called when the confirm button is clicked.
+ * - **onCancel**: (Function|null) A callback function to be called when the cancel button is clicked.
  * 
  * ### Example:
  * ```html
  * <main-popup 
- *     open="true" 
- *     message="Are you sure?" 
- *     secondMessage="This action cannot be undone."
- *     buttonConfirm="Confirm" 
- *     buttonCancel="Cancel" 
- *     .confirmCallback=${() => console.log('Confirmed!')}>
+ *     .open="true" 
+ *     .message="Are you sure?" 
+ *     .secondMessage="This action cannot be undone."
+ *     .buttonConfirm="Confirm" 
+ *     .buttonCancel="Cancel" 
+ *     .onConfirm=${() => console.log('Confirmed!')}>
+ *     .onCancel=${() => console.log('canceled!')}
  * </main-popup>
  * ```
  */
@@ -32,31 +34,23 @@ export class ConfirmPopup extends LitElement {
     @property({ type: String }) secondMessage = '';
     @property({ type: String }) buttonConfirm = '';
     @property({ type: String }) buttonCancel = '';
-    @property({ type: Function }) confirmCallback: (() => void) | null = null;
-    @property({ type: Function }) confirmCancel: (() => void) | null = null;
-
+    @property({ type: Function }) onConfirm: (() => void) | null = null;
+    @property({ type: Function }) onCancel: (() => void) | null = null;
 
     closePopup() {
         this.open = false;
     }
 
-    openPopup(message: string, secondMessage: string, buttonConfirm: string = 'Confirm', buttonCancel: string = 'Cancel', confirmCallback?: () => void) {
-        this.message = message;
-        this.secondMessage = secondMessage;
-        this.buttonConfirm = buttonConfirm;
-        this.buttonCancel = buttonCancel;
-        this.confirmCallback = confirmCallback || null;
-        this.open = true;
-    }
     private handleConfirm() {
-        if (this.confirmCallback) {
-            this.confirmCallback();
+        if (this.onConfirm) {
+            this.onConfirm();
         }
         this.closePopup();
     }
+
     private handleCancel() {
-        if (this.confirmCallback) {
-            this.confirmCancel();
+        if (this.onCancel) {
+            this.onCancel();
         }
         this.closePopup();
     }

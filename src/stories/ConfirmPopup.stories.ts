@@ -10,8 +10,8 @@ export default {
         secondMessage: { control: 'text', description: 'Secondary message to display in the popup' },
         buttonConfirm: { control: 'text', description: 'Text for the confirm button' },
         buttonCancel: { control: 'text', description: 'Text for the cancel button' },
-        confirmCallback: { action: 'confirmed', description: 'Callback when confirm button is clicked' },
-        confirmCancel: { action: 'canceled', description: 'Callback when cancel button is clicked' },
+        onConfirm: { action: 'confirmed', description: 'Callback when confirm button is clicked' },
+        onCancel: { action: 'canceled', description: 'Callback when cancel button is clicked' },
     }
 };
 
@@ -27,19 +27,19 @@ interface ArgTypes {
     secondMessage: string;
     buttonConfirm: string;
     buttonCancel: string;
-    confirmCallback: () => void;
-    confirmCancel: () => void;
+    onConfirm: () => void;
+    onCancel: () => void;
 }
 
-const Template: Story<ArgTypes> = ({ open, message, secondMessage, buttonConfirm, buttonCancel, confirmCallback, confirmCancel }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ open, message, secondMessage, buttonConfirm, buttonCancel, onConfirm, onCancel }: ArgTypes) => html`
     <confirm-popup 
         ?open=${open} 
         .message=${message} 
         .secondMessage=${secondMessage}
         .buttonConfirm=${buttonConfirm} 
         .buttonCancel=${buttonCancel} 
-        .confirmCallback=${confirmCallback}
-        .confirmCancel=${confirmCancel}>
+        .onConfirm=${onConfirm}
+        .onCancel=${onCancel}>
     </confirm-popup>
 `;
 
@@ -51,5 +51,5 @@ Regular.args = {
     buttonConfirm: "Confirm",
     buttonCancel: "Cancel",
     confirmCallback: () => console.log('Confirmed!'),
-    confirmCancel: () => console.log('Canceled!'),
+    onCancel: () => console.log('Canceled!'),
 };
