@@ -139,10 +139,10 @@ export const SelectImagesStyles = css`
         margin: 10px;
     }
 
-    .handleImg {
-        width: 40px;
-        height: 40px;
-        margin-left: 10px;
+    .handle-img {
+        display: flex;
+        width: 100%;
+        height: 100%;
     }
 
     .appIcon {
@@ -233,10 +233,6 @@ export const SelectImagesStyles = css`
         justify-content: center;
     }
 
-    .handle-img {
-        display: flex;
-    }
-
     .handle-item {
         padding: 12px;
         border-radius: 12px;
@@ -248,10 +244,13 @@ export const SelectImagesStyles = css`
         background: rgba(8, 11, 47, 1);
         border: 1px solid rgba(13, 221, 96, 1);
         backdrop-filter: blur(19.04205322265625px);
-        // box-shadow: 0px 19.04px 95.21px 0px rgba(22, 7, 47, 0.5);
-        // box-shadow: 0px 10px 62px 0px rgba(13, 229, 100, 0.35);
     }
-
+    .handle-item:hover {
+        box-shadow: 0px 19.04px 95.21px 0px rgba(22, 7, 47, 0.5);
+        box-shadow: 0px 0px 30px 0px rgba(13, 229, 100, 0.35);
+        border: 1px solid rgba(13, 221, 96, 1);
+        padding: 11px;
+    }
     .route-btns-container {
         padding-left: 0.5rem;
         padding-right: 0.5rem;

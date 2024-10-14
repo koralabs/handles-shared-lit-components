@@ -27,44 +27,36 @@ interface BasicAsset {
 }
 
 /**
- * `SelectImages` is a custom LitElement component for selecting wallet handles with optional search and infinite scroll functionality.
+ * `select-images` is a custom LitElement component for selecting wallet handles.
  * 
- * ### Usage
+ * ### Slots:
+ * - **`slottedSearch`**: Slot for the search input.
+ * - **`slottedLoader`**: Slot for a loading spinner or indicator.
  * 
- * To use this component, you can pass in the following:
+ * ### Properties:
+ * - **`handleData`**:  
+ *   The data for the handle, expected to follow the `GetHandleResponse` format.
+ * - **`addFunction`**:  
+ *   A function called during the `firstUpdated()` lifecycle method.
+ * - **`infiniteScroll`**:  
+ *   A function or property that handles infinite scrolling behavior.
+ * - **`slottedSearchStyling`**:  
+ *   A string used to style the slotted search input.
+ * - **`selectHandle`**:  
+ *   A function that processes the selected handle. It receives the handle object and sends it back to the parent component.
+ * - **`loadingImg`**:  
+ *   A boolean flag indicating whether to display a loading spinner. The loading spinner content must be provided through the `slottedLoader` slot.
  * 
- * 1. **Slotted elements**:
- *    - Use a `div` with `slot="slottedSearch"` for the search input to filter images.
- * 
- * 2. **Handle data**:
- *    - Pass in `handleData` formatted as an array of `WalletHandle` objects.
- *    - Each `WalletHandle` should include the following properties:
- *      - **name**: The name of the wallet handle (string).
- *      - **image**: The image associated with the wallet handle (string URL).
- *      - **active**: (Optional) Whether the handle is active (boolean).
- *      - **default**: (Optional) Whether the handle is the default (boolean).
- *    - You can access the selected handle from `localStorage` using:
- *      `localStorage.getItem('selectedHandle')`.
- * 
- * 3. **Properties**:
- *    - `handleData`: An array of `WalletHandle` objects to be displayed in the component.
- *    - `route`: The URL route to navigate when a handle is selected (string).
- *    - `addFunction`: A function or property that is called during the `firstUpdated()` lifecycle hook (Function).
- *    - `infiniteScroll`: A function or property for handling infinite scrolling in the component (Function).
- *    - `slottedSearchStyling`: A string to style the slotted search input (string).
- *    - `infiniteScroll`: The `<infinite-scroll>` element from Kora-labs can be attached for infinite scrolling behavior.
- * 
- * ### Example usage:
- * ```html
- * <select-images 
- *   .handleData=${handleData}
- *   .route=${route}
- *   .addFunction=${myFunction}
- *   .slottedButtonsStyling=${'display: flex;'}>
- * </select-images>
+ * ### Example Method:
+ * ```js
+ * function selectHandle(handle) {
+ *   this.loadingImg = true;
+ *   console.log('Selected handle:', handle);
+ *   this.loadingImg = false;
+ * }
  * ```
- * ```javascript
- * InfiniteScroll = (event: Event) => {
+ * ```js
+ * infiniteScroll: (event: Event) => {
  *   const mainSection = event.currentTarget as HTMLElement;
  *   const scrollPosition = mainSection.scrollTop + mainSection.clientHeight;
  *   const scrollHeight = mainSection.scrollHeight;
@@ -75,7 +67,18 @@ interface BasicAsset {
  *     infiniteScroll?.dispatchEvent(new CustomEvent('scroll-bottom', { bubbles: true, composed: true }));
  *     console.log('Scrolled to bottom');
  *   }
- * };
+ * },
+ * ```
+ * 
+ * ### Example Usage:
+ * ```html
+ * <select-images
+ *   .handleData=${handleData}
+ *   .addFunction=${addFunction}
+ *   .infiniteScroll=${infiniteScroll}
+ *   .selectHandle=${selectHandle}
+ *   .slottedButtonsStyling=${'display: flex;'}>
+ * </select-images>
  * ```
  */
 
@@ -92,6 +95,7 @@ export class SelectImages extends LitElement {
     @property({ type: String }) slottedSearchStyling: string = '';
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
+    @property({ type: Function }) selectHandle = (handle) => { };
     @property({ type: Object })
     litElement!: LitElement;
     help: string;
@@ -106,19 +110,6 @@ export class SelectImages extends LitElement {
         this.addFunction();
     }
 
-    async selectHandle(handle) {
-        this.loadingImg = true;
-        this.handle = handle;
-        localStorage.setItem('selectedHandle', JSON.stringify(handle));
-        this.loadingImg = false;
-        this.routeTo(this.route);
-        this.requestUpdate();
-    }
-
-    routeTo(route: string) {
-        window.location.href = route;
-    }
-
     imageUrl = (img: string): string => {
         const image = img.replace('ipfs://', '') || '';
         if (!image) {
@@ -130,8 +121,8 @@ export class SelectImages extends LitElement {
     renderImages() {
         const handleDataArray = this.handleData || [];
         if (handleDataArray.length === 1) {
-            this.imgHeight = '19rem';
-            this.imgWidth = '19rem';
+            this.imgHeight = 'auto';
+            this.imgWidth = 'auto';
         } else if (handleDataArray.length > 1 && handleDataArray.length <= 10) {
             this.imgHeight = '10rem';
             this.imgWidth = '10rem';
@@ -143,10 +134,10 @@ export class SelectImages extends LitElement {
             const handle = this.handleData ? this.handleData[index] : undefined;
             return html`
             <div @click="${() => handle && this.selectHandle(handle)}" class="handle-item ${handle?.active ? 'active' : ''}">
-                <div class="handle-img" style="width:${this.imgWidth}; height:${this.imgHeight}">
+                <div >
                     ${handleData.image
-                    ? html`<img src="${this.imageUrl(handleData.image)}" @load="${() => this.handleDataArray[index].loading = false}" />`
-                    : html`<custom-loader class="loader"></custom-loader>`
+                    ? html`<img class="handle-img" style="max-width:${this.imgWidth}; max-height:${this.imgHeight}" src="${this.imageUrl(handleData.image)}" @load="${() => this.handleDataArray[index].loading = false}" />`
+                    : html`< slot name="slottedLoader"></slot>`
                 }
                 </div>
             </div>

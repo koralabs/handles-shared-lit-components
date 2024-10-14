@@ -5,30 +5,13 @@ export default {
     title: 'Components/SelectImages',
     component: 'select-images',
     argTypes: {
-        handleData: {
-            control: {
-                type: 'array', // or 'object' depending on how you want to define the array structure
-            },
-            description: 'Array of WalletHandle objects to be displayed in the component.',
-        },
-        route: {
-            control: {
-                type: 'text',
-            },
-            description: 'The URL route to navigate when a handle is selected.',
-        },
-        addFunction: {
-            control: {
-                type: 'function', // Use a function control or just describe how it should work
-            },
-            description: 'A function to be called during the firstUpdated lifecycle hook.',
-        },
-        slottedSearchStyling: {
-            control: {
-                type: 'text',
-            },
-            description: 'Styling for the slotted search input.',
-        },
+        handleData: { control: 'array' },
+        addFunction: { action: 'addFunction called' },
+        infiniteScroll: { action: 'infiniteScroll called' },
+        selectHandle: { action: 'selectHandle called' },
+        slottedSearchStyling: { control: 'text' },
+        search: { control: 'text' },
+        loader: { control: 'text' },
     },
 };
 
@@ -41,44 +24,46 @@ interface Story<T> {
 
 interface ArgTypes {
     handleData?: Array<any>;
-    route?: string;
     addFunction?: Function;
+    infiniteScroll?: Function;
+    selectHandle?: Function;
     slottedSearchStyling?: string;
+    search?: TemplateResult;
+    loader?: TemplateResult;
 }
 
-const Template: Story<ArgTypes> = ({ handleData, route, addFunction, slottedSearchStyling }: ArgTypes) => html`
-    <select-images 
-        .handleData=${handleData} 
-        .route=${route} 
-        .addFunction=${addFunction} 
-        .slottedSearchStyling=${slottedSearchStyling}>
+const Template: Story<ArgTypes> = ({ handleData, selectHandle, search, infiniteScroll, loader }: ArgTypes) => html`
+    <select-images
+        .handleData=${handleData}
+        .selectHandle=${selectHandle}
+        .infiniteScroll=${infiniteScroll}>
+        <div slot="slottedSearch">${search}</div>
+        <div slot="slottedLoader">${loader}</div>
     </select-images>
 `;
 
 export const Regular = Template.bind({});
 Regular.args = {
     handleData: [
-        {
-            name: 'Wallet 1',
-            image: 'ipfs://example-image-1',
-            active: true,
-            default: false,
-            policyId: 'policy-id-1',
-            hex: 'hex-1'
-        },
-        {
-            name: 'Wallet 2',
-            image: 'ipfs://example-image-2',
-            active: false,
-            default: true,
-            policyId: 'policy-id-2',
-            hex: 'hex-2'
-        }
+        { name: 'Handle 1', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 2', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 3', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 1', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 2', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 3', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 1', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 2', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 3', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 1', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 2', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 3', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 3', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 1', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+        { name: 'Handle 2', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
+
     ],
-    route: '/wallet/1',
-    addFunction: () => console.log('Add function called!'),
-    slottedSearchStyling: 'margin-bottom: 10px;'
+    selectHandle: (handle) => console.log(handle),
+    infiniteScroll: () => console.log('infiniteScroll'),
+    search: html`<input type="text" placeholder="Search" />`,
+    loader: html`<img src="ipfs://exampleLoader" />`,
 };
-
-
-
