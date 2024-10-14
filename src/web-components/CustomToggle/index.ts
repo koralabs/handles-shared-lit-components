@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { CustomToggleStyles } from "./styles";
 
 /**
- * `custom-select` Component Usage Guide
+ * `custom-toggle` Component Usage Guide
  * 
  * This component allows you to toggle the active state by passing the `isActive` property.
  * 
@@ -13,7 +13,7 @@ import { CustomToggleStyles } from "./styles";
  * ### Example Usage:
  * 
  * ```html
- * <custom-select isActive="${true}"></custom-select>
+ * <custom-toggle isActive="${true}"></custom-toggle>
  * ```
  * ```html
  * const handleEvent = (event: Event) => {
