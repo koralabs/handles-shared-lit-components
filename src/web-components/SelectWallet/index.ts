@@ -12,9 +12,6 @@ import { SelectWalletStyles } from './styles';
  * - `selectedWallet` (string): Tracks the selected wallet key.(set to currently selected wallet for active state)
  * 
  * ### Properties:
- * - `walletKeyChosen` (boolean): Tracks whether a wallet key has been chosen.
- * - `route` (string): Holds the current route, which can be used for navigation.
- * - `help` (string): A string for help text or tooltips.
  * - `slottedButtonsStyling` (string): Styles the slotted buttons container.
  * - `addFunction` (Function): Function that runs when the component is first updated (`firstUpdated()`).
  * - `infiniteScroll` (Function): Function to handle infinite scrolling within the wallet list.
@@ -50,14 +47,13 @@ export class SelectWallet extends LitElement {
     @state() selectedWallet: string = '';
     @state() walletApi: any = null;
 
-    @property({ type: Boolean }) walletKeyChosen: boolean = false;
     @property({ type: String }) route = '';
     @property({ type: String }) help = 'help';
     @property({ type: String }) slottedButtonsStyling = '';
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
-    @property({ type: Function }) selectWallet = (wallet: { key: string; name: string; icon: string }) => { };
-    @property({ type: Array }) wallets: { key: string; name: string; icon: string }[] = [];
+    @property({ type: Function }) selectWallet = (wallet) => { };
+    @property({ type: Array }) wallets = [];
 
     static styles = SelectWalletStyles;
 

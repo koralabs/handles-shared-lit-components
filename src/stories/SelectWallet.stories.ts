@@ -26,13 +26,13 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-    wallets?: { key: string; name: string; icon: string }[];
-    selectWallet?: (wallet: { key: string; name: string; icon: string }) => void;
+    wallets?: any[];
+    selectWallet?: (wallet) => void;
 }
 
 const Template: Story<ArgTypes> = ({
     wallets = [],
-    selectWallet = (wallet: { key: string; name: string; icon: string }) => { },
+    selectWallet = (wallet) => { },
 }: ArgTypes) => html`
     <select-wallet
         .selectWallet="${selectWallet}"
@@ -48,7 +48,7 @@ Regular.args = {
         { key: 'eternl', name: 'Eternl', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' },
         { key: 'nami', name: 'Nami', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' }
     ],
-    selectWallet: (wallet: { key: string; name: string; icon: string }) => {
+    selectWallet: (wallet) => {
         console.log('Selected wallet:', wallet);
     },
 };
