@@ -1,6 +1,6 @@
 {
   "name": "@koralabs/handles-shared-lit-components",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Shared library for web-components",
   "type": "module",
   "main": "index.js",
@@ -32,6 +32,7 @@
     "@web/dev-server-storybook": "^2.0.3",
     "concurrently": "^9.0.1",
     "eslint": "^9.6.0",
+    "ts-lit-plugin": "^2.0.2",
     "typescript": "^5.5.3"
   }
 }

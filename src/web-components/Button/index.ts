@@ -1,7 +1,10 @@
 import { html, css, LitElement } from 'lit';
+import { property } from 'lit/decorators.js';
 
 export class SharedButtonBase extends LitElement {
-    static renderTag = () => html`<shared-button></shared-button>`;
+    @property({ type: String }) buttonColor: string | '#3d85cc' | undefined;
+    @property({ type: String }) textColor: string | '#3d85cc' | undefined;
+
     static commonStyles = css`
         .shared-button {
             font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -18,7 +21,7 @@ export class SharedButtonBase extends LitElement {
 
     render() {
         return html`
-            <button class="shared-button ${this.buttonClass}">
+            <button class="shared-button ${this.buttonClass}" style="background-color: ${this.buttonColor}; color:${this.textColor};">
                 <slot></slot>
             </button>
         `;
