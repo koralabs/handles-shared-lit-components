@@ -30,25 +30,47 @@ interface BasicAsset {
  * `select-handle` is a custom LitElement component for selecting wallet handles.
  * 
  * ### Slots:
- * - **slottedSearch**: Slot for search input.
- * - **slottedButtons**: Slot for action buttons.
+ * - **`slottedSearch`**: Slot for the search input.
+ * - **`slottedButtons`**: Slot for action buttons.
+ * - **`slottedLoader`**: Slot for a loading spinner or indicator.
  * 
  * ### Properties:
- * - `handleData`: The data for the handle, expected to be in `GetHandleResponse` format.
- * - `route`: The URL route to navigate when a handle is clicked.
- * - `addFunction`: A function called in `firstUpdated()`.
- * - `infiniteScroll`: A function/property to handle infinite scrolling.
- * - `slottedButtonsStyling`: A string to style the slotted buttons.
- * - `slottedSearchStyling`: A string to style the slotted search input.
+ * - **`handleData`**:  
+ *   The data for the handle, expected to follow the `GetHandleResponse` format.
+ * - **`addFunction`**:  
+ *   A function called during the `firstUpdated()` lifecycle method.
+ * - **`infiniteScroll`**:  
+ *   A function or property that handles infinite scrolling behavior.
+ * - **`slottedButtonsStyling`**:  
+ *   A string used to apply custom CSS styling to the slotted buttons.
+ * - **`slottedSearchStyling`**:  
+ *   A string used to style the slotted search input.
+ * - **`selectHandle`**:  
+ *   A function that processes the selected handle. It receives the handle object and sends it back to the parent component.
+ * - **`loadingImg`**:  
+ *   A boolean flag indicating whether to display a loading spinner. The loading spinner content must be provided through the `slottedLoader` slot.
  * 
- * ### Example usage:
+ * ### Example Method:
+ * ```js
+ * function selectHandle(handle) {
+ *   this.loadingImg = true;
+ *   console.log('Selected handle:', handle);
+ *   this.loadingImg = false;
+ * }
+ * ```
+ * 
+ * ### Example Usage:
  * ```html
  * <select-handle
  *   .handleData=${handleData}
- *   .route=${route}
- *   .slottedButtonsStyling=${'display: flex;'}></select-handle>
+ *   .addFunction=${addFunction}
+ *   .infiniteScroll=${infiniteScroll}
+ *   .selectHandle=${selectHandle}
+ *   .slottedButtonsStyling=${'display: flex;'}>
+ * </select-handle>
  * ```
  */
+
 
 @customElement('select-handle')
 export class SelectHandle extends LitElement {
@@ -62,6 +84,7 @@ export class SelectHandle extends LitElement {
     @property({ type: String }) slottedSearchStyling: string;
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
+    @property({ type: Function }) selectHandle = (handle) => { };
     @property({ type: Object })
     litElement!: LitElement;
     help: string;
@@ -72,19 +95,6 @@ export class SelectHandle extends LitElement {
         const handle = localStorage.getItem('selectedHandle');
         this.handle = JSON.parse(handle ?? '{}');
         this.addFunction();
-    }
-
-    async selectHandle(handle) {
-        this.loadingImg = true;
-        this.handle = handle;
-        localStorage.setItem('selectedHandle', JSON.stringify(handle));
-        this.loadingImg = false;
-        this.routeTo(this.route);
-        this.requestUpdate();
-    }
-
-    routeTo(route: string) {
-        window.location.href = route;
     }
 
     imageUrl = (img: string): string => {
@@ -138,16 +148,14 @@ export class SelectHandle extends LitElement {
                                                 <li
                                                     @click="${() =>
                             this.selectHandle({
-                                ...handle,
-                                active: true,
-                                default: handle.default || false,
+                                ...handle
                             })}"
                                                     class="active-handle ${this.handle?.name === handle.name
                             ? 'active'
                             : ''}"
                                                 >
                                                     ${this.handle?.name === handle.name && this.loadingImg
-                            ? html`<custom-loader class="handle-img"></custom-loader>`
+                            ? html`<slot name="slottedLoader"></slot>`
                             : this.handle?.name === handle.name
                                 ? html`
                                                               <div class="handle-img">
@@ -166,7 +174,7 @@ export class SelectHandle extends LitElement {
                                                 </li>
                                             `
                 )}
-                                        ${this.isLoading ? html`<custom-loader class="loader"></custom-loader>` : ''}
+                                        ${this.isLoading ? html`<slot name="slottedLoader"></slot>` : ''}
                                     </div>
                                 </div>
                             </div>

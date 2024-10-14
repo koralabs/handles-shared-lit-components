@@ -1,15 +1,20 @@
 import { html, TemplateResult } from 'lit';
 import '../web-components/SelectHandle/index.js';
+import { SelectHandle } from '../web-components/SelectHandle/index';
 
 export default {
     title: 'Components/SelectHandle',
     component: 'select-handle',
     argTypes: {
         handleData: { control: 'array' },
-        route: { control: 'text' },
-        shouldRenderButtons: { control: 'boolean' },
         addFunction: { action: 'addFunction called' },
         infiniteScroll: { action: 'infiniteScroll called' },
+        selectHandle: { action: 'selectHandle called' },
+        slottedButtonsStyling: { control: 'text' },
+        slottedSearchStyling: { control: 'text' },
+        search: { control: 'text' },
+        buttons: { control: 'text' },
+        loader: { control: 'text' },
     },
 };
 
@@ -22,21 +27,25 @@ interface Story<T> {
 
 interface ArgTypes {
     handleData?: Array<any>;
-    route?: string;
-    shouldRenderButtons?: boolean;
-    help?: string;
     addFunction?: Function;
+    infiniteScroll?: Function;
+    selectHandle?: Function;
+    slottedButtonsStyling?: string;
+    slottedSearchStyling?: string;
+    search?: TemplateResult;
+    buttons?: TemplateResult;
+    loader?: TemplateResult;
 }
 
-const Template: Story<ArgTypes> = ({ handleData, route, shouldRenderButtons }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ handleData, selectHandle, search, buttons, loader }: ArgTypes) => html`
     <select-handle
         .handleData=${handleData}
-        .route=${route}
-        ?showButtons=${shouldRenderButtons}>
-        <div slot="slottedSearch">Search...</div>
-        <div slot="slottedButtons"> <button @click=${() => console.log('Button clicked!')}>Action</button> </div>
+        .selectHandle=${selectHandle}>
+        <div slot="slottedSearch">${search}</div>
+        <div slot="slottedButtons">${buttons}</div>
+        <div slot="slottedLoader">${loader}</div>
     </select-handle>
- `;
+`;
 
 export const Regular = Template.bind({});
 Regular.args = {
@@ -45,6 +54,8 @@ Regular.args = {
         { name: 'Handle 2', image: 'ipfs://exampleImage2' },
         { name: 'Handle 3', image: 'ipfs://exampleImage3' },
     ],
-    route: 'https://example.com',
-    shouldRenderButtons: true,
+    search: html`<input type="text" placeholder="Search" />`,
+    buttons: html`<button>Cancel</button><button>Continue</button>`,
+    loader: html`<img src="ipfs://exampleLoader" />`,
 };
+
