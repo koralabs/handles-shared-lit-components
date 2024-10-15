@@ -12,21 +12,34 @@ import { SelectHandleStyles } from './styles';
  * 
  * ### Properties:
  * - **`handleData`**:  
- *   The data for the handle, expected to follow the `GetHandleResponse` format.
+ *   The data for the handles expected in the format [
+ *      { name: 'Handle 1', image: 'ipfs://exampleImage1' },
+ *      { name: 'Handle 2', image: 'ipfs://exampleImage2' },
+ *   ].
+ * 
  * - **`addFunction`**:  
  *   A function called during the `firstUpdated()` lifecycle method.
+ * 
  * - **`infiniteScroll`**:  
- *   A function or property that handles infinite scrolling behavior.
+ *   A function attached to the scroller that detects when the user has scrolled.
+ * 
  * - **`slottedButtonsStyling`**:  
  *   A string used to apply custom CSS styling to the slotted buttons.
+ * 
  * - **`slottedSearchStyling`**:  
  *   A string used to style the slotted search input.
+ * 
  * - **`selectHandle`**:  
  *   A function that processes the selected handle. It receives the handle object and sends it back to the parent component.
+ * 
  * - **`loadingImg`**:  
- *   A boolean flag indicating whether to display a loading spinner. The loading spinner content must be provided through the `slottedLoader` slot.
+ *   A boolean flag indicating whether to display a loading spinner on the selected handle. The loading spinner content must be provided through the `slottedLoader` slot.
+ * 
  * - **`imageUrl`**:
- *  The URL of the image to display for the selected handle.
+ *   The URL of the image to display for the selected handle.
+ * 
+ * - **`handle`**:
+ *   The currently selected handle object. expected in the format { name: 'Handle 1', image: 'ipfs://exampleImage1' }.
  * 
  * ### Example Method:
  * ```js
@@ -34,6 +47,7 @@ import { SelectHandleStyles } from './styles';
  *   this.loadingImg = true;
  *   console.log('Selected handle:', handle);
  *   this.loadingImg = false;
+ *   this.handle = handle;
  * }
  * ```
  * 
@@ -41,41 +55,37 @@ import { SelectHandleStyles } from './styles';
  * ```html
  * <select-handle
  *   .handleData=${handleData}
+ *   .loadingImg=${loadingImg}
+ *   .imageUrl=${imageUrl}
+ *   .handle=${handle}
  *   .addFunction=${addFunction}
  *   .infiniteScroll=${infiniteScroll}
  *   .selectHandle=${selectHandle}
  *   .slottedButtonsStyling=${'display: flex;'}>
+ *      <div slot="slottedSearch">${search}</div>
+ *      <div slot="slottedButtons">${buttons}</div>
  * </select-handle>
  * ```
  */
 
-
 @customElement('select-handle')
 export class SelectHandle extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
-    @property({ type: Object }) handle: any = {};
-    @property({ type: Boolean }) dropdownOpen = false;
     @property({ type: Boolean }) loadingImg = false;
-    @property({ type: Boolean }) isLoading = false;
     @property({ type: String }) slottedButtonsStyling: string;
     @property({ type: String }) slottedSearchStyling: string;
     @property({ type: String }) imageUrl: string;
-
+    @property({ type: Object }) handle: any = {};
+    @property({ type: Object }) litElement!: LitElement;
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
     @property({ type: Function }) selectHandle = (handle) => { };
-    @property({ type: Object })
-    litElement!: LitElement;
 
     static styles = SelectHandleStyles
 
     firstUpdated() {
-        const handle = localStorage.getItem('selectedHandle');
-        this.handle = JSON.parse(handle ?? '{}');
         this.addFunction();
     }
-
-
 
     render() {
         const handles = this.handleData;
@@ -83,11 +93,11 @@ export class SelectHandle extends LitElement {
         return html`
             <div>
                 <div class="logout-and-handles">
-                    <div class="handles-select-dropdown ${this.dropdownOpen ? 'open' : ''}">
+                    <div class="handles-select-dropdown">
                         <div class="wallet-handles-content">
                             <div class="select-wrapper">   
-                                <div style=${this.slottedSearchStyling}  >                   
-                                    <slot name="slottedSearch" ></slot>
+                                <div style=${this.slottedSearchStyling}>                   
+                                    <slot name="slottedSearch"></slot>
                                 </div>
                                 ${this.handle?.name
                 ? html`
@@ -146,7 +156,7 @@ export class SelectHandle extends LitElement {
                                                 </li>
                                             `
                 )}
-                                        ${this.isLoading ? html`<slot name="slottedLoader"></slot>` : ''}
+                                        ${this.loadingImg ? html`<slot name="slottedLoader"></slot>` : ''}
                                     </div>
                                 </div>
                             </div>

@@ -39,10 +39,11 @@ interface ArgTypes {
     loader?: TemplateResult;
 }
 
-const Template: Story<ArgTypes> = ({ handleData, selectHandle, search, buttons, loader, imageUrl }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ handleData, selectHandle, infiniteScroll, search, buttons, loader, imageUrl }: ArgTypes) => html`
     <select-handle
         .handleData=${handleData}
         .selectHandle=${selectHandle}
+        .infiniteScroll=${infiniteScroll}
         .imageUrl=${imageUrl}>
         <div slot="slottedSearch">${search}</div>
         <div slot="slottedButtons">${buttons}</div>
@@ -58,6 +59,7 @@ Regular.args = {
         { name: 'Handle 3', image: 'ipfs://exampleImage3' },
     ],
     selectHandle: (handle: any) => console.log(handle),
+    infiniteScroll: () => console.log('infiniteScroll called'),
     imageUrl: 'ipfs://exampleImage',
     search: html`<input type="text" placeholder="Search" />`,
     buttons: html`<button>Cancel</button><button>Continue</button>`,
