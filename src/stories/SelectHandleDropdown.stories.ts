@@ -1,16 +1,15 @@
 import { html, TemplateResult } from 'lit';
-import '../web-components/SelectHandleDropdown/index.js';
+import '../web-components/DropdownButton/index.js';
 
 export default {
-    title: 'Components/SelectHandleDropdown',
-    component: 'select-handle-dropdown',
+    title: 'Components/DropdownButton',
+    component: 'dropdown-button',
     argTypes: {
         dropdownHandle: { control: 'text', description: 'The currently selected handle' },
-        help: { control: 'text', description: 'Help text for the dropdown' },
-        addFunction: {
+        onClick: {
             control: 'function',
             description: 'Function to execute on button click',
-            action: 'clicked' // To log the click action in the Storybook action panel
+            action: 'clicked'
         },
         options: {
             control: 'array',
@@ -32,17 +31,15 @@ interface Story<T> {
 
 interface ArgTypes {
     dropdownHandle: string;
-    help?: string;
-    addFunction?: Function;
+    onClick?: Function;
     options?: string[];
     dropdownPositioning?: string;
 }
 
-const Template: Story<ArgTypes> = ({ dropdownHandle, help, addFunction, options, dropdownPositioning }: ArgTypes) => html`
-    <select-handle-dropdown
+const Template: Story<ArgTypes> = ({ dropdownHandle, onClick, options, dropdownPositioning }: ArgTypes) => html`
+    <dropdown-button
         .dropdownHandle=${dropdownHandle}
-        .help=${help}
-        .addFunction=${addFunction}
+        .onClick=${onClick}
         .options=${options}
         .dropdownPositioning=${dropdownPositioning}
     >
@@ -51,14 +48,13 @@ const Template: Story<ArgTypes> = ({ dropdownHandle, help, addFunction, options,
         ? options.map(option => html`<div>${option}</div>`)
         : html`<div>No options available</div>`}
         </div>
-    </select-handle-dropdown>
+    </dropdown-button>
 `;
 
 export const Regular = Template.bind({});
 Regular.args = {
     dropdownHandle: 'No active handle',
-    help: 'Select your wallet handle from the dropdown.',
-    addFunction: () => console.log('Add button clicked!'),
+    onClick: () => console.log('Add button clicked!'),
     options: ['Handle 1', 'Handle 2', 'Handle 3'],
     dropdownPositioning: 'display: flex; position: absolute; z-index: 1;',
 };
