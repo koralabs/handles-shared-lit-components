@@ -93,15 +93,12 @@ export const HandleSmallSearchStyles = css`
         display: flex;
     }
     
-        @media screen and (max-width: 350px) {
+    @media screen and (max-width: 350px) {
         .clear-search-wrapper {
             right: 20px;
         }
         .search-icon-wrapper {
             left: 20px;
         }
-}
-    
-    
-    
-    `;
+    } 
+`;

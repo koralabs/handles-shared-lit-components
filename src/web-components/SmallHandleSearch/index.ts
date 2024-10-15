@@ -11,7 +11,6 @@ import { HandleSmallSearchStyles } from './styles';
  * ### Properties:
  * - **inputValue**: (String) The current value of the search input.
  * - **open**: (Boolean) A flag to determine if the search bar is open.
- * - **search**: (String) A string to store the search term (if needed externally).
  * - **searching**: (Boolean) Indicates whether a search is in progress (true when there is input).
  * 
  * ### Methods:
@@ -54,9 +53,7 @@ import { HandleSmallSearchStyles } from './styles';
 export class HandleSmallSearch extends LitElement {
     @property({ type: String }) inputValue: string | undefined;
     @property({ type: Boolean }) open: boolean = false;
-    @property({ type: String }) search: string | undefined;
     @property({ type: Boolean }) searching: boolean = false;
-    @state() help: string = '';
 
     static styles = HandleSmallSearchStyles;
 
@@ -85,9 +82,9 @@ export class HandleSmallSearch extends LitElement {
             </svg>
         `;
     }
+
     clearSearch() {
         this.searching = false;
-        this.search = '';
         this.inputValue = '';
         this.requestUpdate();
     }
