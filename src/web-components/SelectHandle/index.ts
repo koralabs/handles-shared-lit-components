@@ -1,30 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { IPFS_GATEWAY, IPFS_GATEWAY_RESIZE_QUERY } from '../../helpers/KoraLabsHelpers';
 import { SelectHandleStyles } from './styles';
-
-interface WalletHandle extends Asset {
-    active: any;
-    default: boolean;
-    image?: string;
-    imageUrl?: string;
-}
-
-interface Asset extends BasicAsset {
-    name: string;
-    count?: number;
-    utxo?: string;
-    image?: string;
-    src?: string;
-    price?: number;
-    cost?: number;
-    validUntilDate?: number;
-}
-
-interface BasicAsset {
-    policyId: string;
-    hex: string;
-}
 
 /**
  * `select-handle` is a custom LitElement component for selecting wallet handles.
@@ -49,6 +25,8 @@ interface BasicAsset {
  *   A function that processes the selected handle. It receives the handle object and sends it back to the parent component.
  * - **`loadingImg`**:  
  *   A boolean flag indicating whether to display a loading spinner. The loading spinner content must be provided through the `slottedLoader` slot.
+ * - **`imageUrl`**:
+ *  The URL of the image to display for the selected handle.
  * 
  * ### Example Method:
  * ```js
@@ -79,15 +57,15 @@ export class SelectHandle extends LitElement {
     @property({ type: Boolean }) dropdownOpen = false;
     @property({ type: Boolean }) loadingImg = false;
     @property({ type: Boolean }) isLoading = false;
-    @property({ type: String }) route = '';
     @property({ type: String }) slottedButtonsStyling: string;
     @property({ type: String }) slottedSearchStyling: string;
+    @property({ type: String }) imageUrl: string;
+
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
     @property({ type: Function }) selectHandle = (handle) => { };
     @property({ type: Object })
     litElement!: LitElement;
-    help: string;
 
     static styles = SelectHandleStyles
 
@@ -97,13 +75,7 @@ export class SelectHandle extends LitElement {
         this.addFunction();
     }
 
-    imageUrl = (img: string): string => {
-        const image = img.replace('ipfs://', '') || '';
-        if (!image) {
-            return '';
-        }
-        return `${IPFS_GATEWAY}/ipfs/${image}${IPFS_GATEWAY_RESIZE_QUERY}`;
-    }
+
 
     render() {
         const handles = this.handleData;
@@ -121,10 +93,10 @@ export class SelectHandle extends LitElement {
                 ? html`
                                           <div class="current-handle">
                                               ${this.loadingImg
-                        ? html`<custom-loader class="handle-img"></custom-loader>`
+                        ? html`<slot name="slottedLoader"></slot>`
                         : html`
                                                         <div class="handle-img">
-                                                            <img src="${this.imageUrl(this.handle?.image ?? '')}" />
+                                                            <img src="${this.imageUrl}" />
                                                         </div>
                                                     `}
                                               <div>
@@ -155,11 +127,11 @@ export class SelectHandle extends LitElement {
                             : ''}"
                                                 >
                                                     ${this.handle?.name === handle.name && this.loadingImg
-                            ? html`<slot name="slottedLoader"></slot>`
+                            ? html``
                             : this.handle?.name === handle.name
                                 ? html`
                                                               <div class="handle-img">
-                                                                  <img src="${this.imageUrl(handle.image)}" />
+                                                                  <img src="${this.imageUrl}" />
                                                               </div>
                                                           `
                                 : ''}
@@ -185,7 +157,6 @@ export class SelectHandle extends LitElement {
                     </div>
                 </div>
             </div>
-            <infinite-scroll></infinite-scroll>
         `;
     }
 }
