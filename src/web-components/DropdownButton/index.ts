@@ -19,6 +19,9 @@ import { DropdownButtonStyles } from './styles';
  *    - `dropdownPositioning`: A string to set the CSS positioning for the dropdown (e.g., `'display: flex; position: relative;'`).
  *    - `dropdownHandle`: The handle selected, which is passed to the component for display.
  * 
+ * 3. **Methods**:
+ *  - `onClick`: A function to execute on button click.
+ * 
  * ### Example usage:
  * ```html
  * <dropdown-button 
@@ -33,8 +36,6 @@ import { DropdownButtonStyles } from './styles';
 export class DropdownButton extends LitElement {
     @state() dropdownOpen = false;
 
-    @property({ type: Array }) options: string[] = [];
-    @property({ type: String }) selected: string = '';
     @property({ type: String }) dropdownHandle: string = '';
     @property({ type: String }) dropdownPositioning: string = '';
     @property({ type: Function }) onClick = () => { };

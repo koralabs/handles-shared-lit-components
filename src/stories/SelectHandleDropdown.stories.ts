@@ -11,10 +11,6 @@ export default {
             description: 'Function to execute on button click',
             action: 'clicked'
         },
-        options: {
-            control: 'array',
-            description: 'Array of options to be displayed in the dropdown',
-        },
         dropdownPositioning: {
             control: 'text',
             description: 'CSS positioning for the dropdown content',
@@ -32,21 +28,16 @@ interface Story<T> {
 interface ArgTypes {
     dropdownHandle: string;
     onClick?: Function;
-    options?: string[];
     dropdownPositioning?: string;
 }
 
-const Template: Story<ArgTypes> = ({ dropdownHandle, onClick, options, dropdownPositioning }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ dropdownHandle, onClick, dropdownPositioning }: ArgTypes) => html`
     <dropdown-button
         .dropdownHandle=${dropdownHandle}
         .onClick=${onClick}
-        .options=${options}
         .dropdownPositioning=${dropdownPositioning}
     >
         <div slot="slottedDropdown">
-            ${options && options.length > 0
-        ? options.map(option => html`<div>${option}</div>`)
-        : html`<div>No options available</div>`}
         </div>
     </dropdown-button>
 `;
@@ -55,6 +46,5 @@ export const Regular = Template.bind({});
 Regular.args = {
     dropdownHandle: 'No active handle',
     onClick: () => console.log('Add button clicked!'),
-    options: ['Handle 1', 'Handle 2', 'Handle 3'],
     dropdownPositioning: 'display: flex; position: absolute; z-index: 1;',
 };
