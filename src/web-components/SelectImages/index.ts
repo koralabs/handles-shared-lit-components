@@ -36,16 +36,16 @@ interface BasicAsset {
  * - **`handleData`**:  
  *   The data for the handle, expected in the format of an array of handle objects.
  * 
- * - **`addFunction`**:  
+ * - **`onFirstUpdated`**:  
  *   A function called during the `firstUpdated()` lifecycle method.
  * 
- * - **`infiniteScroll`**:  
+ * - **`onScroll`**:  
  *   A function or property that detects when the user has scrolled on the component.
  * 
  * - **`slottedSearchStyling`**:  
- *   A string used to style the slotted search input (e.g., `display: flex;`).
+ *   A string used to inline style the parent div of the slotted search input (e.g., `display: flex;`).
  * 
- * - **`selectHandle`**:  
+ * - **`onSelectHandle`**:  
  *   A function that processes the selected handle. It receives the handle object and sends it back to the parent component.
  * 
  * - **`imageUrl`**:
@@ -54,20 +54,18 @@ interface BasicAsset {
  * ### Example Method:
  * 
  * ```js
- * function selectHandle(handle) {
+ * function onSelectHandle(handle) {
  *   console.log('Selected handle:', handle);
  * }
  * ```
  * ```js
- * infiniteScroll: (event: Event) => {
+ * onScroll: (event: Event) => {
  *   const mainSection = event.currentTarget as HTMLElement;
  *   const scrollPosition = mainSection.scrollTop + mainSection.clientHeight;
  *   const scrollHeight = mainSection.scrollHeight;
  * 
  *   // Check if scrolled to bottom (or near bottom)
  *   if (scrollPosition >= scrollHeight - 50) {
- *     const infiniteScroll = mainSection.shadowRoot?.querySelector('infinite-scroll');
- *     infiniteScroll?.dispatchEvent(new CustomEvent('scroll-bottom', { bubbles: true, composed: true }));
  *     console.log('Scrolled to bottom');
  *   }
  * },
@@ -77,9 +75,9 @@ interface BasicAsset {
  * ```html
  * <select-images
  *   .handleData=${handleData}
- *   .addFunction=${addFunction}
- *   .infiniteScroll=${infiniteScroll}
- *   .selectHandle=${selectHandle}
+ *   .onFirstUpdated=${onFirstUpdated}
+ *   .onScroll=${onScroll}
+ *   .onSelectHandle=${onSelectHandle}
  *   .slottedButtonsStyling=${'display: flex;'}>
  * </select-images>
  * ```
@@ -96,14 +94,14 @@ export class SelectImages extends LitElement {
     @property({ type: String }) imgWidth: string = '';
     @property({ type: String }) imgHeight: string = '';
     @property({ type: String }) slottedSearchStyling: string = '';
-    @property({ type: Function }) addFunction = () => { };
-    @property({ type: Function }) infiniteScroll = () => { };
-    @property({ type: Function }) selectHandle = (handle) => { };
+    @property({ type: Function }) onFirstUpdated = () => { };
+    @property({ type: Function }) onScroll = () => { };
+    @property({ type: Function }) onSelectHandle = (handle) => { };
 
     static styles = SelectImagesStyles
 
     firstUpdated() {
-        this.addFunction();
+        this.onFirstUpdated();
     }
 
     renderImages() {
@@ -121,7 +119,7 @@ export class SelectImages extends LitElement {
         return html`${handleDataArray.map((handleData: WalletHandle, index: number) => {
             const handle = this.handleData ? this.handleData[index] : undefined;
             return html`
-            <div @click="${() => handle && this.selectHandle(handle)}" class="handle-item ${handle?.active ? 'active' : ''}">
+            <div @click="${() => handle && this.onSelectHandle(handle)}" class="handle-item ${handle?.active ? 'active' : ''}">
                 <div >
                     ${handleData.image
                     ? html`<img class="handle-img" style="max-width:${this.imgWidth}; max-height:${this.imgHeight}" src="${this.imageUrl}" @load="${() => this.handleDataArray[index].loading = false}" />`
@@ -151,7 +149,7 @@ export class SelectImages extends LitElement {
                                     </div>
                                     <div class="scroll-wrapper-outer">
                                         <div style="width:100%; height:100%; pointer-events:none; position: absolute; z-index: 9; background-image: linear-gradient(to top, rgb(10, 14, 59), rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgb(10, 14, 59) 100%);"></div>
-                                        <div class="scroll-wrapper" @scroll="${this.infiniteScroll}">
+                                        <div class="scroll-wrapper" @scroll="${this.onScroll}">
                                             <div class="handles-container">
                                                 ${this.renderImages()}
                                             </div>

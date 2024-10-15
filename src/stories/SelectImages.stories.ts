@@ -6,9 +6,9 @@ export default {
     component: 'select-images',
     argTypes: {
         handleData: { control: 'array' },
-        addFunction: { action: 'addFunction called' },
-        infiniteScroll: { action: 'infiniteScroll called' },
-        selectHandle: { action: 'selectHandle called' },
+        onFirstUpdated: { action: 'onFirstUpdated called' },
+        onScroll: { action: 'onScroll called' },
+        onSelectHandle: { action: 'onSelectHandle called' },
         slottedSearchStyling: { control: 'text' },
         search: { control: 'text' },
         loader: { control: 'text' },
@@ -24,19 +24,19 @@ interface Story<T> {
 
 interface ArgTypes {
     handleData?: Array<any>;
-    addFunction?: Function;
-    infiniteScroll?: Function;
-    selectHandle?: Function;
+    onFirstUpdated?: Function;
+    onScroll?: Function;
+    onSelectHandle?: Function;
     slottedSearchStyling?: string;
     search?: TemplateResult;
     loader?: TemplateResult;
 }
 
-const Template: Story<ArgTypes> = ({ handleData, selectHandle, search, infiniteScroll, loader }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ handleData, onSelectHandle, search, onScroll, loader }: ArgTypes) => html`
     <select-images
         .handleData=${handleData}
-        .selectHandle=${selectHandle}
-        .infiniteScroll=${infiniteScroll}>
+        .onSelectHandle=${onSelectHandle}
+        .onScroll=${onScroll}>
         <div slot="slottedSearch">${search}</div>
         <div slot="slottedLoader">${loader}</div>
     </select-images>
@@ -62,8 +62,8 @@ Regular.args = {
         { name: 'Handle 2', image: 'zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=512' },
 
     ],
-    selectHandle: (handle) => console.log(handle),
-    infiniteScroll: () => console.log('infiniteScroll'),
+    onSelectHandle: (handle) => console.log(handle),
+    onScroll: () => console.log('onScroll'),
     search: html`<input type="text" placeholder="Search" />`,
     loader: html`<img src="ipfs://exampleLoader" />`,
 };
