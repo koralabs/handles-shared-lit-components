@@ -17,10 +17,10 @@ import { SelectHandleStyles } from './styles';
  *      { name: 'Handle 2', image: 'ipfs://exampleImage2' },
  *   ].
  * 
- * - **`addFunction`**:  
+ * - **`onFirstUpdated`**:  
  *   A function called during the `firstUpdated()` lifecycle method.
  * 
- * - **`infiniteScroll`**:  
+ * - **`onScroll`**:  
  *   A function attached to the scroller that detects when the user has scrolled.
  * 
  * - **`slottedButtonsStyling`**:  
@@ -29,7 +29,7 @@ import { SelectHandleStyles } from './styles';
  * - **`slottedSearchStyling`**:  
  *   A string used to style the slotted search input.
  * 
- * - **`selectHandle`**:  
+ * - **`onSelectHandle`**:  
  *   A function that processes the selected handle. It receives the handle object and sends it back to the parent component.
  * 
  * - **`loadingImg`**:  
@@ -41,14 +41,27 @@ import { SelectHandleStyles } from './styles';
  * - **`handle`**:
  *   The currently selected handle object. expected in the format { name: 'Handle 1', image: 'ipfs://exampleImage1' }.
  * 
+ * 
  * ### Example Method:
  * ```js
- * function selectHandle(handle) {
+ * function onSelectHandle(handle) {
  *   this.loadingImg = true;
  *   console.log('Selected handle:', handle);
  *   this.loadingImg = false;
  *   this.handle = handle;
  * }
+ * 
+ * onScroll: (event: Event) => {
+ *   const mainSection = event.currentTarget as HTMLElement;
+ *   const scrollPosition = mainSection.scrollTop + mainSection.clientHeight;
+ *   const scrollHeight = mainSection.scrollHeight;
+ * 
+ *   // Check if scrolled to bottom (or near bottom)
+ *   if (scrollPosition >= scrollHeight - 50) {
+ *     console.log('Scrolled to bottom');
+ *   }
+ * },
+ * 
  * ```
  * 
  * ### Example Usage:
@@ -58,9 +71,9 @@ import { SelectHandleStyles } from './styles';
  *   .loadingImg=${loadingImg}
  *   .imageUrl=${imageUrl}
  *   .handle=${handle}
- *   .addFunction=${addFunction}
- *   .infiniteScroll=${infiniteScroll}
- *   .selectHandle=${selectHandle}
+ *   .onFirstUpdated=${onFirstUpdated}
+ *   .onScroll=${onScroll}
+ *   .onSelectHandle=${onSelectHandle}
  *   .slottedButtonsStyling=${'display: flex;'}>
  *      <div slot="slottedSearch">${search}</div>
  *      <div slot="slottedButtons">${buttons}</div>
@@ -77,14 +90,14 @@ export class SelectHandle extends LitElement {
     @property({ type: String }) imageUrl: string;
     @property({ type: Object }) handle: any = {};
     @property({ type: Object }) litElement!: LitElement;
-    @property({ type: Function }) addFunction = () => { };
-    @property({ type: Function }) infiniteScroll = () => { };
-    @property({ type: Function }) selectHandle = (handle) => { };
+    @property({ type: Function }) onFirstUpdated = () => { };
+    @property({ type: Function }) onScroll = () => { };
+    @property({ type: Function }) onSelectHandle = (handle) => { };
 
     static styles = SelectHandleStyles
 
     firstUpdated() {
-        this.addFunction();
+        this.onFirstUpdated();
     }
 
     render() {
@@ -122,14 +135,14 @@ export class SelectHandle extends LitElement {
                 : ''}
                             </div>
                             <hr class="line-brake" />
-                            <div class="scroll-wrapper-outer" @scroll="${this.infiniteScroll}">
+                            <div class="scroll-wrapper-outer" @scroll="${this.onScroll}">
                                 <div class="scroll-wrapper">
                                     <div class="handles-container">
                                         ${(handles ?? []).map(
                     handle => html`
                                                 <li
                                                     @click="${() =>
-                            this.selectHandle({
+                            this.onSelectHandle({
                                 ...handle
                             })}"
                                                     class="active-handle ${this.handle?.name === handle.name

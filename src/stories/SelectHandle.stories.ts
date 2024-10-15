@@ -7,9 +7,9 @@ export default {
     component: 'select-handle',
     argTypes: {
         handleData: { control: 'array' },
-        addFunction: { action: 'addFunction called' },
-        infiniteScroll: { action: 'infiniteScroll called' },
-        selectHandle: { action: 'selectHandle called' },
+        onFirstUpdated: { action: 'onFirstUpdated called' },
+        onScroll: { action: 'onScroll called' },
+        onSelectHandle: { action: 'onSelectHandle called' },
         slottedButtonsStyling: { control: 'text' },
         slottedSearchStyling: { control: 'text' },
         imageUrl: { control: 'text' },
@@ -28,9 +28,9 @@ interface Story<T> {
 
 interface ArgTypes {
     handleData?: Array<any>;
-    addFunction?: Function;
-    infiniteScroll?: Function;
-    selectHandle?: Function;
+    onFirstUpdated?: Function;
+    onScroll?: Function;
+    onSelectHandle?: Function;
     slottedButtonsStyling?: string;
     slottedSearchStyling?: string;
     imageUrl?: string;
@@ -39,11 +39,11 @@ interface ArgTypes {
     loader?: TemplateResult;
 }
 
-const Template: Story<ArgTypes> = ({ handleData, selectHandle, infiniteScroll, search, buttons, loader, imageUrl }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ handleData, onSelectHandle, onScroll, search, buttons, loader, imageUrl }: ArgTypes) => html`
     <select-handle
         .handleData=${handleData}
-        .selectHandle=${selectHandle}
-        .infiniteScroll=${infiniteScroll}
+        .onSelectHandle=${onSelectHandle}
+        .onScroll=${onScroll}
         .imageUrl=${imageUrl}>
         <div slot="slottedSearch">${search}</div>
         <div slot="slottedButtons">${buttons}</div>
@@ -58,8 +58,8 @@ Regular.args = {
         { name: 'Handle 2', image: 'ipfs://exampleImage2' },
         { name: 'Handle 3', image: 'ipfs://exampleImage3' },
     ],
-    selectHandle: (handle: any) => console.log(handle),
-    infiniteScroll: () => console.log('infiniteScroll called'),
+    onSelectHandle: (handle: any) => console.log(handle),
+    onScroll: () => console.log('onScroll called'),
     imageUrl: 'ipfs://exampleImage',
     search: html`<input type="text" placeholder="Search" />`,
     buttons: html`<button>Cancel</button><button>Continue</button>`,
