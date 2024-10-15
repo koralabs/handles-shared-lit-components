@@ -9,7 +9,7 @@ import { SelectWalletStyles } from './styles';
  * - **slottedButtons**: Slot for action buttons (e.g., confirm or cancel buttons).
  * 
  * ### State:
- * - `selectedWallet` (string): Tracks the selected wallet key.(set to currently selected wallet for active state)
+ * - `selectedWallet` (string): Tracks the selected wallet key.(set to currently selected walletKey for active state)
  * 
  * ### Properties:
  * - `slottedButtonsStyling` (string): Styles the slotted buttons container.
@@ -17,9 +17,6 @@ import { SelectWalletStyles } from './styles';
  * - `infiniteScroll` (Function): Function to handle infinite scrolling within the wallet list.
  * - `selectWallet` (Function): Function to handle wallet selection. Receives the wallet object.
  * - `wallets` (Array): An array of wallet objects, each with `key`, `name`, and `icon` properties.
- * 
- * ### Methods:
- * - `renderSelectIcon(walletKey: string)`: Renders a selection icon for the wallet.
  * 
  * ### Example usage:
  * 
@@ -45,7 +42,6 @@ import { SelectWalletStyles } from './styles';
 @customElement('select-wallet')
 export class SelectWallet extends LitElement {
     @state() selectedWallet: string = '';
-    @state() walletApi: any = null;
 
     @property({ type: String }) slottedButtonsStyling = '';
     @property({ type: Function }) addFunction = () => { };
