@@ -10,9 +10,7 @@ export const SelectImagesStyles = css`
 
     .login-body {
         padding: 1rem;
-        margin-left: 2rem;
-        margin-right: 2rem;
-        margin-top: 1rem;
+        margin: 1rem 2rem 0;
         border-radius: 1.5rem;
         background-color: hsla(0, 0%, 100%, 0.1);
     }
@@ -47,7 +45,7 @@ export const SelectImagesStyles = css`
         background: none;
         color: rgb(255, 255, 255);
         border-radius: 0.25rem;
-        padding: 0.5rem 0rem 0.5rem 1rem;
+        padding: 0.5rem 0 0.5rem 1rem;
         cursor: pointer;
         text-align: center;
         text-decoration: none;
@@ -63,16 +61,10 @@ export const SelectImagesStyles = css`
         display: flex;
         align-items: center;
         justify-content: center;
-        align-content: center;
-        flex-wrap: nowrap;
         flex-direction: column;
         margin-top: 5px;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        border-color: hsla(0, 0%, 100%, 0.05);
-        border-width: 1px;
+        padding: 1.5rem;
+        border: 1px solid hsla(0, 0%, 100%, 0.05);
         border-radius: 0.75rem;
         max-width: 250px;
         width: 100%;
@@ -84,13 +76,9 @@ export const SelectImagesStyles = css`
         overflow: hidden;
         text-overflow: ellipsis;
         display: flex;
-        flex-direction: row;
         align-items: center;
         width: -webkit-fill-available;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding: 0.75rem 1rem;
         margin-top: 5px;
         background-color: hsla(0, 0%, 100%, 0.05);
         border-radius: 0.5em;
@@ -159,16 +147,11 @@ export const SelectImagesStyles = css`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        transition-property: all;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 0.15s;
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         color: rgba(107, 114, 128, 1);
         font-weight: 700;
         text-align: center;
-        padding-left: 1rem;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        padding-right: 1.5rem;
+        padding: 0.5rem 1.5rem 0.5rem 1rem;
         background-color: hsla(0, 0%, 100%, 0.05);
         border-radius: 1.5rem;
         cursor: pointer;
@@ -179,7 +162,6 @@ export const SelectImagesStyles = css`
 
     .handle-and-icon {
         display: flex;
-        flex-direction: row;
         align-items: center;
         justify-content: space-between;
     }
@@ -221,15 +203,12 @@ export const SelectImagesStyles = css`
     }
 
     .handles-container {
-        margin-top: 1.25rem;
-        margin-bottom: 1.25rem;
+        margin: 1.25rem 0;
         display: flex;
         gap: 16px;
         width: 100%;
         position: relative;
-        flex-direction: row;
         flex-wrap: wrap;
-        align-content: center;
         justify-content: center;
     }
 
@@ -245,36 +224,30 @@ export const SelectImagesStyles = css`
         border: 1px solid rgba(13, 221, 96, 1);
         backdrop-filter: blur(19.04205322265625px);
     }
+
     .handle-item:hover {
-        box-shadow: 0px 19.04px 95.21px 0px rgba(22, 7, 47, 0.5);
-        box-shadow: 0px 0px 30px 0px rgba(13, 229, 100, 0.35);
+        box-shadow: 0px 19.04px 95.21px 0px rgba(22, 7, 47, 0.5), 0px 0px 30px 0px rgba(13, 229, 100, 0.35);
         border: 1px solid rgba(13, 221, 96, 1);
         padding: 11px;
     }
+
     .route-btns-container {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        padding-top: 1rem;
+        padding: 1rem 0.5rem 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-direction: row;
     }
 
     .route-btn {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
+        padding: 0.5rem 0.25rem;
+        margin: 0 1rem;
         background-color: hsla(0, 0%, 100%, 0.05);
         border: 1px solid rgba(28, 37, 65, 1);
         border-radius: 0.75rem;
+        display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        display: flex;
         transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         color: inherit;
         text-decoration: inherit;
@@ -295,10 +268,8 @@ export const SelectImagesStyles = css`
 
     .line-brake {
         border-color: rgba(58, 80, 107, 1);
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin: 1rem 0;
         height: 0;
-        color: inherit;
         border-top-width: 1px;
     }
 
@@ -321,8 +292,7 @@ export const SelectImagesStyles = css`
     }
 
     .field-label {
-        margin-top: 0.5rem;
-        margin-bottom: 0.25rem;
+        margin: 0.5rem 0 0.25rem;
     }
 
     .current-handle {
@@ -332,12 +302,10 @@ export const SelectImagesStyles = css`
         border-radius: 0.5rem;
         display: flex;
         padding: 0.7em 0.5em;
-        margin: 0.1em 0;
+        margin: 0.1em 0 5px;
         text-decoration: none;
-        flex-direction: row;
         align-items: center;
         width: -webkit-fill-available;
-        margin-top: 5px;
         background-color: hsla(0, 0%, 100%, 0.05);
         border-radius: 0.5em;
     }
@@ -377,26 +345,22 @@ export const SelectImagesStyles = css`
 
     @media screen and (max-width: 350px) {
         .handles-select-dropdown {
-            padding-left: 0.25rem;
-            padding-right: 0.25rem;
+            padding: 0 0.25rem;
         }
 
         .route-btn {
-            margin-left: 0.25rem;
-            margin-right: 0.25rem;
+            margin: 0 0.25rem;
         }
     }
 
     @media (max-width: 580px) {
         .login-container {
-            padding: 0rem;
+            padding: 0;
         }
 
         .login-body {
             padding: 0.5rem;
-            margin-left: 0.5rem;
-            margin-right: 0.5rem;
-            margin-top: 0.5rem;
+            margin: 0.5rem 0.5rem 0;
         }
 
         .login-content {
