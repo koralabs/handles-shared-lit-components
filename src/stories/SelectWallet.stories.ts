@@ -10,7 +10,7 @@ export default {
             description: 'An array of wallet objects.',
             defaultValue: [],
         },
-        selectWallet: {
+        onSelectWallet: {
             control: { type: 'function' },
             description: 'A function to handle the wallet selection.',
             defaultValue: () => { },
@@ -27,15 +27,15 @@ interface Story<T> {
 
 interface ArgTypes {
     wallets?: any[];
-    selectWallet?: (wallet) => void;
+    onSelectWallet?: (wallet) => void;
 }
 
 const Template: Story<ArgTypes> = ({
     wallets = [],
-    selectWallet = (wallet) => { },
+    onSelectWallet = (wallet) => { },
 }: ArgTypes) => html`
     <select-wallet
-        .selectWallet="${selectWallet}"
+        .onSelectWallet="${onSelectWallet}"
         .wallets="${wallets}">
     </select-wallet>
 `;
@@ -48,7 +48,7 @@ Regular.args = {
         { key: 'eternl', name: 'Eternl', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' },
         { key: 'nami', name: 'Nami', icon: 'data:image/svg+xml,%3Csvg width="27" height="26" v….0677 23.5744Z" fill="%233414FC"/%3E%3C/svg%3E%0A' }
     ],
-    selectWallet: (wallet) => {
+    onSelectWallet: (wallet) => {
         console.log('Selected wallet:', wallet);
     },
 };

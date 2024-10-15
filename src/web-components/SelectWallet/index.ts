@@ -13,17 +13,31 @@ import { SelectWalletStyles } from './styles';
  * 
  * ### Properties:
  * - `slottedButtonsStyling` (string): Styles the slotted buttons container.
- * - `addFunction` (Function): Function that runs when the component is first updated (`firstUpdated()`).
- * - `infiniteScroll` (Function): Function to handle infinite scrolling within the wallet list.
- * - `selectWallet` (Function): Function to handle wallet selection. Receives the wallet object.
+ * - `onFirstUpdated` (Function): Function that runs when the component is first updated (`firstUpdated()`).
+ * - `onScroll` (Function): Function to handle infinite scrolling within the wallet list.
+ * - `onSelectWallet` (Function): Function to handle wallet selection. Receives the wallet object.
  * - `wallets` (Array): An array of wallet objects, each with `key`, `name`, and `icon` properties.
  * 
  * ### Example usage:
  * 
+ *  * ```js
+ * onScroll: (event: Event) => {
+ *   const mainSection = event.currentTarget as HTMLElement;
+ *   const scrollPosition = mainSection.scrollTop + mainSection.clientHeight;
+ *   const scrollHeight = mainSection.scrollHeight;
+ * 
+ *   // Check if scrolled to bottom (or near bottom)
+ *   if (scrollPosition >= scrollHeight - 50) {
+ *     console.log('Scrolled to bottom');
+ *   }
+ * },
+ * ```
+ * 
  * ```html
  * <select-wallet
  *   .wallets="${wallets}"
- *   .selectWallet="${onSelectWallet}">
+ *   .onSelectWallet="${onSelectWallet}"
+ *   .onScroll="${onScroll}">
  * </select-wallet>
  * ```
  * 
@@ -44,15 +58,15 @@ export class SelectWallet extends LitElement {
     @state() selectedWallet: string = '';
 
     @property({ type: String }) slottedButtonsStyling = '';
-    @property({ type: Function }) addFunction = () => { };
-    @property({ type: Function }) infiniteScroll = () => { };
-    @property({ type: Function }) selectWallet = (wallet) => { };
+    @property({ type: Function }) onFirstUpdated = () => { };
+    @property({ type: Function }) onScroll = () => { };
+    @property({ type: Function }) onSelectWallet = (wallet) => { };
     @property({ type: Array }) wallets = [];
 
     static styles = SelectWalletStyles;
 
     firstUpdated() {
-        this.addFunction();
+        this.onFirstUpdated();
     }
 
     renderSelectIcon(walletKey: string) {
@@ -75,11 +89,11 @@ export class SelectWallet extends LitElement {
                             <p class="header-text">Choose your wallet</p>
                         </div>
                         <div class="w-full relative">
-                            <div class="wallets-container" @scroll="${this.infiniteScroll}">
+                            <div class="wallets-container" @scroll="${this.onScroll}">
                                 ${userHasWallets
                 ? this.wallets.map(wallet => html`
                                         <div class="wallet-item ${this.selectedWallet === wallet.key ? 'selected' : ''}" 
-                                            @click="${() => this.selectWallet(wallet)}">
+                                            @click="${() => this.onSelectWallet(wallet)}">
                                             <div class="relative">
                                                 <div class="wallets-active-border ${this.selectedWallet === wallet.key ? 'active' : 'inactive'}">
                                                     <div class="wallet-name-wrapper">
