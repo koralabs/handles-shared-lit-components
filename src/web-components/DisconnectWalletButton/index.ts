@@ -7,7 +7,7 @@ import { DisconnectWalletButtonStyles } from './styles';
  * 
  * ### Help: How to Use the `<disconnect-wallet-button>` Component
  * 
- * 1. **wallet Icon (required)**:
+ * 1. **wallet Icon (optional)**:
  *    - Pass the wallet's icon URL to display the icon.
  *    - **Example**:
  *      ```html
