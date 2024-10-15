@@ -2,21 +2,9 @@ import { css } from 'lit';
 
 export const HandleSmallSearchStyles = css`
     * {
-        font-family:
-        Syne,
-        Noto Sans,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        Segoe UI,
-        Roboto,
-        Ubuntu,
-        Cantarell,
-        sans-serif,
-        BlinkMacSystemFont,
-        Helvetica Neue,
-        Arial;
+        font-family: Syne, Noto Sans, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, sans-serif, BlinkMacSystemFont, Helvetica Neue, Arial;
     }
+
     .search-svg {
         opacity: 1;
         color: rgba(209, 213, 219, 1);
@@ -39,7 +27,8 @@ export const HandleSmallSearchStyles = css`
         border-radius: 7px;
         justify-content: center;
         flex-wrap: nowrap;
-    }   
+    }
+
     .input-form {
         font-family: Ubuntu Mono, monospace;
         overflow-y: auto;
@@ -65,6 +54,7 @@ export const HandleSmallSearchStyles = css`
         border-width: 1px;
         border-color: #2462E9;
     }
+
     .clear-search {
         opacity: 1;
         color: rgba(209, 213, 219, 1);
@@ -76,6 +66,7 @@ export const HandleSmallSearchStyles = css`
         cursor: pointer;
         stroke-width: 0;
     }
+
     .clear-search-wrapper {
         visibility: hidden;
         display: none;
@@ -83,22 +74,25 @@ export const HandleSmallSearchStyles = css`
         right: 19px;
         position: absolute;
     }
+
     .search-icon-wrapper {
         top: 18px;
         left: 19px;
         position: absolute;
     }
+
     .clear-search-wrapper.searching {
         visibility: visible;
         display: flex;
     }
-    
+
     @media screen and (max-width: 350px) {
         .clear-search-wrapper {
             right: 20px;
         }
+
         .search-icon-wrapper {
             left: 20px;
         }
-    } 
+    }
 `;

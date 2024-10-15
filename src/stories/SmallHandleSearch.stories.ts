@@ -6,8 +6,6 @@ export default {
     component: 'handle-small-search',
     argTypes: {
         inputValue: { control: 'text' },
-        open: { control: 'boolean' },
-        search: { control: 'text' },
         searching: { control: 'boolean' },
     },
 };
@@ -21,16 +19,12 @@ interface Story<T> {
 
 interface ArgTypes {
     inputValue?: string;
-    open?: boolean;
-    search?: string;
     searching?: boolean;
 }
 
-const Template: Story<ArgTypes> = ({ inputValue, open, search, searching }: ArgTypes) => html`
+const Template: Story<ArgTypes> = ({ inputValue, searching }: ArgTypes) => html`
     <handle-small-search
         .inputValue="${inputValue}"
-        .open="${open}"
-        .search="${search}"
         .searching="${searching}"
     ></handle-small-search>
 `;
@@ -38,7 +32,5 @@ const Template: Story<ArgTypes> = ({ inputValue, open, search, searching }: ArgT
 export const Regular = Template.bind({});
 Regular.args = {
     inputValue: '',
-    open: false,
-    search: '',
     searching: false,
 };
