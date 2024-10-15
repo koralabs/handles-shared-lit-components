@@ -47,8 +47,6 @@ export class SelectWallet extends LitElement {
     @state() selectedWallet: string = '';
     @state() walletApi: any = null;
 
-    @property({ type: String }) route = '';
-    @property({ type: String }) help = 'help';
     @property({ type: String }) slottedButtonsStyling = '';
     @property({ type: Function }) addFunction = () => { };
     @property({ type: Function }) infiniteScroll = () => { };
