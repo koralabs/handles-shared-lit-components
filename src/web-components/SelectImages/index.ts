@@ -87,7 +87,6 @@ interface BasicAsset {
 export class SelectImages extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
     @property({ type: Array }) handleDataArray: any;
-    @property({ type: Object }) litElement!: LitElement;
     @property({ type: Boolean }) dropdownOpen = false;
     @property({ type: Boolean }) isLoading = false;
     @property({ type: String }) imageUrl: string;
