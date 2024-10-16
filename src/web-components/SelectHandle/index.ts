@@ -38,8 +38,8 @@ import { SelectHandleStyles } from './styles';
  * - **`imageUrl`**:
  *   The URL of the image to display for the selected handle.
  * 
- * - **`handle`**:
- *   The currently selected handle object. expected in the format { name: 'Handle 1', image: 'ipfs://exampleImage1' }.
+ * - **`activeHandle`**:
+ *   The currently active handle object. expected in the format { name: 'Handle 1', image: 'ipfs://exampleImage1' }.
  * 
  * 
  * ### Example Method:
@@ -70,7 +70,7 @@ import { SelectHandleStyles } from './styles';
  *   .handleData=${handleData}
  *   .loadingImg=${loadingImg}
  *   .imageUrl=${imageUrl}
- *   .handle=${handle}
+ *   .activeHandle=${activeHandle}
  *   .onFirstUpdated=${onFirstUpdated}
  *   .onScroll=${onScroll}
  *   .onSelectHandle=${onSelectHandle}
@@ -88,8 +88,7 @@ export class SelectHandle extends LitElement {
     @property({ type: String }) slottedButtonsStyling: string;
     @property({ type: String }) slottedSearchStyling: string;
     @property({ type: String }) imageUrl: string;
-    @property({ type: Object }) handle: any = {};
-    @property({ type: Object }) litElement!: LitElement;
+    @property({ type: Object }) activeHandle: any = {};
     @property({ type: Function }) onFirstUpdated = () => { };
     @property({ type: Function }) onScroll = () => { };
     @property({ type: Function }) onSelectHandle = (handle) => { };
@@ -112,7 +111,7 @@ export class SelectHandle extends LitElement {
                                 <div style=${this.slottedSearchStyling}>                   
                                     <slot name="slottedSearch"></slot>
                                 </div>
-                                ${this.handle?.name
+                                ${this.activeHandle?.name
                 ? html`
                                           <div class="current-handle">
                                               ${this.loadingImg
@@ -127,7 +126,7 @@ export class SelectHandle extends LitElement {
                                                       <span class="handle-sign">
                                                           <span class="dollar-sign">$</span>
                                                       </span>
-                                                      <span class="handle-text">${this.handle?.name}</span>
+                                                      <span class="handle-text">${this.activeHandle?.name}</span>
                                                   </p>
                                               </div>
                                           </div>
@@ -145,13 +144,13 @@ export class SelectHandle extends LitElement {
                             this.onSelectHandle({
                                 ...handle
                             })}"
-                                                    class="active-handle ${this.handle?.name === handle.name
+                                                    class="active-handle ${this.activeHandle?.name === handle.name
                             ? 'active'
                             : ''}"
                                                 >
-                                                    ${this.handle?.name === handle.name && this.loadingImg
+                                                    ${this.activeHandle?.name === handle.name && this.loadingImg
                             ? html``
-                            : this.handle?.name === handle.name
+                            : this.activeHandle?.name === handle.name
                                 ? html`
                                                               <div class="handle-img">
                                                                   <img src="${this.imageUrl}" />
