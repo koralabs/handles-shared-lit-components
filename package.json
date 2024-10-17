@@ -21,9 +21,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@koralabs/kora-labs-common": "^4.4.9",
+        "@koralabs/kora-labs-databases": "0.4.6",
+        "@storybook/web-components": "^8.3.5",
         "emoji-picker-element": "^1.22.8",
-        "lit": "^3.2.0",
-        "lit-html": "^3.2.0"
+        "lit": "^3.2.0"
     },
     "devDependencies": {
         "@custom-elements-manifest/analyzer": "^0.10.3",

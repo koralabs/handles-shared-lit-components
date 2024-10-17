@@ -3,6 +3,7 @@ import { css } from 'lit'
 export const OpenChatButtonStyles = css`
 
 .open-chat-button-outer {
+    z-index: 1000;
     display: flex;
     flex-direction: row-reverse;
     align-content: center;

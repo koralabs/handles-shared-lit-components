@@ -14,7 +14,6 @@ export class ChatBox extends LitElement {
 
 
     render() {
-        console.log(this.chatText)
         return html`
             <div class="chat-box-wrapper ${this.isMe ? 'me' : ''}" style="display: ${this.chatText === '' || this.chatText === undefined ? 'none' : 'flex'}">
                 <div>
