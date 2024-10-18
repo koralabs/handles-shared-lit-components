@@ -1,6 +1,6 @@
 import { css } from "lit";
 
-export const SelectImagesStyles = css`
+export const LargeHandleSelectorStyles = css`
     .login-container {
         max-width: 45rem;
         width: 100%;

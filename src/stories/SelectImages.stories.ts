@@ -1,9 +1,9 @@
 import { html, TemplateResult } from 'lit';
-import '../web-components/SelectImages/index.js';
+import '../web-components/LargeHandleSelector/index.js';
 
 export default {
-    title: 'Components/SelectImages',
-    component: 'select-images',
+    title: 'Components/LargeHandleSelector',
+    component: 'large-handle-selector',
     argTypes: {
         handleData: { control: 'array' },
         onFirstUpdated: { action: 'onFirstUpdated called' },
@@ -33,13 +33,13 @@ interface ArgTypes {
 }
 
 const Template: Story<ArgTypes> = ({ handleData, onSelectHandle, search, onScroll, loader }: ArgTypes) => html`
-    <select-images
+    <large-handle-selector
         .handleData=${handleData}
         .onSelectHandle=${onSelectHandle}
         .onScroll=${onScroll}>
         <div slot="slottedSearch">${search}</div>
         <div slot="slottedLoader">${loader}</div>
-    </select-images>
+    </large-handle-selector>
 `;
 
 export const Regular = Template.bind({});

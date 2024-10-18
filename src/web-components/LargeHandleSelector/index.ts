@@ -1,32 +1,9 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SelectImagesStyles } from './styles';
-
-interface WalletHandle extends Asset {
-    active: any;
-    default: boolean;
-    image?: string;
-    imageUrl?: string;
-}
-
-interface Asset extends BasicAsset {
-    name: string;
-    count?: number;
-    utxo?: string;
-    image?: string;
-    src?: string;
-    price?: number;
-    cost?: number;
-    validUntilDate?: number;
-}
-
-interface BasicAsset {
-    policyId: string;
-    hex: string;
-}
+import { LargeHandleSelectorStyles } from './styles';
 
 /**
- * `select-images` is a custom LitElement component for selecting wallet handles.
+ * `large-handle-selector` is a custom LitElement component for selecting wallet handles.
  * 
  * ### Slots:
  * - **`slottedSearch`**: Slot for the search input.
@@ -73,18 +50,18 @@ interface BasicAsset {
  * 
  * ### Example Usage:
  * ```html
- * <select-images
+ * <large-handle-selector
  *   .handleData=${handleData}
  *   .onFirstUpdated=${onFirstUpdated}
  *   .onScroll=${onScroll}
  *   .onSelectHandle=${onSelectHandle}
  *   .slottedButtonsStyling=${'display: flex;'}>
- * </select-images>
+ * </large-handle-selector>
  * ```
  */
 
-@customElement('select-images')
-export class SelectImages extends LitElement {
+@customElement('large-handle-selector')
+export class LargeHandleSelector extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
     @property({ type: Array }) handleDataArray: any;
     @property({ type: Boolean }) dropdownOpen = false;
@@ -97,7 +74,7 @@ export class SelectImages extends LitElement {
     @property({ type: Function }) onScroll = () => { };
     @property({ type: Function }) onSelectHandle = (handle) => { };
 
-    static styles = SelectImagesStyles
+    static styles = LargeHandleSelectorStyles
 
     firstUpdated() {
         this.onFirstUpdated();
