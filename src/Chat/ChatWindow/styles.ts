@@ -26,7 +26,6 @@ export const ChatWindowStyles = css`
 
     .chats-wrapper {
         margin: 0rem 0.5rem;
-        height: 50rem;
     }
 
     .chat-body {

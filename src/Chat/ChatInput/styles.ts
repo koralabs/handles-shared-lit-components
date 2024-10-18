@@ -21,8 +21,12 @@ export const ChatInputStyles = css`
     }
 
      .chat-input {
-        
-        max-height: 5rem;
+        max-height: 10rem;
+        height:25px;
+        background-color:transparent;
+        display: block;
+        resize: none;
+        border:none;
         overflow-y: auto;
         width: -webkit-fill-available;
         color: rgba(255, 255, 255, 1);

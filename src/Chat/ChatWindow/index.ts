@@ -28,7 +28,7 @@ export class ChatWindow extends LitElement {
             <svg class="close-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" @click="${this.closeWindow}">
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
             </svg>
-        `
+        `;
     }
 
     handleInputChange = (event: CustomEvent<{ inputValue: string, searching: boolean }>) => {
@@ -41,14 +41,21 @@ export class ChatWindow extends LitElement {
     };
 
     search() {
-        this.startSearch = !this.startSearch
+        this.startSearch = true
+        this.searching = true
+    }
+
+    endSearch() {
+
+        this.startSearch = false
+        this.searching = false
     }
 
     headerAction() {
         return html`
             ${this.startSearch ?
                 html`
-                <svg class="search-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" @click="${this.search}" >
+                <svg class="search-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" @click="${this.endSearch}" >
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
                 </svg>
             `
@@ -74,22 +81,7 @@ export class ChatWindow extends LitElement {
                     <div class="chats-wrapper">
                         ${this.searching ? html`<friendly-handles .inputValue="${this.inputValue}"></friendly-handles>`
                 : html`
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                      <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
-                      <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                      <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
-                       <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                       <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                     <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                     <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
-                      <chat-box .chatText=${'sfssf sf sfsfsf sfsfsfsf sf sfsf fsfsfsfs sfsfsfs sfsfsfsf sf sff '} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zdj7WiW9zC3j5S8i5YR1F9kHyf72iJ5r2AjghzksSCLhzKq1J?img-width=100'}></chat-box>
-                     <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
-                       <chat-box .isMe=${this.isMe} .chatText=${'eeeeee eddd d dd dd dd dd d dd dddd ddd ddddd ddddddd e eeeeeeee'} .imageUrl=${'https://public-handles.myfilebase.com/ipfs/zb2rhiv8WgRqPrRKYuHic1NsXHmgNKFyojuc81E5qFWFWLaQn?img-width=100'}></chat-box>
+                      <chat-box .isMe=${this.isMe} .chatText=${this.chatText} .imageUrl=${this.imageUrl}></chat-box>
                     `}</div>
                 </div>
                 <div class="chat-input-wrapper">

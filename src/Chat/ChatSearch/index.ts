@@ -7,21 +7,13 @@ import '../FriendlyHandles/index.js'
 @customElement('chat-search')
 export class ChatSearch extends LitElement {
     @property({ type: String }) inputValue: string | undefined;
-    @property({ type: Boolean }) searching: boolean = false;
     searchWalletHandles: any
     searchHandleData: any
     static styles = ChatSearchStyles
 
-    clearSearch() {
-        this.searching = false;
-        this.inputValue = '';
-        this.requestUpdate();
-    }
-
     handleInput(event: { target: { value: string; }; }) {
         const inputValue = event.target?.value?.trim();
         const searching = true
-        this.searching = !!inputValue;
 
         this.dispatchEvent(new CustomEvent('input-change', {
             detail: { inputValue, searching },
