@@ -11,6 +11,9 @@ export class ChatWindow extends LitElement {
 
     @property({ type: String }) handle = 'grim-reaper'
     @property({ type: String }) chatText: string | ''
+    @property({ type: String }) chats: any
+    @property({ type: Array }) allChats: any[]
+    @property({ type: Array }) dumb: any[]
     @property({ type: String }) imageUrl = 'grim-reaper'
     @property({ type: String }) inputValue: string | ''
     @property({ type: Boolean }) isOpen = true
@@ -18,6 +21,10 @@ export class ChatWindow extends LitElement {
     @property({ type: Boolean }) searching = false
     @property({ type: Boolean }) startSearch = false
     searchComponent: any;
+
+    firsUpdated() {
+
+    }
 
     closeWindow() {
         this.isOpen = !this.isOpen
@@ -51,6 +58,22 @@ export class ChatWindow extends LitElement {
         this.searching = false
     }
 
+    messageReceived(event: CustomEvent<{ message: string, handle: object }>) {
+        console.log(' fired')
+        this.chats = localStorage.getItem('chat') || 'dumb'
+
+        this.chats = JSON.parse(localStorage.getItem('allchats'))
+        this.chatText = event.detail.message
+        this.allChats = [this.chats, this.chatText]
+
+        localStorage.setItem('allchats', JSON.stringify(this.allChats))
+
+
+        localStorage.setItem('chat', event.detail.message)
+        this.requestUpdate
+
+    }
+
     headerAction() {
         return html`
             ${this.startSearch ?
@@ -67,6 +90,7 @@ export class ChatWindow extends LitElement {
         `
     }
     render() {
+        const chats = this.allChats || JSON.parse(localStorage.getItem('allchats'))
         return html`
             <div class="chat-window ${this.isOpen ? 'open' : 'closed'}">
                 <div class="chat-header">
@@ -81,11 +105,14 @@ export class ChatWindow extends LitElement {
                     <div class="chats-wrapper">
                         ${this.searching ? html`<friendly-handles .inputValue="${this.inputValue}"></friendly-handles>`
                 : html`
-                      <chat-box .isMe=${this.isMe} .chatText=${this.chatText} .imageUrl=${this.imageUrl}></chat-box>
+                ${(chats ?? []).toString().split(',').map(chat => html`
+                    <chat-box .isMe=${this.isMe} .chatText=${chat} .imageUrl=${this.imageUrl}></chat-box>`
+                )}
+                      
                     `}</div>
                 </div>
                 <div class="chat-input-wrapper">
-                  <chat-input> </chat-input>
+                  <chat-input @chat-sent=${this.messageReceived}> </chat-input>
                 </div>
             </div>
       `

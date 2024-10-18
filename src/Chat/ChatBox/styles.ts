@@ -25,7 +25,7 @@ export const ChatBoxStyles = css`
         padding: 10px;
         background-color:rgba(59, 62, 98, 1);
         color: white;
-        width: 10.75rem;
+        max-width: 10.75rem;
     }
 
     .chat-text {
