@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import { customElement, property, state } from 'lit/decorators.js';
-import { DropdownButtonStyles } from './styles';
+import { DropdownButtonStyles } from './styles.js';
 
 /**
  * `DropdownButton` is a custom LitElement component that provides a dropdown.

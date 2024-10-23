@@ -1,52 +1,65 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { FriendlyHandlesStyles } from './styles';
-import { handleData, WalletHandle } from '../../../helpers';
+import { FriendlyHandlesStyles } from './styles.js';
+import { WalletHandle } from '../../../helpers';
+import { walletHandles } from '../../../helpers/handles.js';
 
 @customElement('friendly-handles')
 export class FriendlyHandles extends LitElement {
 
     static styles = FriendlyHandlesStyles
-    @property({ type: String }) inputValue: string | undefined;
+    @property({ type: String }) inputValue: string | '';
+    @property({ type: String }) searchValue: string | '';
+    @property({ type: Array }) list: Array<WalletHandle> | [];
     @property({ type: Boolean }) searching: boolean = false;
     searchWalletHandles: any
     searchHandleData: any
+    handleData: any
     activeHandle
     loadingImg
     imageUrl
 
 
-    firstUpdated() {
+    async firstUpdated() {
+        this.search()
         this.activeHandle = localStorage.getItem('activeHandle')
     }
 
     onSelectHandle(handle) {
-        console.log(handle)
+        this.dispatchEvent(new CustomEvent('receiver-handle', {
+            detail: { handle, open },
+            bubbles: true,
+            composed: true
+        }));
+        this.requestUpdate()
     }
 
     onScroll() { }
 
-    render() {
-        this.searchHandleData = handleData
-        const list = this.searchHandleData || [];
+    async search() {
         const inputValue = this.inputValue
+        this.list = await walletHandles() || [];
         if (inputValue.startsWith('$')) {
-            this.inputValue = inputValue.toLowerCase();
-            const matchedItems = list.filter(item =>
-                item.name.toLowerCase().startsWith((this.inputValue ?? '').replace(/^\$/, ''))
+            this.searchValue = inputValue.toLowerCase();
+            const matchedItems = this.list.filter(item =>
+                item.name.toLowerCase().startsWith((this.searchValue ?? '').replace(/^\$/, ''))
             );
             matchedItems.forEach(item => { });
             this.searchWalletHandles = matchedItems as WalletHandle[];
             this.requestUpdate()
         } else {
-            this.inputValue = inputValue.toLowerCase();
-            const matchedItems = list.filter(item =>
-                item.name.toLowerCase().includes(this.inputValue || '')
+            this.searchValue = inputValue.toLowerCase();
+            const matchedItems = this.list.filter(item =>
+                item.name.toLowerCase().includes(this.searchValue || '')
             );
             matchedItems.forEach(item => { });
             this.searchWalletHandles = matchedItems as WalletHandle[];
         }
         this.requestUpdate()
+    }
+
+    friendlyHandles() {
+        this.search()
         return html`
             <div class="searched-handles">
                 <div class="handles-select-dropdown">
@@ -93,5 +106,10 @@ export class FriendlyHandles extends LitElement {
                         </div>
             </div>
         `
+    }
+
+    render() {
+        return html`
+        ${this.friendlyHandles()}`
     }
 }

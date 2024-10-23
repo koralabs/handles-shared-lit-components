@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ConfirmPopupStyles } from './styles.js';
+import { ChatAuthStyles } from './styles.js';
+import '../../components/Button/index.js'
 /**
  * `confirmPopup` is a custom popup component for displaying messages and handling user actions.
  * 
@@ -21,37 +22,47 @@ import { ConfirmPopupStyles } from './styles.js';
  *     .secondMessage="This action cannot be undone."
  *     .confirmButtonLabel="Confirm" 
  *     .cancelButtonLabel="Cancel" 
- *     .onConfirm=${() => console.log('Confirmed!')}
- *     .onCancel=${() => console.log('canceled!')}>
+ *     .onConfirm=${() => console.log('Confirmed!')}>
+ *     .onCancel=${() => console.log('canceled!')}
  * </confirm-popup>
  * ```
  */
-@customElement('confirm-popup')
-export class ConfirmPopup extends LitElement {
-    static styles = ConfirmPopupStyles;
+@customElement('chat-auth')
+export class ChatAuth extends LitElement {
+    static styles = ChatAuthStyles;
     @property({ type: Boolean }) open = false;
     @property({ type: String }) message = '';
     @property({ type: String }) secondMessage = '';
     @property({ type: String }) confirmButtonLabel = '';
     @property({ type: String }) cancelButtonLabel = '';
-    @property({ type: Function }) onConfirm: (() => void) | null = null;
-    @property({ type: Function }) onCancel: (() => void) | null = null;
+    senderHandle: any
+
+    firstUpdated() {
+        const requestHandle = JSON.parse(localStorage.getItem('activeHandle'))
+        this.senderHandle = requestHandle.name
+        console.log('sendhandler', this.senderHandle)
+        this.requestUpdate()
+    }
 
     closePopup() {
         this.open = false;
     }
 
     private handleConfirm() {
-        if (this.onConfirm) {
-            this.onConfirm();
-        }
+        this.dispatchEvent(new CustomEvent('authorize-chat-request', {
+            detail: {},
+            bubbles: true,
+            composed: true
+        }));
         this.closePopup();
     }
 
     private handleCancel() {
-        if (this.onCancel) {
-            this.onCancel();
-        }
+        this.dispatchEvent(new CustomEvent('cancel-chat-request', {
+            detail: {},
+            bubbles: true,
+            composed: true
+        }));
         this.closePopup();
     }
 
@@ -61,22 +72,16 @@ export class ConfirmPopup extends LitElement {
                 <div class="popup-overlay">
                     <div class="popup-content">
                         <div class="popup-text-wrapper">
-                            <div class="popup-text">${this.message}</div>
-                            <div class="popup-text">${this.secondMessage}</div>
+                            <div class="popup-text">Chat request from ${this.senderHandle}</div>
+                            <div class="popup-text">Authorize ${this.senderHandle} to send chats to this handle</div>
                         </div>
                         <div class="popup-actions">
-                            ${this.cancelButtonLabel ? html`
-                                <shared-button-small .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.handleCancel} class="lit-button">
-                                    <div slot="button-text">${this.cancelButtonLabel}</div>
-                                </shared-button-small>`
-                : ''
-            }
-                            ${this.confirmButtonLabel ? html`
-                                <shared-button-small .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
-                                    <div slot="button-text">${this.confirmButtonLabel}</div>
-                                </shared-button-small>
-                                ` : ''
-            }
+                            <shared-button-small .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.handleCancel} class="lit-button">
+                                <div slot="button-text">Deny</div>
+                            </shared-button-small>
+                            <shared-button-small .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
+                                <div slot="button-text">Authorize</div>
+                            </shared-button-small>
                         </div>
                     </div>
                 </div>

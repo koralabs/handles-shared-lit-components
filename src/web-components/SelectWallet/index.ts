@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
-import { SelectWalletStyles } from './styles';
+import { SelectWalletStyles } from './styles.js';
 
 /**
  * `select-wallet` is a custom LitElement component for selecting a cryptocurrency wallet.

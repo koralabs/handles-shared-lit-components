@@ -1,18 +1,31 @@
-import { getHelios, getNameFromHex, POLICY_ID, WalletHandle } from '../helpers/index.js';
+import { getHelios, getNameFromHex, POLICY_ID, WalletHandle } from '.';
 import * as helios from '../helios';
+
+declare global {
+    interface Window {
+        cardano: any;
+    }
+}
 
 export const walletHandles = async (): Promise<WalletHandle[]> => {
     let heliosInstance: any | null = null;
     let walletConnectErrorMessage = '';
 
 
+    const walletKey = localStorage.getItem('walletKey');
+    if (!walletKey) {
+        return [];
+    }
 
     const enableWallet = async (walletKey: string) => {
         try {
-            const enabledHandle = await window.cardano[walletKey].enable();
-            return enabledHandle;
+            if (window.cardano[walletKey]) {
+                const enabledHandle = await window.cardano[walletKey].enable();
+                return enabledHandle;
+            } else {
+                console.error('unable to access this wallet on this network')
+            }
         } catch (error) {
-            console.error('Error enabling wallet:', error);
             walletConnectErrorMessage = (error as any).message || 'Unknown error';
             return null;
         }
@@ -36,7 +49,8 @@ export const walletHandles = async (): Promise<WalletHandle[]> => {
                         const updatedAsset: WalletHandle = {
                             default: false,
                             hex,
-                            count: parseInt(count as string),
+                            count: parseInt(count as string
+                            ),
                             name,
                             policyId,
                             active: undefined
@@ -49,16 +63,11 @@ export const walletHandles = async (): Promise<WalletHandle[]> => {
         }, { handles: [] });
     };
 
-    // Get walletKey from localStorage
-    const walletKey = localStorage.getItem('walletKey');
-    if (!walletKey) {
-        return [];
-    }
+
 
     const connectedHandle = await enableWallet(walletKey);
 
     if (!connectedHandle) {
-        console.error('Failed to connect wallet:', walletConnectErrorMessage);
         return [];
     }
 
@@ -69,9 +78,3 @@ export const walletHandles = async (): Promise<WalletHandle[]> => {
 
     return handles;
 };
-
-declare global {
-    interface Window {
-        cardano: any;
-    }
-}

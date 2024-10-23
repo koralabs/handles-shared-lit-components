@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { OpenChatButtonStyles } from './styles';
+import { OpenChatButtonStyles } from './styles.js';
 import '../ChatWindow/index.js'
 
 @customElement('open-chat')

@@ -1,25 +1,30 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ChatWindowStyles } from './styles';
+import { ChatWindowStyles } from './styles.js';
 import '../ChatBox/index.js'
 import '../ChatInput/index.js'
 import '../ChatSearch/index.js'
 import '../FriendlyHandles/index.js'
+import '../ChatAuth/index.js'
+import '../../web-components/ConfirmPopup/index.js'
 @customElement('chat-window')
 export class ChatWindow extends LitElement {
     static styles = ChatWindowStyles
 
-    @property({ type: String }) handle = 'grim-reaper'
     @property({ type: String }) chatText: string | ''
-    @property({ type: String }) chats: any
-    @property({ type: Array }) allChats: any[]
+    @property({ type: String }) activeHandle: any
     @property({ type: Array }) dumb: any[]
-    @property({ type: String }) imageUrl = 'grim-reaper'
     @property({ type: String }) inputValue: string | ''
     @property({ type: Boolean }) isOpen = true
     @property({ type: Boolean }) isMe = true
+    @property({ type: Boolean }) authorized = true
+    @property({ type: Boolean }) open = false
+    @property({ type: Boolean }) cancel = false
     @property({ type: Boolean }) searching = false
     @property({ type: Boolean }) startSearch = false
+    receiverHandle: any
+    receiverHandleObject: any
+    chats: any
     searchComponent: any;
 
     firsUpdated() {
@@ -47,6 +52,13 @@ export class ChatWindow extends LitElement {
         this.requestUpdate()
     };
 
+    handleReceiver = (event: CustomEvent<{ handle: any, open: boolean }>) => {
+        this.receiverHandleObject = event.detail.handle
+        this.receiverHandle = event.detail.handle.name
+        this.open = true
+        this.requestUpdate()
+    };
+
     search() {
         this.startSearch = true
         this.searching = true
@@ -58,21 +70,7 @@ export class ChatWindow extends LitElement {
         this.searching = false
     }
 
-    messageReceived(event: CustomEvent<{ message: string, handle: object }>) {
-        console.log(' fired')
-        this.chats = localStorage.getItem('chat') || 'dumb'
 
-        this.chats = JSON.parse(localStorage.getItem('allchats'))
-        this.chatText = event.detail.message
-        this.allChats = [this.chats, this.chatText]
-
-        localStorage.setItem('allchats', JSON.stringify(this.allChats))
-
-
-        localStorage.setItem('chat', event.detail.message)
-        this.requestUpdate
-
-    }
 
     headerAction() {
         return html`
@@ -89,8 +87,24 @@ export class ChatWindow extends LitElement {
             }
         `
     }
+
+    cancelRequest() {
+        if (this.activeHandle !== this.receiverHandle) {
+            this.cancel = true
+        }
+    }
+
+    authorizeRequest() {
+        localStorage.setItem('receiverHandle', JSON.stringify(this.receiverHandleObject))
+        this.authorized = true
+    }
+
+    messageReceived(event: CustomEvent<{ message: string, handle: object }>) {
+        this.chats = event.detail.message
+        this.requestUpdate()
+    }
+
     render() {
-        const chats = this.allChats || JSON.parse(localStorage.getItem('allchats'))
         return html`
             <div class="chat-window ${this.isOpen ? 'open' : 'closed'}">
                 <div class="chat-header">
@@ -103,17 +117,21 @@ export class ChatWindow extends LitElement {
                 </div>
                 <div class="chat-body">
                     <div class="chats-wrapper">
-                        ${this.searching ? html`<friendly-handles .inputValue="${this.inputValue}"></friendly-handles>`
+                        ${this.searching ? html`<friendly-handles @receiver-handle="${this.handleReceiver}" .inputValue="${this.inputValue}"></friendly-handles>`
                 : html`
-                ${(chats ?? []).toString().split(',').map(chat => html`
-                    <chat-box .isMe=${this.isMe} .chatText=${chat} .imageUrl=${this.imageUrl}></chat-box>`
-                )}
-                      
-                    `}</div>
+                    <chat-box .message=${this.chats} .authorized=${this.authorized} ></chat-box>`
+            }</div>
                 </div>
                 <div class="chat-input-wrapper">
-                  <chat-input @chat-sent=${this.messageReceived}> </chat-input>
+                  <chat-input @chat-sent=${this.messageReceived} > </chat-input>
                 </div>
+                <confirm-popup
+                    .open=${this.cancel} 
+                    .message=${this.receiverHandle} 
+                    .secondMessage = ${"refused Chat Request"}
+                    .cancelButtonLabel=${"Close"}>
+                </confirm-popup>
+                <chat-auth @cancel-chat-request=${this.cancelRequest} @authorize-chat-request=${this.authorizeRequest} .receiverHandle=${this.receiverHandle} .open=${this.open}></chat-auth>
             </div>
       `
     }

@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SelectHandleStyles } from './styles';
+import { SelectHandleStyles } from './styles.js';
 
 /**
  * `select-handle` is a custom LitElement component for selecting wallet handles.

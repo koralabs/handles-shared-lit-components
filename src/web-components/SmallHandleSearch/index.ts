@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { HandleSmallSearchStyles } from './styles';
+import { HandleSmallSearchStyles } from './styles.js';
 
 /**
  * `HandleSmallSearch` Component Usage Guide

@@ -26,7 +26,9 @@
         "@koralabs/kora-labs-databases": "0.4.6",
         "@storybook/web-components": "^8.3.5",
         "emoji-picker-element": "^1.22.8",
+        "firebase": "^11.0.0",
         "lit": "^3.2.0",
+        "react-firebase-hooks": "^5.1.1",
         "stream-chat-angular": "^5.7.2"
     },
     "devDependencies": {

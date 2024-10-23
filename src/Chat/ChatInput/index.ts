@@ -1,15 +1,13 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ChatInputStyles } from './styles';
+import { ChatInputStyles } from './styles.js';
 
 @customElement('chat-input')
 export class ChatInput extends LitElement {
 
     static styles = ChatInputStyles
 
-    @property({ type: String }) handle = 'grim-reaper'
     @property({ type: String }) chatText: string | ''
-    @property({ type: String }) imageUrl = 'grim-reaper'
     @property({ type: String }) inputValue = ''
     @property({ type: String }) activeHandle: string | 'No handle'
     @property({ type: Boolean }) isMe = true
