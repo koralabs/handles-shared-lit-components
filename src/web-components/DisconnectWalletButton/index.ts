@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { DisconnectWalletButtonStyles } from './styles';
+import { DisconnectWalletButtonStyles } from './styles.js';
 
 /**
  * `disconnect-wallet-button` is a custom component for disconnecting a specified wallet.
