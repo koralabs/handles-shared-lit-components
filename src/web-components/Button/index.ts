@@ -22,7 +22,7 @@ export class SharedButtonBase extends LitElement {
     render() {
         return html`
             <button class="shared-button ${this.buttonClass}" style="background-color: ${this.buttonColor}; color:${this.textColor};">
-                <slot></slot>
+                <slot name= "button-text"></slot>
             </button>
         `;
     }
@@ -43,7 +43,7 @@ export class SharedButtonSmall extends SharedButtonBase {
 }
 
 export class SharedButtonMedium extends SharedButtonBase {
-    static renderTag = () => html`<shared-button-medium></shared-button-medium>`;
+    static renderTag = () => html`<shared-button-medium><slot></slot></shared-button-medium>`;
 
     static styles = [
         SharedButtonBase.commonStyles,
@@ -57,7 +57,7 @@ export class SharedButtonMedium extends SharedButtonBase {
 }
 
 export class SharedButtonLarge extends SharedButtonBase {
-    static renderTag = () => html`<shared-button-large></shared-button-large>`;
+    static renderTag = () => html`<shared-button-large><slot></slot></shared-button-large>`;
 
     static styles = [
         SharedButtonBase.commonStyles,

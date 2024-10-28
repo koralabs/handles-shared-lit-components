@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ErrorPopupStyles } from './styles';
+import { ErrorPopupStyles } from './styles.js';
 
 @customElement('error-popup')
 export class ErrorPopup extends LitElement {

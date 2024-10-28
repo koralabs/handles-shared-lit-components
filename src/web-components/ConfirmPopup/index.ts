@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ConfirmPopupStyles } from './styles';
+import { ConfirmPopupStyles } from './styles.js';
 /**
  * `confirmPopup` is a custom popup component for displaying messages and handling user actions.
  * 
@@ -21,8 +21,8 @@ import { ConfirmPopupStyles } from './styles';
  *     .secondMessage="This action cannot be undone."
  *     .confirmButtonLabel="Confirm" 
  *     .cancelButtonLabel="Cancel" 
- *     .onConfirm=${() => console.log('Confirmed!')}>
- *     .onCancel=${() => console.log('canceled!')}
+ *     .onConfirm=${() => console.log('Confirmed!')}
+ *     .onCancel=${() => console.log('canceled!')}>
  * </confirm-popup>
  * ```
  */
@@ -65,12 +65,18 @@ export class ConfirmPopup extends LitElement {
                             <div class="popup-text">${this.secondMessage}</div>
                         </div>
                         <div class="popup-actions">
-                            <shared-button-small .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.handleCancel} class="lit-button">
-                                <div slot="button">${this.cancelButtonLabel}</div>
-                            </shared-button-small>
-                            <shared-button-small .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
-                                <div slot="button">${this.confirmButtonLabel}</div>
-                            </shared-button-small>
+                            ${this.cancelButtonLabel ? html`
+                                <shared-button-small .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.handleCancel} class="lit-button">
+                                    <div slot="button-text">${this.cancelButtonLabel}</div>
+                                </shared-button-small>`
+                : ''
+            }
+                            ${this.confirmButtonLabel ? html`
+                                <shared-button-small .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
+                                    <div slot="button-text">${this.confirmButtonLabel}</div>
+                                </shared-button-small>
+                                ` : ''
+            }
                         </div>
                     </div>
                 </div>

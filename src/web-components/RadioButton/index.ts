@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { RadioButtonStyles } from './styles';
+import { RadioButtonStyles } from './styles.js';
 
 @customElement('radio-button')
 export class RadioButton extends LitElement {
