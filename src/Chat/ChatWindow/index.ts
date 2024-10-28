@@ -41,8 +41,6 @@ export class ChatWindow extends LitElement {
         `;
     }
 
-
-
     cancelRequest() {
         if (this.activeHandle !== this.receiverHandle) {
             this.cancel = true
@@ -63,8 +61,6 @@ export class ChatWindow extends LitElement {
         this.sent = false
         this.requestUpdate()
     }
-
-
 
     render() {
         this.receiverHandle = JSON.parse(localStorage.getItem('receiverHandle') || '')
