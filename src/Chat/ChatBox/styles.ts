@@ -30,6 +30,7 @@ export const ChatBoxStyles = css`
     }
 
     .chat-text {
+        text-align: left;
         overflow-wrap: break-word;
     }
 

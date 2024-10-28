@@ -1,10 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ChatInputStyles } from './styles';
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
-import { doc, getDoc } from 'firebase/firestore';
 
 interface user extends Window {
     uid: string
@@ -13,8 +9,6 @@ interface user extends Window {
 
 @customElement('chat-input')
 export class ChatInput extends LitElement {
-    auth = firebase.auth();
-    firestore = firebase.firestore();
     static styles = ChatInputStyles
 
     @property({ type: String }) chatText: any
@@ -46,48 +40,7 @@ export class ChatInput extends LitElement {
     }
 
     sendMessage = async (e: { preventDefault: () => void; }) => {
-        this.activeHandle = JSON.parse(localStorage.getItem('activeHandle') || '')
-        this.receiverHandle = JSON.parse(localStorage.getItem('receiverHandle') || '')
-        const docRef = doc(this.firestore, "HandleChats", this.activeHandle.name + this.activeHandle.hex + this.receiverHandle.name + this.receiverHandle.hex);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            this.authorizedChat = docSnap.data()
 
-        } else {
-            const docRef = doc(this.firestore, "HandleChats", this.receiverHandle.name + this.receiverHandle.hex + this.activeHandle.name + this.activeHandle.hex);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                this.authorizedChat = docSnap.data()
-            }
-            else {
-                this.authorizedChat = false
-            }
-        }
-        if (this.authorizedChat !== false) {
-            const messagesRef = this.firestore.collection(this.authorizedChat?.HandleChatId)
-            e.preventDefault();
-            const page = 1
-            const handles = [this.activeHandle.name]
-            const handleData = []
-            const handle = handleData?.[0]
-            await messagesRef.add({
-                text: this.chatText,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                uid: this.activeHandle.hex,
-                photoURL: handle?.image
-            });
-            this.chatText = ''
-            this.autoResize()
-            this.dispatchEvent(new CustomEvent('message-sent', {
-                detail: {},
-                bubbles: true,
-                composed: true
-            }));
-        } else {
-            console.error('Invalid Chat attempt')
-        }
-
-        this.requestUpdate()
     };
 
     render() {

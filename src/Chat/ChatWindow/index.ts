@@ -7,14 +7,8 @@ import '../ChatSearch/index.js'
 import '../FriendlyHandles/index.js'
 import '../ChatAuth/index.js'
 import '../ChatProfile/index.js'
-import { collection, doc, getDoc, getDocs, Query, setDoc } from 'firebase/firestore';
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
-import "firebase/compat/auth";
 @customElement('chat-window')
 export class ChatWindow extends LitElement {
-    auth = firebase.auth();
-    firestore = firebase.firestore();
 
     static styles = ChatWindowStyles
 
@@ -54,47 +48,9 @@ export class ChatWindow extends LitElement {
             this.cancel = true
         }
     }
-    async getCollectionData(query: firebase.firestore.Query<firebase.firestore.DocumentData>, idField = "id") {
-        const snapshot = await getDocs(query);
-        return snapshot.docs.map(doc => ({
-            ...doc.data(),
-            [idField]: doc.id,
-            lastKey: doc.data().createdAt
-
-        }));
-    }
 
     async authorizeRequest() {
-        this.activeHandle = JSON.parse(localStorage.getItem('activeHandle') || '')
 
-        const docRef = doc(this.firestore, "HandleChats", this.activeHandle.name + this.activeHandle.hex + this.receiverHandleObject.name + this.receiverHandleObject.hex);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            this.authorizedChat = true
-
-        } else {
-            const docRef = doc(this.firestore, "HandleChats", this.receiverHandleObject.name + this.receiverHandleObject.hex + this.activeHandle.name + this.activeHandle.hex);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                this.authorizedChat = true
-            }
-            else {
-                this.authorizedChat = false
-            }
-        }
-        if (this.authorizedChat === false) {
-            const generateRandomId = (length = 25): string => {
-                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                return Array.from({ length }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
-            }
-            this.activeHandle = JSON.parse(localStorage.getItem('activeHandle') || '')
-            const HandleChatRef = collection(this.firestore, "HandleChats");
-            await setDoc(doc(HandleChatRef, this.activeHandle.name + this.activeHandle.hex + this.receiverHandleObject.name + this.receiverHandleObject.hex), {
-                HandleChatId: generateRandomId()
-            })
-        }
-        localStorage.setItem('receiverHandle', JSON.stringify(this.receiverHandleObject))
-        this.authorized = true
     }
 
     messageReceived() {
