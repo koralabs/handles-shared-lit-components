@@ -1,8 +1,6 @@
 import { css } from 'lit'
 
 export const FriendlyHandlesStyles = css`
-
-
     .logout-and-handles {
         display: flex;
         justify-content: center;
@@ -106,8 +104,6 @@ export const FriendlyHandlesStyles = css`
         margin-right: 1px;
     }
 
-
-
     .active-handle.active {
         border: 1px solid rgba(74, 222, 128, 1);
         border-radius: 0.5rem;
@@ -152,9 +148,11 @@ export const FriendlyHandlesStyles = css`
         align-items: center;
         justify-content: space-between;
     }
+    
     .handle-text {
         font-family: Ubuntu Mono, monospace;
     }
+
     @media screen and (max-width: 350px) {
         .handles-select-dropdown {
             padding-left: 0.25rem;

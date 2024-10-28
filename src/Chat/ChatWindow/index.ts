@@ -1,34 +1,38 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ChatWindowStyles } from './styles.js';
-import '../ChatBox/index.js'
+import { ChatWindowStyles } from './styles';
 import '../ChatInput/index.js'
+import '../ChatBox/index.js'
 import '../ChatSearch/index.js'
 import '../FriendlyHandles/index.js'
 import '../ChatAuth/index.js'
-import '../../web-components/ConfirmPopup/index.js'
+import '../ChatProfile/index.js'
+import { collection, doc, getDoc, getDocs, Query, setDoc } from 'firebase/firestore';
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
 @customElement('chat-window')
 export class ChatWindow extends LitElement {
+    auth = firebase.auth();
+    firestore = firebase.firestore();
+
     static styles = ChatWindowStyles
 
-    @property({ type: String }) chatText: string | ''
     @property({ type: String }) activeHandle: any
-    @property({ type: Array }) dumb: any[]
-    @property({ type: String }) inputValue: string | ''
+    @property({ type: String }) chatText: string = ''
     @property({ type: Boolean }) isOpen = true
     @property({ type: Boolean }) isMe = true
     @property({ type: Boolean }) authorized = true
     @property({ type: Boolean }) open = false
+    @property({ type: Boolean }) sent = false
     @property({ type: Boolean }) cancel = false
-    @property({ type: Boolean }) searching = false
     @property({ type: Boolean }) startSearch = false
-    receiverHandle: any
-    receiverHandleObject: any
-    chats: any
-    searchComponent: any;
+    @property({ type: Boolean }) authorizedChat = false
+    @property({ type: Object }) receiverHandle: any;
+    @property({ type: Object }) receiverHandleObject: any;
 
-    firsUpdated() {
-
+    firstUpdated() {
+        this.receiverHandle = JSON.parse(localStorage.getItem('receiverHandle') || '')
     }
 
     closeWindow() {
@@ -43,94 +47,88 @@ export class ChatWindow extends LitElement {
         `;
     }
 
-    handleInputChange = (event: CustomEvent<{ inputValue: string, searching: boolean }>) => {
-        this.inputValue = event.detail.inputValue;
-        this.searching = event.detail.searching
-        if (!this.inputValue) {
-            this.searching = false
-        }
-        this.requestUpdate()
-    };
 
-    handleReceiver = (event: CustomEvent<{ handle: any, open: boolean }>) => {
-        this.receiverHandleObject = event.detail.handle
-        this.receiverHandle = event.detail.handle.name
-        this.open = true
-        this.requestUpdate()
-    };
-
-    search() {
-        this.startSearch = true
-        this.searching = true
-    }
-
-    endSearch() {
-
-        this.startSearch = false
-        this.searching = false
-    }
-
-
-
-    headerAction() {
-        return html`
-            ${this.startSearch ?
-                html`
-                <svg class="search-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" @click="${this.endSearch}" >
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                </svg>
-            `
-                : html`
-                    <svg class="search-svg" viewBox = "0 0 24 24" xmlns = "http://www.w3.org/2000/svg" @click="${this.search}" >
-                        <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" />
-                    </svg>`
-            }
-        `
-    }
 
     cancelRequest() {
         if (this.activeHandle !== this.receiverHandle) {
             this.cancel = true
         }
     }
+    async getCollectionData(query: firebase.firestore.Query<firebase.firestore.DocumentData>, idField = "id") {
+        const snapshot = await getDocs(query);
+        return snapshot.docs.map(doc => ({
+            ...doc.data(),
+            [idField]: doc.id,
+            lastKey: doc.data().createdAt
 
-    authorizeRequest() {
+        }));
+    }
+
+    async authorizeRequest() {
+        this.activeHandle = JSON.parse(localStorage.getItem('activeHandle') || '')
+
+        const docRef = doc(this.firestore, "HandleChats", this.activeHandle.name + this.activeHandle.hex + this.receiverHandleObject.name + this.receiverHandleObject.hex);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            this.authorizedChat = true
+
+        } else {
+            const docRef = doc(this.firestore, "HandleChats", this.receiverHandleObject.name + this.receiverHandleObject.hex + this.activeHandle.name + this.activeHandle.hex);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                this.authorizedChat = true
+            }
+            else {
+                this.authorizedChat = false
+            }
+        }
+        if (this.authorizedChat === false) {
+            const generateRandomId = (length = 25): string => {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                return Array.from({ length }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
+            }
+            this.activeHandle = JSON.parse(localStorage.getItem('activeHandle') || '')
+            const HandleChatRef = collection(this.firestore, "HandleChats");
+            await setDoc(doc(HandleChatRef, this.activeHandle.name + this.activeHandle.hex + this.receiverHandleObject.name + this.receiverHandleObject.hex), {
+                HandleChatId: generateRandomId()
+            })
+        }
         localStorage.setItem('receiverHandle', JSON.stringify(this.receiverHandleObject))
         this.authorized = true
     }
 
-    messageReceived(event: CustomEvent<{ message: string, handle: object }>) {
-        this.chats = event.detail.message
+    messageReceived() {
+        this.sent = true
+        this.requestUpdate()
+        this.firstUpdated()
+    }
+
+    receiverHandler() {
+        this.sent = false
         this.requestUpdate()
     }
 
+
+
     render() {
+        this.receiverHandle = JSON.parse(localStorage.getItem('receiverHandle') || '')
+
         return html`
             <div class="chat-window ${this.isOpen ? 'open' : 'closed'}">
                 <div class="chat-header">
-                    ${this.headerAction()}
-                    ${this.startSearch ?
-                html` <chat-search  @input-change="${this.handleInputChange}"></chat-search>`
-                : html`<div>i am a handle</div>`}
-                   
-                    ${this.renderCloseX()}
+                <chat-profile style="width: -webkit-fill-available;"></chat-profile>
                 </div>
-                <div class="chat-body">
-                    <div class="chats-wrapper">
-                        ${this.searching ? html`<friendly-handles @receiver-handle="${this.handleReceiver}" .inputValue="${this.inputValue}"></friendly-handles>`
-                : html`
-                    <chat-box .message=${this.chats} .authorized=${this.authorized} ></chat-box>`
-            }</div>
+                <div>
+                    <chat-box
+                        style="display: block; height: 18rem;"
+                        @message-received=${this.receiverHandler} 
+                        .sent=${this.sent} 
+                        .authorized=${this.authorized}>
+                    </chat-box>
                 </div>
                 <div class="chat-input-wrapper">
-                  <chat-input @chat-sent=${this.messageReceived} > </chat-input>
+                  <chat-input @message-sent=${this.messageReceived} > </chat-input>
                 </div>
-                <confirm-popup
-                    .open=${this.cancel} 
-                    .message=${this.receiverHandle} 
-                    .secondMessage = ${"refused Chat Request"}
-                    .cancelButtonLabel=${"Close"}>
-                </confirm-popup>
                 <chat-auth @cancel-chat-request=${this.cancelRequest} @authorize-chat-request=${this.authorizeRequest} .receiverHandle=${this.receiverHandle} .open=${this.open}></chat-auth>
             </div>
       `

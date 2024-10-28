@@ -22,7 +22,7 @@ export const ChatInputStyles = css`
 
      .chat-input {
         max-height: 10rem;
-        height:25px;
+        height:28px;
         background-color:transparent;
         display: block;
         resize: none;

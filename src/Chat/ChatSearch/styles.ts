@@ -23,6 +23,7 @@ export const ChatSearchStyles = css`
         justify-content: center;
         flex-wrap: nowrap;
     }
+
     .search-field-wrapper {
         display:flex;
         flex-direction:column;
@@ -57,6 +58,7 @@ export const ChatSearchStyles = css`
     .search-icon-wrapper {
         color: white;
     }
+    
     .searched-handles-wrapper{
     }
     `

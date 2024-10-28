@@ -1,33 +1,28 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { FriendlyHandlesStyles } from './styles.js';
-import { WalletHandle } from '../../../helpers';
-import { walletHandles } from '../../../helpers/handles.js';
-
+import { FriendlyHandlesStyles } from './styles';
 @customElement('friendly-handles')
 export class FriendlyHandles extends LitElement {
 
     static styles = FriendlyHandlesStyles
-    @property({ type: String }) inputValue: string | '';
-    @property({ type: String }) searchValue: string | '';
-    @property({ type: Array }) list: Array<WalletHandle> | [];
-    @property({ type: Boolean }) searching: boolean = false;
-    searchWalletHandles: any
-    searchHandleData: any
-    handleData: any
-    activeHandle
-    loadingImg
-    imageUrl
 
+    @property({ type: Boolean }) searching = false
+    @property({ type: Boolean }) loadingImg = false
+    @property({ type: String }) inputValue = ''
+    @property({ type: String }) searchValue = ''
+    @property({ type: String }) activeHandle: any
+    @property({ type: String }) imageUrl: any
+    @property({ type: Array }) list = []
+    @property({ type: Array }) searchWalletHandles: any[] = []
 
-    async firstUpdated() {
+    firstUpdated() {
         this.search()
         this.activeHandle = localStorage.getItem('activeHandle')
     }
 
-    onSelectHandle(handle) {
+    onSelectHandle(handle: any) {
         this.dispatchEvent(new CustomEvent('receiver-handle', {
-            detail: { handle, open },
+            detail: { handle },
             bubbles: true,
             composed: true
         }));
@@ -38,24 +33,24 @@ export class FriendlyHandles extends LitElement {
 
     async search() {
         const inputValue = this.inputValue
-        this.list = await walletHandles() || [];
-        if (inputValue.startsWith('$')) {
-            this.searchValue = inputValue.toLowerCase();
-            const matchedItems = this.list.filter(item =>
-                item.name.toLowerCase().startsWith((this.searchValue ?? '').replace(/^\$/, ''))
-            );
-            matchedItems.forEach(item => { });
-            this.searchWalletHandles = matchedItems as WalletHandle[];
-            this.requestUpdate()
-        } else {
-            this.searchValue = inputValue.toLowerCase();
-            const matchedItems = this.list.filter(item =>
-                item.name.toLowerCase().includes(this.searchValue || '')
-            );
-            matchedItems.forEach(item => { });
-            this.searchWalletHandles = matchedItems as WalletHandle[];
-        }
-        this.requestUpdate()
+        // this.list = await walletHandles() || [];
+        // if (inputValue.startsWith('$')) {
+        //     this.searchValue = inputValue.toLowerCase();
+        //     const matchedItems = this.list.filter(item =>
+        //         item.name.toLowerCase().startsWith((this.searchValue ?? '').replace(/^\$/, ''))
+        //     );
+        //     matchedItems.forEach(item => { });
+        //     this.searchWalletHandles = matchedItems as WalletHandle[];
+        //     this.requestUpdate()
+        // } else {
+        //     this.searchValue = inputValue.toLowerCase();
+        //     const matchedItems = this.list.filter(item =>
+        //         item.name.toLowerCase().includes(this.searchValue || '')
+        //     );
+        //     matchedItems.forEach(item => { });
+        //     this.searchWalletHandles = matchedItems as WalletHandle[];
+        // }
+        // this.requestUpdate()
     }
 
     friendlyHandles() {
@@ -64,11 +59,11 @@ export class FriendlyHandles extends LitElement {
             <div class="searched-handles">
                 <div class="handles-select-dropdown">
                             <div class="wallet-handles-content">
-                                <div class="scroll-wrapper-outer" @scroll="${this.onScroll}">
+                                <div class="scroll-wrapper-outer">
                                     <div class="scroll-wrapper">
                                         <div class="handles-container">
                                             ${(this.searchWalletHandles ?? []).map(
-            handle => html`
+            (handle: any) => html`
                                                     <li
                                                         @click="${() =>
                     this.onSelectHandle({

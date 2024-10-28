@@ -1,6 +1,6 @@
 import { html, TemplateResult } from 'lit';
 import '../web-components/SelectHandle/index.js';
-import { SelectHandle } from '../web-components/SelectHandle/index';
+import { SelectHandle } from '../web-components/SelectHandle/index.js';
 
 export default {
     title: 'Components/SelectHandle',

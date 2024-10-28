@@ -1,15 +1,19 @@
-import { getHelios, getNameFromHex, POLICY_ID, WalletHandle } from '.';
-import * as helios from '../helios';
+import { getHelios, getNameFromHex, IPFS_GATEWAY, IPFS_GATEWAY_RESIZE_QUERY, POLICY_ID, WalletHandle } from '.';
+import * as helios from '../../helios';
 
 declare global {
     interface Window {
         cardano: any;
     }
 }
-
+export const imageUrl = (img: string): string => {
+    const image = img.replace('ipfs://', '') || '';
+    if (!image) {
+        return '';
+    }
+    return `${IPFS_GATEWAY}/ipfs/${image}${IPFS_GATEWAY_RESIZE_QUERY}`;
+}
 export const walletHandles = async (): Promise<WalletHandle[]> => {
-    let heliosInstance: any | null = null;
-    let walletConnectErrorMessage = '';
 
 
     const walletKey = localStorage.getItem('walletKey');
@@ -26,7 +30,6 @@ export const walletHandles = async (): Promise<WalletHandle[]> => {
                 console.error('unable to access this wallet on this network')
             }
         } catch (error) {
-            walletConnectErrorMessage = (error as any).message || 'Unknown error';
             return null;
         }
     };
@@ -62,8 +65,6 @@ export const walletHandles = async (): Promise<WalletHandle[]> => {
             return agg;
         }, { handles: [] });
     };
-
-
 
     const connectedHandle = await enableWallet(walletKey);
 

@@ -1,4 +1,5 @@
-import * as helios from '../helios.js';
+import * as helios from '../../helios.js';
+import { Request, Response } from '@koralabs/kora-labs-common/http/index';
 
 
 let heliosInstance: any = null;
@@ -12,6 +13,22 @@ export const getHelios = (): any => {
     }
     return heliosInstance;
 }
+
+export const resultBody = (res: Response, status: number, payload: Record<string, unknown> | unknown[]) => {
+    res.status = status;
+    res.headers['content-type'] = 'application/json';
+    res.body = JSON.stringify(payload);
+    return res;
+};
+export const getSubDomain = () => {
+    const network = process.env.NETWORK?.toLowerCase() || '';
+    if (network === 'mainnet') {
+        return '';
+    }
+    return `${network}.`;
+};
+
+
 
 // Check if the code is running on the server or client
 export const IS_SERVER: boolean = typeof process !== 'undefined' && typeof process.versions.node !== 'undefined';
@@ -48,7 +65,7 @@ const getEnvVariable = (variableName: string, defaultValue: string) => {
 };
 
 export const IPFS_GATEWAY = getEnvVariable('PUBLIC_IPFS_GATEWAY', 'https://public-handles.myfilebase.com');
-export const IPFS_GATEWAY_RESIZE_QUERY = getEnvVariable('PUBLIC_IPFS_GATEWAY_RESIZE_QUERY', '?img-width=512');
+export const IPFS_GATEWAY_RESIZE_QUERY = getEnvVariable('PUBLIC_IPFS_GATEWAY_RESIZE_QUERY', '?img-width=100');
 
 
 export interface BasicAsset {

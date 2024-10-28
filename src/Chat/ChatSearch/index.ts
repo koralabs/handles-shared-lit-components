@@ -1,15 +1,15 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ChatSearchStyles } from './styles.js';
-import { WalletHandle } from '../../../helpers';
-import '../FriendlyHandles/index.js'
+import { ChatSearchStyles } from './styles';
 
 @customElement('chat-search')
 export class ChatSearch extends LitElement {
-    @property({ type: String }) inputValue: string | '';
-    searchWalletHandles: any
-    searchHandleData: any
+
     static styles = ChatSearchStyles
+
+    @property({ type: String }) inputValue: string = ''
+    @property({ type: Array }) searchWalletHandles: any
+    @property({ type: Array }) searchHandleData: any
 
     handleInput(event: { target: { value: string; }; }) {
         const inputValue = event.target?.value?.trim();

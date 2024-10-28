@@ -1,46 +1,22 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ChatAuthStyles } from './styles.js';
-import '../../components/Button/index.js'
-/**
- * `confirmPopup` is a custom popup component for displaying messages and handling user actions.
- * 
- * ### Properties:
- * - **open**: (boolean) Indicates whether the popup is open or closed.
- * - **message**: (string) The primary message to display in the popup.
- * - **secondMessage**: (string) The secondary message to display in the popup.
- * - **confirmButtonLabel**: (string) The label for the confirm button.
- * - **cancelButtonLabel**: (string) The label for the cancel button.
- * - **onConfirm**: (Function|null) A callback function to be called when the confirm button is clicked.
- * - **onCancel**: (Function|null) A callback function to be called when the cancel button is clicked.
- * 
- * ### Example:
- * ```html
- * <confirm-popup 
- *     .open="true" 
- *     .message="Are you sure?" 
- *     .secondMessage="This action cannot be undone."
- *     .confirmButtonLabel="Confirm" 
- *     .cancelButtonLabel="Cancel" 
- *     .onConfirm=${() => console.log('Confirmed!')}>
- *     .onCancel=${() => console.log('canceled!')}
- * </confirm-popup>
- * ```
- */
+import { ChatAuthStyles } from './styles';
+import '../../web-components/Button/index.js'
+
 @customElement('chat-auth')
 export class ChatAuth extends LitElement {
     static styles = ChatAuthStyles;
-    @property({ type: Boolean }) open = false;
-    @property({ type: String }) message = '';
-    @property({ type: String }) secondMessage = '';
-    @property({ type: String }) confirmButtonLabel = '';
-    @property({ type: String }) cancelButtonLabel = '';
-    senderHandle: any
+
+    @property({ type: Boolean }) open = false
+    @property({ type: String }) message = ''
+    @property({ type: String }) secondMessage = ''
+    @property({ type: String }) confirmButtonLabel = ''
+    @property({ type: String }) cancelButtonLabel = ''
+    @property({ type: Object }) senderHandle: any
 
     firstUpdated() {
-        const requestHandle = JSON.parse(localStorage.getItem('activeHandle'))
+        const requestHandle = JSON.parse(localStorage.getItem('activeHandle') || '')
         this.senderHandle = requestHandle.name
-        console.log('sendhandler', this.senderHandle)
         this.requestUpdate()
     }
 

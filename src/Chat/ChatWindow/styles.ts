@@ -55,7 +55,6 @@ export const ChatWindowStyles = css`
         background: #555;
     }
 
-   
     .close-svg {
         opacity: 1;
         color: rgba(209, 213, 219, 1);
@@ -68,6 +67,7 @@ export const ChatWindowStyles = css`
         stroke-width: 0;
         cursor: pointer;
     }
+
     .search-svg {
         opacity: 1;
         color: rgba(209, 213, 219, 1);
@@ -77,5 +77,13 @@ export const ChatWindowStyles = css`
         fill: currentColor;
         stroke: currentColor;
         stroke-width: 0;
+    }
+    
+    .chat-input-wrapper {
+        background-color:#22264f;
+        margin: 0rem;
+        position: absolute;
+        bottom: 3px;
+        width: inherit;
     }
 `
