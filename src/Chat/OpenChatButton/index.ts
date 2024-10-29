@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { OpenChatButtonStyles } from './styles';
+import '../SelectChat/index.js'
 import '../ChatWindow/index.js'
 
 @customElement('open-chat')
@@ -9,9 +10,21 @@ export class OpenChatButton extends LitElement {
     static styles = OpenChatButtonStyles
 
     @property({ type: Boolean }) isOpen = true
+    @property({ type: Boolean }) chatIsOpen = false
+    @property({ type: Object }) handle: any
+    @property({ type: Array }) handles: any
 
     openChat() {
         this.isOpen = !this.isOpen
+    }
+    closed() {
+        this.chatIsOpen = false
+    }
+    openNewChat = (event: CustomEvent<{ handle: any }>) => {
+        this.handle = event.detail.handle
+        localStorage.setItem('receiverHandle', JSON.stringify(this.handle))
+        this.chatIsOpen = true
+        this.requestUpdate()
     }
 
     renderChatOpenButton() {
@@ -28,7 +41,10 @@ export class OpenChatButton extends LitElement {
                     </div>
                 </div>
                 <div class="chat-window">
-                    <chat-window .isOpen=${this.isOpen}></chat-window>
+                    <select-chat .isOpen=${this.isOpen} @open-new-chat-window=${this.openNewChat}></select-chat>
+                </div>
+                <div class="chat-window">
+                    <chat-window .isOpen=${this.chatIsOpen} @closed=${this.closed} .handle=${this.handle}></chat-window>
                 </div>
             </div>
         `;

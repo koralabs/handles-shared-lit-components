@@ -16,6 +16,7 @@ export const ChatWindowStyles = css`
     }
 
     .chat-header {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -56,11 +57,13 @@ export const ChatWindowStyles = css`
     }
 
     .close-svg {
+        position: absolute;
+        top: 12px;
+        right: 0px;
         opacity: 1;
         color: rgba(209, 213, 219, 1);
         width: 1.5rem;
         height: auto;
-        margin-right: 5px;
         z-index: 20;
         fill: currentColor;
         stroke: currentColor;

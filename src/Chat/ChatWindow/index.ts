@@ -23,6 +23,7 @@ export class ChatWindow extends LitElement {
     @property({ type: Boolean }) startSearch = false
     @property({ type: Boolean }) authorizedChat = false
     @property({ type: Object }) receiverHandle: any;
+    @property({ type: Object }) handle: any;
     @property({ type: Object }) receiverHandleObject: any;
 
     firstUpdated() {
@@ -30,6 +31,11 @@ export class ChatWindow extends LitElement {
     }
 
     closeWindow() {
+        this.dispatchEvent(new CustomEvent('closed', {
+            detail: {},
+            bubbles: true,
+            composed: true
+        }));
         this.isOpen = !this.isOpen
     }
 
@@ -40,8 +46,6 @@ export class ChatWindow extends LitElement {
             </svg>
         `;
     }
-
-
 
     cancelRequest() {
         if (this.activeHandle !== this.receiverHandle) {
@@ -64,15 +68,12 @@ export class ChatWindow extends LitElement {
         this.requestUpdate()
     }
 
-
-
     render() {
-        this.receiverHandle = JSON.parse(localStorage.getItem('receiverHandle') || '')
-
         return html`
             <div class="chat-window ${this.isOpen ? 'open' : 'closed'}">
                 <div class="chat-header">
-                <chat-profile style="width: -webkit-fill-available;"></chat-profile>
+                    <chat-profile style="width: -webkit-fill-available;"></chat-profile>
+                    ${this.renderCloseX()}
                 </div>
                 <div>
                     <chat-box

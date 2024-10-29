@@ -7,6 +7,16 @@ export const FriendlyHandlesStyles = css`
         align-items: center;
     }
 
+    .handles-select-dropdown {
+        height: 100%
+    }
+    .searched-handles{
+        height: 100%
+    }
+    .wallet-handles-content {
+        height: 100%
+    }
+
     .current-handle-text .handles-select-dropdown li p {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -147,12 +157,39 @@ export const FriendlyHandlesStyles = css`
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-    
-    .handle-text {
         font-family: Ubuntu Mono, monospace;
+        color: white;
+    }
+    .scroll-wrapper-outer {
+        margin: 0rem 0.5rem;
+        height: 100%;
+        overflow: unset;
+        --scrollbar-track: rgba(255, 255, 255, 0.1);
+        --scrollbar-thumb: rgba(112, 184, 255, 1);
+        --scrollbar-thumb-radius: 0.25rem;
+        overflow-y: scroll;
+        margin-bottom: 1rem;
     }
 
+    .scroll-wrapper-outer::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .scroll-wrapper-outer::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scroll-wrapper-outer::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb);
+        border-radius: var(--scrollbar-thumb-radius);
+    }
+
+    .scroll-wrapper-outer::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    .scroll-wrapper {
+        margin: 0rem 0.5rem;
+    }
     @media screen and (max-width: 350px) {
         .handles-select-dropdown {
             padding-left: 0.25rem;
