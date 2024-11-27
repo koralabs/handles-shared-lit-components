@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { ConfirmPopupStyles } from './styles';
+import { ConfirmPopupStyles } from './styles.js';
 /**
  * `confirmPopup` is a custom popup component for displaying messages and handling user actions.
  * 
