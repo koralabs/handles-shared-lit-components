@@ -12,6 +12,8 @@
         "experimentalDecorators": true,
         "useDefineForClassFields": false,
         "allowSyntheticDefaultImports": true,
+        "jsx": "react-jsx",
+        "types": ["react"],
         "plugins": [
             {
                 "name": "ts-lit-plugin",
