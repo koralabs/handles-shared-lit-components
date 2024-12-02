@@ -22,7 +22,7 @@ export class SharedButtonBase extends LitElement {
     render() {
         return html`
             <button class="shared-button ${this.buttonClass}" style="background-color: ${this.buttonColor}; color:${this.textColor};">
-                <slot></slot>
+                <slot name="shared-button"></slot>
             </button>
         `;
     }
