@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ConfirmPopupStyles } from './styles.js';
+import '../Button/index.js';
 /**
  * `confirmPopup` is a custom popup component for displaying messages and handling user actions.
  * 
@@ -66,10 +67,10 @@ export class ConfirmPopup extends LitElement {
                         </div>
                         <div class="popup-actions">
                             <shared-button-small .buttonColor=${'rgba(157, 159, 177, 1)'} @click=${this.handleCancel} class="lit-button">
-                                <div slot="button">${this.cancelButtonLabel}</div>
+                                <div slot="shared-button">${this.cancelButtonLabel}</div>
                             </shared-button-small>
                             <shared-button-small .buttonColor=${'rgba(13, 221, 96, 1)'} @click=${this.handleConfirm} class="lit-button" >
-                                <div slot="button">${this.confirmButtonLabel}</div>
+                                <div slot="shared-button">${this.confirmButtonLabel}</div>
                             </shared-button-small>
                         </div>
                     </div>
