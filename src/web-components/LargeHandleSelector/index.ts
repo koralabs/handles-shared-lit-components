@@ -92,13 +92,13 @@ export class LargeHandleSelector extends LitElement {
             this.imgHeight = '5rem';
             this.imgWidth = '5rem';
         }
-        return html`${handleDataArray.map((handleData: WalletHandle, index: number) => {
-            const handle = this.handleData ? this.handleData[index] : undefined;
+        return html`${handleDataArray.map((handleData: WalletHandle) => {
+            const handle = handleData
             return html`
             <div @click="${() => handle && this.onSelectHandle(handle)}" class="handle-item ${handle?.active ? 'active' : ''}">
                 <div >
                     ${handleData.image
-                    ? html`<img class="handle-img" style="max-width:${this.imgWidth}; max-height:${this.imgHeight}" src="${handleData.image}" alt="handle image" @load="${() => this.handleDataArray[index].loading = false}" />`
+                    ? html`<img class="handle-img" style="max-width:${this.imgWidth}; max-height:${this.imgHeight}" src="${handleData.image}" alt="handle image" />`
                     : html`<slot name="slottedLoader"></slot>`
                 }
                 </div>
