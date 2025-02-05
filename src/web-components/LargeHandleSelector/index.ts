@@ -98,8 +98,8 @@ export class LargeHandleSelector extends LitElement {
             <div @click="${() => handle && this.onSelectHandle(handle)}" class="handle-item ${handle?.active ? 'active' : ''}">
                 <div >
                     ${handleData.image
-                    ? html`<img class="handle-img" style="max-width:${this.imgWidth}; max-height:${this.imgHeight}" src="${this.imageUrl}" @load="${() => this.handleDataArray[index].loading = false}" />`
-                    : html`< slot name="slottedLoader"></slot>`
+                    ? html`<img class="handle-img" style="max-width:${this.imgWidth}; max-height:${this.imgHeight}" src="${handleData.image}" alt="handle image" @load="${() => this.handleDataArray[index].loading = false}" />`
+                    : html`<slot name="slottedLoader"></slot>`
                 }
                 </div>
             </div>
