@@ -7,6 +7,7 @@ export const SelectHandleStyles = css`
     }
 
     .logout-and-handles {
+        width:18rem;
         display: flex;
         justify-content: center;
         align-items: center;

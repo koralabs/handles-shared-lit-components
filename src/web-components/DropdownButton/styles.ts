@@ -2,12 +2,12 @@ import { css } from 'lit';
 
 export const DropdownButtonStyles = css`
     .handles-select-btn {
+        padding: 0px;
         border: none;
         fill: rgb(12, 209, 91);
         background: none;
         color: rgb(255, 255, 255);
         border-radius: 0.25rem;
-        padding: 0.5rem 0rem 0.5rem 1rem;
         cursor: pointer;
         text-align: center;
         text-decoration: none;
@@ -30,7 +30,7 @@ export const DropdownButtonStyles = css`
         padding-left: 1rem;
         padding-top: .5rem;
         padding-bottom: .5rem;
-        padding-right: 1.5rem;
+        padding-right: 1rem;
         background-color: hsla(0, 0%, 100%, .05);
         border-radius: 1.5rem;
         cursor: pointer;

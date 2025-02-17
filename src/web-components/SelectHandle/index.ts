@@ -1,6 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SelectHandleStyles } from './styles';
+import { SelectHandleStyles } from './styles.js';
 
 /**
  * `select-handle` is a custom LitElement component for selecting wallet handles.
@@ -87,7 +87,7 @@ export class SelectHandle extends LitElement {
     @property({ type: Boolean }) loadingImg = false;
     @property({ type: String }) slottedButtonsStyling: string;
     @property({ type: String }) slottedSearchStyling: string;
-    @property({ type: String }) imageUrl: string;
+    @property({ type: String }) imageUrl: string = '';
     @property({ type: Object }) activeHandle: any = {};
     @property({ type: Function }) onFirstUpdated = () => { };
     @property({ type: Function }) onScroll = () => { };
@@ -107,56 +107,43 @@ export class SelectHandle extends LitElement {
                 <div class="logout-and-handles">
                     <div class="handles-select-dropdown">
                         <div class="wallet-handles-content">
-                            <div class="select-wrapper">   
-                                <div style=${this.slottedSearchStyling}>                   
+                            <div class="select-wrapper">
+                                <div style=${this.slottedSearchStyling}>
                                     <slot name="slottedSearch"></slot>
                                 </div>
-                                ${this.activeHandle?.name
-                ? html`
-                                          <div class="current-handle">
-                                              ${this.loadingImg
-                        ? html`<slot name="slottedLoader"></slot>`
-                        : html`
-                                                        <div class="handle-img">
-                                                            <img src="${this.imageUrl}" />
-                                                        </div>
-                                                    `}
-                                              <div>
-                                                  <p class="current-handle-text">
-                                                      <span class="handle-sign">
-                                                          <span class="dollar-sign">$</span>
-                                                      </span>
-                                                      <span class="handle-text">${this.activeHandle?.name}</span>
-                                                  </p>
-                                              </div>
-                                          </div>
-                                      `
-                : ''}
+                                ${this.activeHandle?.name ? html`
+                                    <div class="current-handle">
+                                        ${this.loadingImg ? html`<slot name="slottedLoader"></slot>` : html`
+                                            <div class="handle-img">
+                                                <img src="${this.imageUrl}" />
+                                            </div>
+                                        `}
+                                        <div>
+                                            <p class="current-handle-text">
+                                                <span class="handle-sign">
+                                                    <span class="dollar-sign">$</span>
+                                                </span>
+                                                <span class="handle-text">${this.activeHandle?.name}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                ` : ''}
                             </div>
                             <hr class="line-brake" />
                             <div class="scroll-wrapper-outer" @scroll="${this.onScroll}">
                                 <div class="scroll-wrapper">
                                     <div class="handles-container">
-                                        ${(handles ?? []).map(
-                    handle => html`
+                                        ${(handles ?? []).map(handle => html`
                                                 <li
-                                                    @click="${() =>
-                            this.onSelectHandle({
-                                ...handle
-                            })}"
-                                                    class="active-handle ${this.activeHandle?.name === handle.name
-                            ? 'active'
-                            : ''}"
+                                                    @click="${() => this.onSelectHandle({ ...handle })}"
+                                                    class="active-handle ${this.activeHandle?.name === handle.name ? 'active' : ''}"
                                                 >
-                                                    ${this.activeHandle?.name === handle.name && this.loadingImg
-                            ? html``
-                            : this.activeHandle?.name === handle.name
-                                ? html`
-                                                              <div class="handle-img">
-                                                                  <img src="${this.imageUrl}" />
-                                                              </div>
-                                                          `
-                                : ''}
+                                                    ${this.activeHandle?.name === handle.name && this.loadingImg ? html`
+                                                    `: this.activeHandle?.name === handle.name ? html`
+                                                            <div class="handle-img">
+                                                                <img src="${this.imageUrl}" />
+                                                            </div>
+                                                        `: ''}
                                                     <div>
                                                         <p class="handle-wrapper">
                                                             <span class="handle-sign">
@@ -166,8 +153,7 @@ export class SelectHandle extends LitElement {
                                                         </p>
                                                     </div>
                                                 </li>
-                                            `
-                )}
+                                            `)}
                                         ${this.loadingImg ? html`<slot name="slottedLoader"></slot>` : ''}
                                     </div>
                                 </div>

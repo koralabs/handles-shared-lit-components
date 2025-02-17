@@ -1,7 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { LargeHandleSelectorStyles } from './styles.js';
-
+import { WalletHandle } from '../../interfaces/index.js';
 /**
  * `large-handle-selector` is a custom LitElement component for selecting wallet handles.
  * 
