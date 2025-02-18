@@ -101,7 +101,6 @@ export class SelectHandle extends LitElement {
 
     render() {
         const handles = this.handleData;
-
         return html`
             <div>
                 <div class="logout-and-handles">
