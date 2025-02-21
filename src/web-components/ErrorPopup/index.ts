@@ -5,13 +5,14 @@ import { ErrorPopupStyles } from './styles.js';
 @customElement('error-popup')
 export class ErrorPopup extends LitElement {
     static styles = ErrorPopupStyles
-    @property({ type: Boolean }) open = false;
+    @property({ type: Boolean }) open = true;
     @property({ type: String }) message = '';
     @property({ type: String }) messageTitle = '';
     @property({ type: Number }) countdown = 5;
     private countdownInterval: number | null = null;
     private maxCountdown: number = 5;
     private isPaused: boolean = false;
+
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener('mouseenter', this.onMouseEnter);
@@ -24,8 +25,12 @@ export class ErrorPopup extends LitElement {
         this.removeEventListener('mouseleave', this.onMouseLeave);
     }
 
+    firstUpdated() {
+        this.startCountdown();
+    }
+
     closePopup() {
-        this.open = false;
+        window.dispatchEvent(new CustomEvent('error-popup-closed'));
         this.countdown = this.maxCountdown;
         if (this.countdownInterval) {
             clearInterval(this.countdownInterval);
