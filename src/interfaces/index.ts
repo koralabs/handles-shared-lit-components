@@ -1,4 +1,4 @@
-interface WalletHandle extends Asset {
+export interface WalletHandle extends Asset {
     active: any;
     default: boolean;
     image?: string;

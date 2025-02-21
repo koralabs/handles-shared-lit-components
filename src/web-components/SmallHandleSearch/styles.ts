@@ -17,7 +17,7 @@ export const HandleSmallSearchStyles = css`
     }
 
     .permissions-field {
-        width: 100%;
+        width: -webkit-fill-available;
         display: flex;
         flex-direction: row;
         align-items: center;
