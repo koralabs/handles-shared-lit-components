@@ -117,7 +117,7 @@ export class SelectHandle extends LitElement {
                                                 <img src="${this.imageUrl}" />
                                             </div>
                                         `}
-                                        <div>
+                                        <div class="text-wrapper">
                                             <p class="current-handle-text">
                                                 <span class="handle-sign">
                                                     <span class="dollar-sign">$</span>
@@ -143,7 +143,7 @@ export class SelectHandle extends LitElement {
                                                                 <img src="${this.imageUrl}" />
                                                             </div>
                                                         `: ''}
-                                                    <div>
+                                                    <div  class="text-wrapper">
                                                         <p class="handle-wrapper">
                                                             <span class="handle-sign">
                                                                 <span class="dollar-sign">$</span>

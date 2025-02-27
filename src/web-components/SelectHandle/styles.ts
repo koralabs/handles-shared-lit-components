@@ -182,7 +182,11 @@ export const SelectHandleStyles = css`
         margin: 0.5rem;
     }
 
-    .handle-wrapper {
+    .handle-wrapper { 
+        align-items: center;
+        white-space: nowrap;
+        overflow: hidden; 
+        text-overflow: ellipsis;
         display: flex;
         flex-direction: row;
     }
@@ -191,10 +195,15 @@ export const SelectHandleStyles = css`
         height: 5rem;
     }
 
+    .text-wrapper {
+        overflow: hidden;
+    }
+
     .handle-text {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
     }
 
     @media screen and (max-width: 350px) {
