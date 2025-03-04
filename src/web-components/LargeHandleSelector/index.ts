@@ -66,13 +66,13 @@ export class LargeHandleSelector extends LitElement {
     @property({ type: Array }) handleDataArray: any;
     @property({ type: Boolean }) dropdownOpen = false;
     @property({ type: Boolean }) isLoading = false;
-    @property({ type: String }) imageUrl: string;
+    @property({ type: String }) imageUrl: string = '';
     @property({ type: String }) imgWidth: string = '';
     @property({ type: String }) imgHeight: string = '';
     @property({ type: String }) slottedSearchStyling: string = '';
     @property({ type: Function }) onFirstUpdated = () => { };
     @property({ type: Function }) onScroll = () => { };
-    @property({ type: Function }) onSelectHandle = (handle) => { };
+    @property({ type: Function }) onSelectHandle = (handle: any) => { };
 
     static styles = LargeHandleSelectorStyles
 
