@@ -85,13 +85,13 @@ import { SelectHandleStyles } from './styles.js';
 export class SelectHandle extends LitElement {
     @property({ type: Array }) handleData: any[] = [];
     @property({ type: Boolean }) loadingImg = false;
-    @property({ type: String }) slottedButtonsStyling: string;
-    @property({ type: String }) slottedSearchStyling: string;
+    @property({ type: String }) slottedButtonsStyling: string = '';
+    @property({ type: String }) slottedSearchStyling: string = '';
     @property({ type: String }) imageUrl: string = '';
     @property({ type: Object }) activeHandle: any = {};
     @property({ type: Function }) onFirstUpdated = () => { };
     @property({ type: Function }) onScroll = () => { };
-    @property({ type: Function }) onSelectHandle = (handle) => { };
+    @property({ type: Function }) onSelectHandle = (handle: any) => { };
 
     static styles = SelectHandleStyles
 
