@@ -2,7 +2,8 @@ import { css } from 'lit';
 
 export const DropdownButtonStyles = css`
     .handles-select-btn {
-        width: auto;
+        width: 100%;
+        position: relative;
         padding: 0px;
         border: none;
         fill: rgb(12, 209, 91);
