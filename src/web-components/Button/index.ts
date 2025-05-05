@@ -4,6 +4,7 @@ import { property } from 'lit/decorators.js';
 export class SharedButtonBase extends LitElement {
     @property({ type: String }) buttonColor: string | '#3d85cc' | undefined;
     @property({ type: String }) textColor: string | '#3d85cc' | undefined;
+    @property({ type: String }) hoverColor = '';
 
     static commonStyles = css`
         .shared-button {
@@ -15,6 +16,9 @@ export class SharedButtonBase extends LitElement {
             display: inline-block;
             line-height: 1;
             text-align: center;
+        }
+        .shared-button:hover {
+             filter: brightness(90%);
         }
     `;
     buttonClass: unknown;

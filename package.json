@@ -1,6 +1,6 @@
 {
     "name": "@koralabs/handles-shared-lit-components",
-    "version": "0.3.11",
+    "version": "0.3.12",
     "description": "Shared library for web-components",
     "type": "module",
     "main": "index.js",
