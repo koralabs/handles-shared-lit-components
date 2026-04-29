@@ -20,5 +20,6 @@
                 "strict": true
             }
         ]
-    }
+    },
+    "exclude": ["lib", "web-dev-server.config.mjs"]
 }
