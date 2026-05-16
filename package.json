@@ -12,7 +12,8 @@
     },
     "scripts": {
         "lint": "echo \"Error: no lint specified\"",
-        "test": "echo \"Error: no test specified\"",
+        "test": "npm run build && node --test tests/*.test.mjs",
+        "test:coverage": "npm run build && node --experimental-test-coverage --test tests/*.test.mjs",
         "build": "tsc",
         "build:local": "yarn build && cp package.json ./lib/package.json && cd lib && npm i --production",
         "storybook": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds --watch -c .storybook/server.mjs --hmr\""

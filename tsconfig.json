@@ -21,5 +21,5 @@
             }
         ]
     },
-    "exclude": ["lib", "web-dev-server.config.mjs"]
+    "exclude": ["lib", "web-dev-server.config.mjs", "tests"]
 }
