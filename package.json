@@ -25,7 +25,11 @@
         "lit": "^3.2.0",
         "lit-html": "^3.2.0"
     },
+    "peerDependencies": {
+        "@koralabs/kora-labs-common": ">=6.7.6"
+    },
     "devDependencies": {
+        "@koralabs/kora-labs-common": "^6.7.6",
         "@custom-elements-manifest/analyzer": "^0.10.3",
         "@storybook/addon-essentials": "^8.1.11",
         "@types/react": "^18.3.12",
