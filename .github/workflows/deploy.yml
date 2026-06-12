@@ -4,6 +4,9 @@ on:
         branches:
             - master
     workflow_dispatch:
+permissions:
+    contents: read
+    id-token: write   # OIDC trusted publishing to npm
 jobs:
     deploy:
         name: Deploying from ${{ github.ref_name }}
@@ -11,19 +14,23 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
-              uses: actions/checkout@v1
+              uses: actions/checkout@v4
 
-            - name: Publish ${{ github.workflow }}
-              id: publish
-              env:
-                  DEPLOYMENT_ACCESS_TOKEN: ${{ secrets.DEPLOYMENT_ACCESS_TOKEN }}
-                  SECRETS_CONTEXT: ${{ toJson(secrets) }}
-                  VARS_CONTEXT: ${{ toJson(vars) }}
-                  GITHUB_CONTEXT: ${{ toJson(github) }}
-                  DEPLOYMENT_TYPE: npm-publish
-                  NODE_VERSION: 20
-                  IS_PUBLIC: true
-              run: |
-                  set -eu
-                  curl -H "Authorization: Bearer ${DEPLOYMENT_ACCESS_TOKEN}" https://raw.githubusercontent.com/koralabs/adahandle-deployments/master/common/main.sh -o main.sh
-                  chmod +x main.sh && ./main.sh
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  registry-url: https://registry.npmjs.org
+                  scope: '@koralabs'
+
+            - name: Install deps
+              run: npm install --no-audit --no-fund
+
+            - name: Build
+              run: npm run build
+
+            # npm publish via OIDC trusted publishing (replaces the retired
+            # adahandle-deployments AWS pipeline). tsc emits to lib/; publish from
+            # there with package.json copied in (main=index.js -> lib/index.js).
+            - name: Publish to npm
+              run: cp package.json ./lib/package.json && cd ./lib && npm publish --provenance --access public
