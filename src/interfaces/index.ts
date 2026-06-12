@@ -1,22 +1,6 @@
-export interface WalletHandle extends Asset {
-    active: any;
-    default: boolean;
-    image?: string;
-    imageUrl?: string;
-}
-
-interface Asset extends BasicAsset {
-    name: string;
-    count?: number;
-    utxo?: string;
-    image?: string;
-    src?: string;
-    price?: number;
-    cost?: number;
-    validUntilDate?: number;
-}
-
-interface BasicAsset {
-    policyId: string;
-    hex: string;
-}
+// handle.me#938: the WalletHandle / Asset / BasicAsset contracts now live in
+// @koralabs/kora-labs-common (browser-safe, self-contained). Re-export type-only so
+// this stays a compile-time-only dependency — the import erases at build time, so the
+// Lit web bundle never pulls in kora-labs-common's CommonJS runtime (the CJS/ESM
+// interop break this avoids). WalletHandle carries Asset + BasicAsset transitively.
+export type { WalletHandle } from '@koralabs/kora-labs-common';
