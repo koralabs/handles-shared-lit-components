@@ -1,6 +1,6 @@
 {
     "name": "@koralabs/handles-shared-lit-components",
-    "version": "0.3.13",
+    "version": "0.3.14",
     "description": "Shared library for web-components",
     "type": "module",
     "main": "index.js",
@@ -40,5 +40,27 @@
         "eslint": "^9.6.0",
         "ts-lit-plugin": "^2.0.2",
         "typescript": "^5.5.3"
+    },
+    "overrides": {
+        "@mdx-js/mdx": {
+            "@babel/core": "^7.29.7",
+            "remark-parse": "^11.0.0",
+            "remark-mdx": "^3.1.1"
+        },
+        "remark-parse": {
+            "trim": "^1.0.1"
+        },
+        "@rollup/plugin-terser": {
+            "serialize-javascript": "^7.0.5"
+        },
+        "@storybook/addon-actions": {
+            "uuid": "^11.1.1"
+        },
+        "@storybook/core": {
+            "esbuild": "^0.28.1"
+        },
+        "@web/dev-server-esbuild": {
+            "esbuild": "^0.28.1"
+        }
     }
 }
