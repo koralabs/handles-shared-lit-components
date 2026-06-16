@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from 'lit/decorators.js';
-import { CustomToggleStyles } from "./styles";
+import { CustomToggleStyles } from "./styles.js";
 
 /**
  * `custom-toggle` Component Usage Guide
