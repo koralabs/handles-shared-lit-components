@@ -92,6 +92,19 @@ test('SelectWallet renders empty and selected wallet states and forwards user ca
     assert.deepEqual(selectedWallets, [lace]);
 });
 
+test('SelectWallet renders unselected select icons for non-active wallets', () => {
+    const element = new SelectWallet();
+    element.selectedWallet = 'lace';
+
+    const selectedIcon = element.renderSelectIcon('lace');
+    const unselectedIcon = element.renderSelectIcon('nami');
+
+    assert.equal(selectedIcon.values[0], 'selected-div');
+    assert.equal(selectedIcon.values[1], 'inner-selected-div');
+    assert.equal(unselectedIcon.values[0], 'unselected-div');
+    assert.equal(unselectedIcon.values[1], 'inner-unselected-div');
+});
+
 test('CustomCheckBox exposes checked, small, disabled, and hidden icon states in render output', () => {
     const element = new CustomCheckBox();
 
@@ -184,5 +197,67 @@ test('ErrorPopup renders progress and dispatches close while clearing countdown 
             delete globalThis.window;
         }
         globalThis.clearInterval = previousClearInterval;
+    }
+});
+
+test('ErrorPopup close leaves interval state alone when no countdown is running', () => {
+    const element = new ErrorPopup();
+    element.countdown = 2;
+
+    const hadWindow = Object.prototype.hasOwnProperty.call(globalThis, 'window');
+    const previousWindow = globalThis.window;
+    let dispatchedEvent;
+
+    globalThis.window = {
+        dispatchEvent(event) {
+            dispatchedEvent = event;
+            return true;
+        }
+    };
+
+    try {
+        element.closePopup();
+
+        assert.equal(dispatchedEvent.type, 'error-popup-closed');
+        assert.equal(element.countdown, 5);
+        assert.equal(element.countdownInterval, null);
+    } finally {
+        if (hadWindow) {
+            globalThis.window = previousWindow;
+        } else {
+            delete globalThis.window;
+        }
+    }
+});
+
+test('ErrorPopup lifecycle methods attach and detach hover pause handlers', () => {
+    const calls = [];
+    const element = new ErrorPopup();
+    const superPrototype = Object.getPrototypeOf(ErrorPopup.prototype);
+    const previousConnectedCallback = superPrototype.connectedCallback;
+    const previousDisconnectedCallback = superPrototype.disconnectedCallback;
+
+    element.addEventListener = (type, handler) => {
+        calls.push(['add', type, handler]);
+    };
+    element.removeEventListener = (type, handler) => {
+        calls.push(['remove', type, handler]);
+    };
+    superPrototype.connectedCallback = () => {};
+    superPrototype.disconnectedCallback = () => {};
+
+    try {
+        element.connectedCallback();
+        element.disconnectedCallback();
+
+        assert.deepEqual(calls, [
+            ['add', 'mouseenter', element.onMouseEnter],
+            ['add', 'mouseleave', element.onMouseLeave],
+            ['remove', 'mouseenter', element.onMouseEnter],
+            ['remove', 'mouseleave', element.onMouseLeave]
+        ]);
+    } finally {
+        superPrototype.connectedCallback = previousConnectedCallback;
+        superPrototype.disconnectedCallback = previousDisconnectedCallback;
     }
 });
