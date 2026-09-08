@@ -1,6 +1,6 @@
 {
     "name": "@koralabs/handles-shared-lit-components",
-    "version": "0.3.15",
+    "version": "0.3.16",
     "description": "Shared library for web-components",
     "type": "module",
     "main": "index.js",
@@ -29,8 +29,8 @@
         "@koralabs/kora-labs-common": ">=6.7.6"
     },
     "devDependencies": {
-        "@koralabs/kora-labs-common": "^6.7.6",
         "@custom-elements-manifest/analyzer": "^0.10.3",
+        "@koralabs/kora-labs-common": "^6.7.6",
         "@storybook/addon-essentials": "^8.1.11",
         "@types/react": "^18.3.12",
         "@web/dev-server": "^0.4.6",
@@ -42,7 +42,7 @@
         "typescript": "^5.5.3"
     },
     "overrides": {
-        "brace-expansion": "^5.0.8",
+        "brace-expansion": "^5.0.9",
         "@mdx-js/mdx": {
             "@babel/core": "^7.29.7",
             "remark-parse": "^11.0.0",
@@ -62,6 +62,7 @@
         },
         "@web/dev-server-esbuild": {
             "esbuild": "^0.28.1"
-        }
+        },
+        "browserslist": "^4.28.7"
     }
 }
