@@ -1,5 +1,9 @@
 # Handles Shared Lit Components Docs
 
+## Contributor test policy
+
+Tests and coverage run locally only, never in GitHub Actions, directly or via lifecycle scripts, composites, workflow templates, or shared helpers. Preserve local test scripts. Build, lint, publication, deployment, and production guards remain permitted. Retire obsolete required test checks from branch protections.
+
 This repository packages the shared Lit-based UI building blocks used across the Kora Labs and Handles frontend ecosystem. The library is small, but it sits on top of important product flows: connecting a Cardano wallet, choosing a handle, confirming user intent, and surfacing transient errors. These docs exist to make the package understandable without reverse-engineering Storybook stories or inspecting each component file by hand.
 
 ## Product Docs
