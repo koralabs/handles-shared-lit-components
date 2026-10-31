@@ -23,3 +23,6 @@ The documentation set is intentionally split into product and spec layers:
 ## Current Reality
 
 The repository had no `docs/product` or `docs/spec` content before this update. The package also has a minimal source export surface at the root, a Storybook setup driven by compiled output, and a deploy workflow that publishes on `master`. Those facts are documented explicitly in the linked spec pages so future changes can be made with the actual codebase constraints in mind.
+
+## Policy proposals (not active)
+- [Canonical contract and enclave draft](./proposals/phase5-handles-shared-lit-components/README.md): operator review required.
