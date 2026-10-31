@@ -1,0 +1,7 @@
+# handles-shared-lit-components: exact repo-root-relative paths, one per line. The wallet-facing components and the publish chain.
+.enclave
+CANONICAL_CONTRACT.md
+src/web-components/SelectWallet/index.ts
+src/web-components/DisconnectWalletButton/index.ts
+package.json
+.github/workflows/deploy.yml
