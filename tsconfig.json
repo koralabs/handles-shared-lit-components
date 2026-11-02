@@ -4,6 +4,7 @@
         "module": "ESNext",
         "moduleResolution": "node",
         "noEmitOnError": true,
+        "skipLibCheck": true,
         "outDir": "./lib",
         "lib": ["ESNext", "dom"],
         "declaration": true,
