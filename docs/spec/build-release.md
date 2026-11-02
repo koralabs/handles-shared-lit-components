@@ -60,18 +60,17 @@ Use it when:
 Runs:
 
 ```bash
-yarn build && cp package.json ./lib/package.json && cd lib && npm i --production
+npm run build && cp package.json ./lib/package.json && cd lib && npm i --production
 ```
 
 This script appears intended for local linking or testing of the compiled output as a package-shaped directory.
 
 Operational implications:
 
-- it assumes `yarn` is available even though the repo also carries `package-lock.json`
 - it copies `package.json` into `lib`
 - it installs production dependencies inside `lib`
 
-That makes it useful for package-consumption experiments, but it also reflects mixed package-manager assumptions that maintainers should keep in mind.
+That makes it useful for package-consumption experiments.
 
 ### `npm run storybook`
 
